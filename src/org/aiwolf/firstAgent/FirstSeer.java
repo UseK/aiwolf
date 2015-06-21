@@ -4,19 +4,14 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javax.print.attribute.standard.Finishings;
-import javax.print.attribute.standard.PrinterLocation;
-
 import org.aiwolf.client.base.player.AbstractSeer;
 import org.aiwolf.client.lib.TemplateTalkFactory;
-import org.aiwolf.client.lib.Topic;
 import org.aiwolf.client.lib.Utterance;
 import org.aiwolf.common.data.Agent;
 import org.aiwolf.common.data.Judge;
 import org.aiwolf.common.data.Role;
 import org.aiwolf.common.data.Species;
 import org.aiwolf.common.data.Talk;
-import org.aiwolf.common.data.Species.*;
 import org.aiwolf.common.net.GameInfo;
 
 public class FirstSeer extends AbstractSeer {
@@ -48,9 +43,7 @@ public class FirstSeer extends AbstractSeer {
 			case ATTACK:
 				break;
 			case COMINGOUT:
-				if (utterance.getRole() == Role.SEER && talk.getAgent().equals(getMe())) {
-					fakeSeerAgentList.add(talk.getAgent());
-				}
+				interpretComingout(utterance, talk);
 				break;
 			case DISAGREE:
 				break;
@@ -70,6 +63,14 @@ public class FirstSeer extends AbstractSeer {
 				break;
 			}
 			readTalkNum++;
+		}
+	}
+	
+	
+	public void interpretComingout(Utterance utterance, Talk talk) {
+		if (utterance.getRole() == Role.SEER &&
+		    !talk.getAgent().equals(getMe())) {
+			fakeSeerAgentList.add(talk.getAgent());
 		}
 	}
 

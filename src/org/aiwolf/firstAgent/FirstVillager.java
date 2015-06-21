@@ -1,0 +1,143 @@
+package org.aiwolf.firstAgent;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Random;
+
+import org.aiwolf.client.base.player.AbstractVillager;
+import org.aiwolf.client.lib.Topic;
+import org.aiwolf.client.lib.Utterance;
+import org.aiwolf.common.data.Agent;
+import org.aiwolf.common.data.Judge;
+import org.aiwolf.common.data.Role;
+import org.aiwolf.common.data.Species;
+import org.aiwolf.common.data.Talk;
+import org.aiwolf.common.net.GameInfo;
+
+public class FirstVillager extends AbstractVillager {
+	
+	int readTalkNum = 0;
+	GameInfo gameInfo;
+	List<Agent> comingoutedSeerList = new ArrayList<Agent>();
+	List<Agent> divinedWhiteList = new ArrayList<Agent>();
+	HashMap<Agent, Integer> suspiciousPoints = new HashMap<Agent, Integer>();
+	
+	public static final Integer DIVINED_HUMAN = -10;
+	public static final Integer DIVINED_WEREWOLF = 100;
+	
+	@Override
+	public void initialize(GameInfo gameInfo, 
+			org.aiwolf.common.net.GameSetting gameSetting) {
+		this.gameInfo = gameInfo;
+		for (Agent agent : gameInfo.getAgentList()) {
+			suspiciousPoints.put(agent, 0);
+		}
+	}
+
+	@Override
+	public void dayStart() {
+		readTalkNum = 0;
+	}
+	
+	@Override
+	public void update(org.aiwolf.common.net.GameInfo gameInfo) {
+		super.update(gameInfo);
+		this.gameInfo = gameInfo;
+		List<Talk> talkList = gameInfo.getTalkList();
+		for (int i = readTalkNum; i < talkList.size(); i++) {
+			Talk talk = talkList.get(i);
+			Utterance utterance = new Utterance(talk.getContent());
+			switch (utterance.getTopic()) {
+			case AGREE:
+				break;
+			case ATTACK:
+				break;
+			case COMINGOUT:
+				interpretComingout(utterance, talk);
+				break;
+			case DISAGREE:
+				break;
+			case DIVINED:
+				interpretDivined(utterance, talk);
+				break;
+			case ESTIMATE:
+				break;
+			case GUARDED:
+				break;
+			case INQUESTED:
+				break;
+			case SKIP:
+				break;
+			case VOTE:
+				break;
+			default:
+				break;
+			}
+			readTalkNum++;
+		}
+	}
+
+	private void interpretComingout(Utterance utterance, Talk talk) {
+		if (utterance.getRole() == Role.SEER) {
+			comingoutedSeerList.add(talk.getAgent());
+		}
+	}
+
+	private void interpretDivined(Utterance utterance, Talk talk) {
+		Agent target = utterance.getTarget();
+		Integer targetPoint = suspiciousPoints.get(target);
+		switch (utterance.getResult()) {
+		case WEREWOLF:
+			targetPoint += DIVINED_WEREWOLF;
+			suspiciousPoints.put(target, targetPoint);
+			break;
+		case HUMAN:
+			targetPoint += DIVINED_HUMAN;
+			suspiciousPoints.put(target, targetPoint);
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void finish() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public String talk() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Agent vote() {
+		Agent mostSuspiciousAgent = null;
+		Integer maxPoint = -999999999;
+		for(Map.Entry<Agent, Integer> e : suspiciousPoints.entrySet()) {
+			//System.out.print("agent:" + e.getKey());
+			//System.out.println("point:" + e.getValue());
+			if (e.getValue() > maxPoint) {
+				mostSuspiciousAgent = e.getKey();
+				maxPoint = e.getValue();
+			}
+		}
+		System.out.println("I vevote " + mostSuspiciousAgent);
+		return mostSuspiciousAgent;
+	}
+
+	private List<Agent> getAliveOthers() {
+		List<Agent> agentList = new ArrayList<Agent>();
+		agentList.addAll(getLatestDayGameInfo().getAliveAgentList());
+		agentList.remove(getMe());
+		return agentList;
+	}
+
+	private Agent randomSelect(List<Agent> agentList) {
+		int num = new Random().nextInt(agentList.size());
+		return agentList.get(num);
+	}
+}
