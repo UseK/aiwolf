@@ -14,9 +14,6 @@ public class FirstAgent extends AbstractRoleAssignPlayer {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		int i = 1;
-		System.out.println(i);
 		return null;
 	}
 

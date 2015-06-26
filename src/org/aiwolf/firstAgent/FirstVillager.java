@@ -16,16 +16,18 @@ import org.aiwolf.common.data.Judge;
 import org.aiwolf.common.data.Role;
 import org.aiwolf.common.data.Species;
 import org.aiwolf.common.data.Talk;
+import org.aiwolf.common.data.Vote;
 import org.aiwolf.common.net.GameInfo;
 
 public class FirstVillager extends AbstractVillager {
 	
 	int readTalkNum = 0;
-	List<Agent> comingoutedSeerList = new ArrayList<Agent>();
+	public List<Agent> comingoutedSeerList = new ArrayList<Agent>();
 	List<Agent> divinedWhiteList = new ArrayList<Agent>();
 	HashMap<Agent, Integer> suspiciousPoints = new HashMap<Agent, Integer>();
 	Agent me;
 	GameInfo gameInfo;
+	List<List<Vote>> votesEachDay = new ArrayList<>();
 
 	
 	public static final Integer DIVINED_HUMAN = -10;
@@ -46,7 +48,7 @@ public class FirstVillager extends AbstractVillager {
 	public void dayStart() {
 		readTalkNum = 0;
 		suspiciousPoints.remove(gameInfo.getAttackedAgent());
-		suspiciousPoints.remove(gameInfo.getExecutedAgent());
+		votesEachDay.add(gameInfo.getVoteList());
 	}
 	
 	@Override
@@ -87,13 +89,15 @@ public class FirstVillager extends AbstractVillager {
 		}
 	}
 
-	private void interpretComingout(Utterance utterance, Talk talk) {
+	public void interpretComingout(Utterance utterance, Talk talk) {
 		if (utterance.getRole() == Role.SEER) {
 			comingoutedSeerList.add(talk.getAgent());
 		}
 	}
 
-	private void interpretDivined(Utterance utterance, Talk talk) {
+	public void interpretDivined(Utterance utterance, Talk talk) {
+		System.out.println("Text:" + utterance.getText());
+		System.out.println("TalkText:" + talk.toString());
 		Agent target = utterance.getTarget();
 		if (target.equals(me)) {
 		} else {

@@ -16,7 +16,7 @@ import org.aiwolf.server.GameData;
 import org.aiwolf.server.net.DirectConnectServer;
 
 public class TestStarter {
-	static protected int GAME_NUM = 1000;
+	static protected int GAME_NUM = 1;
 	static protected int PLAYER_NUM = 15;
 
 	public static void main(String[] args) throws IOException {
