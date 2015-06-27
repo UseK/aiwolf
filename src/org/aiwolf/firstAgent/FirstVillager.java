@@ -22,32 +22,24 @@ import org.aiwolf.common.net.GameInfo;
 public class FirstVillager extends AbstractVillager {
 	
 	int readTalkNum = 0;
-	public List<Agent> comingoutedSeerList = new ArrayList<Agent>();
 	List<Agent> divinedWhiteList = new ArrayList<Agent>();
-	HashMap<Agent, Integer> suspiciousPoints = new HashMap<Agent, Integer>();
-	Agent me;
 	GameInfo gameInfo;
 	List<List<Vote>> votesEachDay = new ArrayList<>();
+	VillageSideThought thought;
 
 	
-	public static final Integer DIVINED_HUMAN = -10;
-	public static final Integer DIVINED_WEREWOLF = 100;
 	
 	@Override
 	public void initialize(GameInfo gameInfo, 
 			org.aiwolf.common.net.GameSetting gameSetting) {
 		this.gameInfo = gameInfo;
-		for (Agent agent : gameInfo.getAgentList()) {
-			suspiciousPoints.put(agent, 0);
-		}
-		me = gameInfo.getAgent();
-		suspiciousPoints.remove(me);
+		thought = new VillageSideThought(gameInfo);
 	}
 
 	@Override
 	public void dayStart() {
 		readTalkNum = 0;
-		suspiciousPoints.remove(gameInfo.getAttackedAgent());
+		thought.removeDeadAgent(gameInfo);
 		votesEachDay.add(gameInfo.getVoteList());
 	}
 	
@@ -65,12 +57,12 @@ public class FirstVillager extends AbstractVillager {
 			case ATTACK:
 				break;
 			case COMINGOUT:
-				interpretComingout(utterance, talk);
+				thought.responseComingOut(utterance, talk);
 				break;
 			case DISAGREE:
 				break;
 			case DIVINED:
-				interpretDivined(utterance, talk);
+				thought.responseDivination(utterance, talk);
 				break;
 			case ESTIMATE:
 				break;
@@ -89,39 +81,6 @@ public class FirstVillager extends AbstractVillager {
 		}
 	}
 
-	public void interpretComingout(Utterance utterance, Talk talk) {
-		if (utterance.getRole() == Role.SEER) {
-			comingoutedSeerList.add(talk.getAgent());
-		}
-	}
-
-	public void interpretDivined(Utterance utterance, Talk talk) {
-		System.out.println("Text:" + utterance.getText());
-		System.out.println("TalkText:" + talk.toString());
-		Agent target = utterance.getTarget();
-		if (target.equals(me)) {
-		} else {
-			Integer targetPoint = suspiciousPoints.get(target);
-			try {
-			switch (utterance.getResult()) {
-			case WEREWOLF:
-				targetPoint += DIVINED_WEREWOLF;
-				suspiciousPoints.put(target, targetPoint);
-				break;
-			case HUMAN:
-				
-				targetPoint += DIVINED_HUMAN;
-				suspiciousPoints.put(target, targetPoint);
-			default:
-				break;
-			}
-			} catch(NullPointerException e) {
-				System.out.println(e.getMessage());
-				
-			}
-		}
-	}
-
 	@Override
 	public void finish() {
 		// TODO Auto-generated method stub
@@ -136,31 +95,6 @@ public class FirstVillager extends AbstractVillager {
 
 	@Override
 	public Agent vote() {
-		Agent mostSuspiciousAgent = null;
-		Integer maxPoint = -999999999;
-		for(Map.Entry<Agent, Integer> e : suspiciousPoints.entrySet()) {
-			//System.out.print("agent:" + e.getKey());
-			//System.out.println("point:" + e.getValue());
-			if (e.getValue() > maxPoint) {
-				mostSuspiciousAgent = e.getKey();
-				maxPoint = e.getValue();
-			}
-		}
-		
-		
-		List<Agent> mostSuspiciousAgents = new ArrayList<Agent>();
-		for(Map.Entry<Agent, Integer> e : suspiciousPoints.entrySet()) {
-			if (e.getValue() == maxPoint) {
-				mostSuspiciousAgents.add(e.getKey());
-			}
-		}
-		mostSuspiciousAgent = randomSelect(mostSuspiciousAgents);
-		System.out.println("I vevote " + mostSuspiciousAgent);
-		return mostSuspiciousAgent;
-	}
-
-	private Agent randomSelect(List<Agent> agentList) {
-		int num = new Random().nextInt(agentList.size());
-		return agentList.get(num);
+		return thought.getAgentToVote();
 	}
 }
