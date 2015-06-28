@@ -20,17 +20,17 @@ import org.aiwolf.common.data.Vote;
 import org.aiwolf.common.net.GameInfo;
 
 public class FirstVillager extends AbstractVillager {
-	
+
 	int readTalkNum = 0;
 	List<Agent> divinedWhiteList = new ArrayList<Agent>();
 	GameInfo gameInfo;
 	List<List<Vote>> votesEachDay = new ArrayList<>();
 	VillageSideThought thought;
 
-	
-	
+
+
 	@Override
-	public void initialize(GameInfo gameInfo, 
+	public void initialize(GameInfo gameInfo,
 			org.aiwolf.common.net.GameSetting gameSetting) {
 		this.gameInfo = gameInfo;
 		thought = new VillageSideThought(gameInfo);
@@ -42,7 +42,7 @@ public class FirstVillager extends AbstractVillager {
 		thought.removeDeadAgent(gameInfo);
 		votesEachDay.add(gameInfo.getVoteList());
 	}
-	
+
 	@Override
 	public void update(org.aiwolf.common.net.GameInfo gameInfo) {
 		super.update(gameInfo);

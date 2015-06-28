@@ -28,8 +28,6 @@ public class VillageSideThoughtTest {
 	public void setUp() throws Exception {
 		thought = new VillageSideThought();
 		for(int i = 0; i < 15; i++) {
-			System.out.println(i);
-			System.out.println(Agent.getAgent(i));
 			thought.suspiciousPoints.put(Agent.getAgent(i), 0);
 		}
 	}

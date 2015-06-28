@@ -10,7 +10,11 @@ import org.aiwolf.client.lib.Utterance;
 import org.aiwolf.common.data.Agent;
 import org.aiwolf.common.data.Role;
 import org.aiwolf.common.data.Talk;
+import org.aiwolf.common.data.Vote;
 import org.aiwolf.common.net.GameInfo;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.Predicate;
+import org.apache.commons.collections4.functors.PredicateTransformer;
 
 public class VillageSideThought {
 	public static final Integer DIVINED_HUMAN = -10;
@@ -19,6 +23,10 @@ public class VillageSideThought {
 	public List<Agent> comingoutedSeerList;
 	public HashMap<Agent, Integer> suspiciousPoints;
 	Agent me;
+
+	enum SuspiciousPoint { DIVINED_WHITE, DIVINED_BLACK };
+	public HashMap<Agent, List<SuspiciousPoint>> agentInfo;
+
 
 	public VillageSideThought() {
 		comingoutedSeerList = new ArrayList<Agent>();
@@ -30,14 +38,37 @@ public class VillageSideThought {
 		suspiciousPoints = new HashMap<Agent, Integer>();
 		me = gameInfo.getAgent();
 		suspiciousPoints = new HashMap<Agent, Integer>();
+		agentInfo = new HashMap<Agent, List<SuspiciousPoint>>();
+
 		for (Agent agent : gameInfo.getAgentList()) {
 			suspiciousPoints.put(agent, 0);
+			agentInfo.put(agent, new ArrayList<SuspiciousPoint>());
 		}
 		suspiciousPoints.remove(me);
 
 	}
 
+	/*
+	 * 狼判定されたエージェントへ投票しなかったエージェントのリスト
+	 */
+	public List<Agent> getNotVotedToDiviendWerewolfAgents(GameInfo gameInfo) {
+		List<Agent> resultAgents = new ArrayList<Agent>();
+		//List<Agent> resultAgents = new ArrayList<Agent>();
+		CollectionUtils.select(gameInfo.getVoteList(), new Predicate<Vote>() {
+			@Override
+			public boolean evaluate(Vote vote) {
+				return vote.getTarget() == me;
+			}
+		});
+		gameInfo.getVoteList();
+		return resultAgents;
+	}
+
 	public void removeDeadAgent(GameInfo gameInfo) {
+		for (Agent agent: suspiciousPoints.keySet()) {
+			if (gameInfo.getAliveAgentList().contains(agent)) {
+			}
+		}
 		suspiciousPoints.remove(gameInfo.getAttackedAgent());
 
 	}
@@ -60,17 +91,17 @@ public class VillageSideThought {
 			case WEREWOLF:
 				targetPoint += DIVINED_WEREWOLF;
 				suspiciousPoints.put(target, targetPoint);
+				agentInfo.get(target).add(SuspiciousPoint.DIVINED_BLACK);
 				break;
 			case HUMAN:
-
 				targetPoint += DIVINED_HUMAN;
 				suspiciousPoints.put(target, targetPoint);
+				agentInfo.get(target).add(SuspiciousPoint.DIVINED_WHITE);
 			default:
 				break;
 			}
 			} catch(NullPointerException e) {
 				System.out.println(e.getMessage());
-
 			}
 		}
 	}
