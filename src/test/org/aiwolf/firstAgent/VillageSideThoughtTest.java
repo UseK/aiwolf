@@ -45,7 +45,7 @@ public class VillageSideThoughtTest {
 		Talk talk = new Talk(0, 2, Agent.getAgent(14), t);
 
 		assertEquals(0, thought.comingoutedSeerList.size());
-		thought.responseComingOut(utterance, talk);
+		thought.responseComingout(utterance, talk);
 		assertEquals(1, thought.comingoutedSeerList.size());
 		assertEquals(Agent.getAgent(14),
 		thought.comingoutedSeerList.get(0));

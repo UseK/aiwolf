@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import org.aiwolf.client.lib.Topic;
 import org.aiwolf.client.lib.Utterance;
 import org.aiwolf.common.data.Agent;
 import org.aiwolf.common.data.Role;
+import org.aiwolf.common.data.Species;
 import org.aiwolf.common.data.Talk;
 import org.aiwolf.common.data.Vote;
 import org.aiwolf.common.net.GameInfo;
@@ -19,10 +21,13 @@ import org.apache.commons.collections4.functors.PredicateTransformer;
 public class VillageSideThought {
 	public static final Integer DIVINED_HUMAN = -10;
 	public static final Integer DIVINED_WEREWOLF = 100;
+	public static final Integer NOT_VOTE_DIVINED_WEREWOLF = 100;
 
 	public List<Agent> comingoutedSeerList;
 	public HashMap<Agent, Integer> suspiciousPoints;
 	Agent me;
+
+	public List<Talk> divinedHistory;
 
 	enum SuspiciousPoint { DIVINED_WHITE, DIVINED_BLACK };
 	public HashMap<Agent, List<SuspiciousPoint>> agentInfo;
@@ -39,6 +44,7 @@ public class VillageSideThought {
 		me = gameInfo.getAgent();
 		suspiciousPoints = new HashMap<Agent, Integer>();
 		agentInfo = new HashMap<Agent, List<SuspiciousPoint>>();
+		divinedHistory = new ArrayList<Talk>();
 
 		for (Agent agent : gameInfo.getAgentList()) {
 			suspiciousPoints.put(agent, 0);
@@ -52,16 +58,36 @@ public class VillageSideThought {
 	 * 狼判定されたエージェントへ投票しなかったエージェントのリスト
 	 */
 	public List<Agent> getNotVotedToDiviendWerewolfAgents(GameInfo gameInfo) {
-		List<Agent> resultAgents = new ArrayList<Agent>();
-		//List<Agent> resultAgents = new ArrayList<Agent>();
-		CollectionUtils.select(gameInfo.getVoteList(), new Predicate<Vote>() {
-			@Override
-			public boolean evaluate(Vote vote) {
-				return vote.getTarget() == me;
+		List<Talk> divinedYesterday = new ArrayList<Talk>();
+		for (Talk talk : divinedHistory) {
+			if (talk.getDay() == gameInfo.getDay() - 1) divinedYesterday.add(talk);
+		}
+
+		List<Agent> divinedWEREWOLFYesterdayAgent = new ArrayList<Agent>();
+		for (Talk talk : divinedYesterday) {
+			Utterance utterance = new Utterance(talk.getContent());
+			if (utterance.getResult() == Species.WEREWOLF) {
+				divinedWEREWOLFYesterdayAgent.add(utterance.getTarget());
 			}
-		});
-		gameInfo.getVoteList();
+		}
+
+		List<Agent> resultAgents = new ArrayList<Agent>();
+		for (Vote vote : gameInfo.getVoteList()) {
+			if (!divinedWEREWOLFYesterdayAgent.contains(vote.getTarget())) {
+				resultAgents.add(vote.getAgent());
+			}
+		}
+
 		return resultAgents;
+	}
+
+	public void responseVote(GameInfo gameInfo) {
+		for (Agent agent : getNotVotedToDiviendWerewolfAgents(gameInfo)) {
+			Integer point = suspiciousPoints.get(agent);
+			if (point != null) {
+				suspiciousPoints.put(agent, point + NOT_VOTE_DIVINED_WEREWOLF);
+			}
+		}
 	}
 
 	public void removeDeadAgent(GameInfo gameInfo) {
@@ -73,7 +99,7 @@ public class VillageSideThought {
 
 	}
 
-	public void responseComingOut(Utterance utterance, Talk talk) {
+	public void responseComingout(Utterance utterance, Talk talk) {
 		if (utterance.getRole() == Role.SEER) {
 			comingoutedSeerList.add(talk.getAgent());
 		}
@@ -82,6 +108,7 @@ public class VillageSideThought {
 	public void responseDivination(Utterance utterance, Talk talk) {
 		//System.out.println("Text:" + utterance.getText());
 		//System.out.println("TalkText:" + talk.toString());
+		divinedHistory.add(talk);
 		Agent target = utterance.getTarget();
 		if (target.equals(me)) {
 		} else {

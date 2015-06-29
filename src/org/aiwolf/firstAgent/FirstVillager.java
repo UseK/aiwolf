@@ -41,6 +41,7 @@ public class FirstVillager extends AbstractVillager {
 		readTalkNum = 0;
 		thought.removeDeadAgent(gameInfo);
 		votesEachDay.add(gameInfo.getVoteList());
+		thought.responseVote(gameInfo);
 	}
 
 	@Override
@@ -57,7 +58,7 @@ public class FirstVillager extends AbstractVillager {
 			case ATTACK:
 				break;
 			case COMINGOUT:
-				thought.responseComingOut(utterance, talk);
+				thought.responseComingout(utterance, talk);
 				break;
 			case DISAGREE:
 				break;

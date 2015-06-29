@@ -16,7 +16,7 @@ import org.aiwolf.server.GameData;
 import org.aiwolf.server.net.DirectConnectServer;
 
 public class TestStarter {
-	static protected int GAME_NUM = 1;
+	static protected int GAME_NUM = 1000;
 	static protected int PLAYER_NUM = 15;
 
 	public static void main(String[] args) throws IOException {
@@ -29,12 +29,12 @@ public class TestStarter {
 
 			playerMap.put(new FirstAgent(), Role.SEER);
 			playerMap.put(new FirstAgent(), Role.MEDIUM);
-			
-			for (int i = 0; i < 7; i++) {
+
+			for (int i = 0; i < 8; i++) {
 				playerMap.put(new FirstAgent(), Role.VILLAGER);
 			}
-			
-			for (int i = 0; i < PLAYER_NUM - 9; i++) {
+
+			for (int i = 0; i < PLAYER_NUM - 10; i++) {
 				playerMap.put(new SampleRoleAssignPlayer(), null);
 			}
 
