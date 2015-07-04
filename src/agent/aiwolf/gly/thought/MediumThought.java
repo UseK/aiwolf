@@ -1,4 +1,4 @@
-package org.aiwolf.firstAgent;
+package agent.aiwolf.gly.thought;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -16,7 +16,7 @@ import org.aiwolf.common.data.Species;
 import org.aiwolf.common.data.Talk;
 import org.aiwolf.common.net.GameInfo;
 
-public class MediumSideThought extends AbstractMedium {
+public class MediumThought extends AbstractMedium {
 	boolean isAlreadyComingOuted = false;
 	boolean toldLatestJudge = false;
 	Set<Agent> whiteSet = new HashSet<Agent>(); // 村人側

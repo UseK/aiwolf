@@ -3,7 +3,8 @@ package agent.aiwolf.gly;
 import org.aiwolf.client.base.player.AbstractRoleAssignPlayer;
 import org.aiwolf.firstAgent.FirstSeer;
 import org.aiwolf.firstAgent.FirstVillager;
-import org.aiwolf.firstAgent.MediumSideThought;
+
+import agent.aiwolf.gly.thought.MediumThought;
 
 public class GlyAgent extends AbstractRoleAssignPlayer {
 	public static final String NAME = "glycine";
@@ -11,7 +12,7 @@ public class GlyAgent extends AbstractRoleAssignPlayer {
 	public GlyAgent() {
 		setSeerPlayer(new FirstSeer());
 		setVillagerPlayer(new FirstVillager());
-		setMediumPlayer(new MediumSideThought());
+		setMediumPlayer(new MediumThought());
 	}
 
 	@Override
