@@ -8,7 +8,7 @@ public class FirstAgent extends AbstractRoleAssignPlayer {
 		// TODO Auto-generated constructor stub
 		setSeerPlayer(new FirstSeer());
 		setVillagerPlayer(new FirstVillager());
-		setMediumPlayer(new FirstCOMedium());
+		setMediumPlayer(new MediumSideThought());
 		
 	}
 
