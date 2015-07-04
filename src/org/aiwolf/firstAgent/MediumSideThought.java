@@ -6,17 +6,21 @@ import java.util.Set;
 
 import org.aiwolf.client.base.player.AbstractMedium;
 import org.aiwolf.client.lib.TemplateTalkFactory;
+import org.aiwolf.client.lib.Topic;
+import org.aiwolf.client.lib.Utterance;
 import org.aiwolf.common.data.Agent;
 import org.aiwolf.common.data.Judge;
 import org.aiwolf.common.data.Role;
 import org.aiwolf.common.data.Species;
+import org.aiwolf.common.data.Talk;
 import org.aiwolf.common.net.GameInfo;
 
 public class MediumSideThought extends AbstractMedium {
 	boolean isAlreadyComingOuted = false;
 	boolean toldLatestJudge = false;
-	Set<Agent> whiteList = new HashSet<Agent>();
-	Set<Agent> blackList = new HashSet<Agent>();
+	Set<Agent> whiteSet = new HashSet<Agent>();
+	Set<Agent> blackSet = new HashSet<Agent>();
+	Set<Agent> fakeMedium = new HashSet<Agent>();
 
 	@Override
 	public void dayStart() {
@@ -27,7 +31,6 @@ public class MediumSideThought extends AbstractMedium {
 	@Override
 	public void finish() {
 		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	@Override
@@ -35,11 +38,11 @@ public class MediumSideThought extends AbstractMedium {
 
 		if (!toldLatestJudge) {
 			String result = genJudgeResult();
-			
+
 			// 狼とわかっている人がいる時だけしゃべる
-			if(!blackList.isEmpty()){
+			if (!blackSet.isEmpty()) {
 				// COしていない時は，まずCOする
-				if( !isAlreadyComingOuted){
+				if (!isAlreadyComingOuted) {
 					isAlreadyComingOuted = true;
 					return TemplateTalkFactory.comingout(getMe(), Role.MEDIUM);
 				}
@@ -59,6 +62,22 @@ public class MediumSideThought extends AbstractMedium {
 		return randomSelect(aliveAgents);
 	}
 
+	@Override
+	public void update(GameInfo gameInfo) {
+		super.update(gameInfo);
+		// 他者の発言を処理する
+		// とりあえず，他の人が霊能結果を言っていることに対応
+		List<Talk> talkList = gameInfo.getTalkList();
+		for (Talk talk : talkList) {
+			Agent agent = talk.getAgent();
+			Utterance utterance = new Utterance(talk.getContent());
+			if (utterance.getTopic() == Topic.INQUESTED) {
+				if (!agent.equals(getMe()))
+					blackSet.add(agent);
+			}
+		}
+	}
+
 	private String genJudgeResult() {
 		String result = null;
 
@@ -71,23 +90,25 @@ public class MediumSideThought extends AbstractMedium {
 				switch (judge.getResult()) {
 				case HUMAN:
 				default:
-					result = TemplateTalkFactory.inquested(agent, Species.HUMAN);
-					whiteList.add(agent);
+					result = TemplateTalkFactory
+							.inquested(agent, Species.HUMAN);
+					whiteSet.add(agent);
 					break;
 				case WEREWOLF:
-					result = TemplateTalkFactory.inquested(agent,  Species.WEREWOLF);
-					blackList.add(agent);
+					result = TemplateTalkFactory.inquested(agent,
+							Species.WEREWOLF);
+					blackSet.add(agent);
 					break;
 				}
 				return result;
 			}
-		
+
 		// 何もなかった時は，とにかく何か返す．通常は来ない
 		return result;
 	}
-	
-	private Agent randomSelect(List<Agent> agents){
-		int index = (int)Math.floor(Math.random() * (double)agents.size());
+
+	private Agent randomSelect(List<Agent> agents) {
+		int index = (int) Math.floor(Math.random() * (double) agents.size());
 		return agents.get(index);
 	}
 }
