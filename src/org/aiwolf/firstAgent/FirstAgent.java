@@ -7,13 +7,13 @@ public class FirstAgent extends AbstractRoleAssignPlayer {
 	public FirstAgent() {
 		// TODO Auto-generated constructor stub
 		setSeerPlayer(new FirstSeer());
+		setVillagerPlayer(new FirstVillager());
+		setMediumPlayer(new FirstCOMedium());
+		
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		int i = 1;
-		System.out.println(i);
 		return null;
 	}
 

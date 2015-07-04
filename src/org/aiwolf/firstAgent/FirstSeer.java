@@ -4,36 +4,30 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javax.print.attribute.standard.Finishings;
-import javax.print.attribute.standard.PrinterLocation;
-
 import org.aiwolf.client.base.player.AbstractSeer;
 import org.aiwolf.client.lib.TemplateTalkFactory;
-import org.aiwolf.client.lib.Topic;
 import org.aiwolf.client.lib.Utterance;
 import org.aiwolf.common.data.Agent;
 import org.aiwolf.common.data.Judge;
 import org.aiwolf.common.data.Role;
 import org.aiwolf.common.data.Species;
 import org.aiwolf.common.data.Talk;
-import org.aiwolf.common.data.Species.*;
 import org.aiwolf.common.net.GameInfo;
 
 public class FirstSeer extends AbstractSeer {
-	
+
 	boolean isAlreayComingOuted = false;
 	int readTalkNum = 0;
 	List<Judge> toledJudgeList = new ArrayList<Judge>();
-	List<Agent> fakeSeerAgentList = new ArrayList<Agent>(); 
+	List<Agent> fakeSeerAgentList = new ArrayList<Agent>();
 	GameInfo gameInfo;
-	
+
 	@Override
 	public void dayStart() {
 		super.dayStart();
 		readTalkNum = 0;
 	}
-	
-	
+
 	@Override
 	public void update(GameInfo gameInfo) {
 		super.update(gameInfo);
@@ -48,9 +42,7 @@ public class FirstSeer extends AbstractSeer {
 			case ATTACK:
 				break;
 			case COMINGOUT:
-				if (utterance.getRole() == Role.SEER && talk.getAgent().equals(getMe())) {
-					fakeSeerAgentList.add(talk.getAgent());
-				}
+				interpretComingout(utterance, talk);
 				break;
 			case DISAGREE:
 				break;
@@ -70,6 +62,16 @@ public class FirstSeer extends AbstractSeer {
 				break;
 			}
 			readTalkNum++;
+		}
+	}
+
+
+
+
+	public void interpretComingout(Utterance utterance, Talk talk) {
+		if (utterance.getRole() == Role.SEER &&
+		    !talk.getAgent().equals(getMe())) {
+			fakeSeerAgentList.add(talk.getAgent());
 		}
 	}
 
@@ -113,7 +115,7 @@ public class FirstSeer extends AbstractSeer {
 		}
 		return resultTalk;
 	}
-	
+
 	private String comingOutSoon() {
 		if (!isAlreayComingOuted) {
 			return comingOut();
@@ -122,7 +124,7 @@ public class FirstSeer extends AbstractSeer {
 			return null;
 		}
 	}
-	
+
 	private String hideUntilFirstWolfDevined() {
 		if (!filterWereWolf(getAliveOthers()).isEmpty() && !isAlreayComingOuted) {
 			return comingOut();
@@ -131,7 +133,7 @@ public class FirstSeer extends AbstractSeer {
 			return null;
 		}
 	}
-	
+
 	private String hideUntil(int day) {
 		if (isAlreayComingOuted) {
 			return null;
@@ -143,7 +145,7 @@ public class FirstSeer extends AbstractSeer {
 			return null;
 		}
 	}
-	
+
 	private String comingOut() {
 		isAlreayComingOuted = true;
 		return TemplateTalkFactory.comingout(getMe(), getMyRole());
@@ -168,14 +170,14 @@ public class FirstSeer extends AbstractSeer {
 			return randomSelect(gray);
 		}
 	}
-	
+
 	private List<Agent> getAliveOthers() {
 		List<Agent> agentList = new ArrayList<Agent>();
 		agentList.addAll(getLatestDayGameInfo().getAliveAgentList());
 		agentList.remove(getMe());
 		return agentList;
 	}
-	
+
 	private List<Agent> filterHuman(List<Agent> agentList) {
 		List<Agent> filteredList = new ArrayList<Agent>();
 		for (Judge judge: getMyJudgeList()) {

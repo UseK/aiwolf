@@ -14,7 +14,7 @@ import org.aiwolf.server.AIWolfGame;
 import org.aiwolf.server.net.DirectConnectServer;
 
 public class TestStarter {
-	static protected int GAME_NUM = 100;
+	static protected int GAME_NUM = 1000;
 	static protected int PLAYER_NUM = 15;
 
 	public static void main(String[] args) throws IOException {
@@ -24,8 +24,15 @@ public class TestStarter {
 
 			/* configure playerlist in "playerMap"*/
 			Map playerMap = new HashMap();
+
 			playerMap.put(new FirstAgent(), Role.SEER);
-			for (int i = 0; i < PLAYER_NUM - 1; i++) {
+			playerMap.put(new FirstAgent(), Role.MEDIUM);
+
+			for (int i = 0; i < 8; i++) {
+				playerMap.put(new FirstAgent(), Role.VILLAGER);
+			}
+
+			for (int i = 0; i < PLAYER_NUM - 10; i++) {
 				playerMap.put(new SampleRoleAssignPlayer(), null);
 			}
 
