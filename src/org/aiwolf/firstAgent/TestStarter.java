@@ -1,6 +1,5 @@
 package org.aiwolf.firstAgent;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +11,6 @@ import org.aiwolf.common.data.Team;
 
 import org.aiwolf.common.net.GameSetting;
 import org.aiwolf.server.AIWolfGame;
-import org.aiwolf.server.GameData;
 import org.aiwolf.server.net.DirectConnectServer;
 
 public class TestStarter {
