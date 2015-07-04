@@ -25,34 +25,33 @@ public class MediumSideThought extends AbstractMedium {
 
 	@Override
 	public String talk() {
-		GameInfo gameInfo = this.getLatestDayGameInfo();
-		Agent executedAgent = gameInfo.getExecutedAgent();
-		String result = null;
+		if( !toldLatestJudge){
+			toldLatestJudge = true;
+			return genJudgeResult();
+		}
 		
-		if (!toldLatestJudge) {
-			for (Judge judge : getMyJudgeList()) {
-				if (executedAgent != null
-						&& executedAgent.compareTo(judge.getTarget()) == 0) {
-					switch (judge.getResult()) {
-					case HUMAN:
-					default:
-						result = TemplateTalkFactory.inquested(executedAgent, Species.HUMAN);
-						break;
-					case WEREWOLF:
-						result = TemplateTalkFactory.inquested(executedAgent, Species.WEREWOLF);
-						break;
-					}
-				}
-			}
-		}else
-			result = TemplateTalkFactory.over();
-		return result;
+		return TemplateTalkFactory.over();
 	}
 
 	@Override
 	public Agent vote() {
 		// TODO 自動生成されたメソッド・スタブ
 		return null;
+	}
+	
+	private String genJudgeResult(){
+		String result = null;
+
+		GameInfo gameInfo = this.getLatestDayGameInfo();
+		Agent agent = gameInfo.getExecutedAgent();
+		if(agent == null )
+			return null;
+		for(Judge judge: getMyJudgeList())
+			if( agent.compareTo(judge.getTarget()) == 0){
+				result = TemplateTalkFactory.inquested(agent, judge.getResult());
+				return result;
+			}
+		return result;
 	}
 
 }
