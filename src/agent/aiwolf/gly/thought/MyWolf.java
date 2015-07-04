@@ -1,4 +1,4 @@
-package org.aiwolf.firstAgent;
+package agent.aiwolf.gly.thought;
 
 import java.util.Set;
 
@@ -6,7 +6,7 @@ import org.aiwolf.client.base.player.AbstractWerewolf;
 import org.aiwolf.common.data.Agent;
 import org.aiwolf.common.net.GameInfo;
 
-public class WolfSideThought extends AbstractWerewolf {
+public class MyWolf extends AbstractWerewolf {
 	boolean isAlreayComingOuted = false;
 	Set<Agent> wolfSet;
 	int readTalkNum = 0;

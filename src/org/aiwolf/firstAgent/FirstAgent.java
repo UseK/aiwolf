@@ -2,7 +2,7 @@ package org.aiwolf.firstAgent;
 
 import org.aiwolf.client.base.player.AbstractRoleAssignPlayer;
 
-import agent.aiwolf.gly.thought.MediumThought;
+import agent.aiwolf.gly.thought.MyMedium;
 
 public class FirstAgent extends AbstractRoleAssignPlayer {
 	
@@ -10,7 +10,7 @@ public class FirstAgent extends AbstractRoleAssignPlayer {
 		// TODO Auto-generated constructor stub
 		setSeerPlayer(new FirstSeer());
 		setVillagerPlayer(new FirstVillager());
-		setMediumPlayer(new MediumThought());
+		setMediumPlayer(new MyMedium());
 		
 	}
 

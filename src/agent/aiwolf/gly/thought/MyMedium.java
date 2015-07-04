@@ -16,7 +16,7 @@ import org.aiwolf.common.data.Species;
 import org.aiwolf.common.data.Talk;
 import org.aiwolf.common.net.GameInfo;
 
-public class MediumThought extends AbstractMedium {
+public class MyMedium extends AbstractMedium {
 	boolean isAlreadyComingOuted = false;
 	boolean toldLatestJudge = false;
 	Set<Agent> whiteSet = new HashSet<Agent>(); // 村人側
