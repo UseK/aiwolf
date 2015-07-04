@@ -41,8 +41,10 @@ public class MediumSideThought extends AbstractMedium {
 
 	@Override
 	public Agent vote() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		// とりあえず，生きている人からランダム投票する
+		GameInfo gameInfo = this.getLatestDayGameInfo();
+		List<Agent> aliveAgents = gameInfo.getAliveAgentList();
+		return randomSelect(aliveAgents);
 	}
 
 	private String genJudgeResult() {
@@ -67,7 +69,14 @@ public class MediumSideThought extends AbstractMedium {
 				}
 				return result;
 			}
+		
+		// 何もなかった時は，とにかく何か返す．通常は来ない
 		return result;
+	}
+	
+	private Agent randomSelect(List<Agent> agents){
+		int index = (int)Math.floor(Math.random() * (double)agents.size());
+		return agents.get(index);
 	}
 
 }
