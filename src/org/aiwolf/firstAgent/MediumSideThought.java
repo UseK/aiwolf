@@ -1,5 +1,6 @@
 package org.aiwolf.firstAgent;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,9 +19,9 @@ import org.aiwolf.common.net.GameInfo;
 public class MediumSideThought extends AbstractMedium {
 	boolean isAlreadyComingOuted = false;
 	boolean toldLatestJudge = false;
-	Set<Agent> whiteSet = new HashSet<Agent>();
-	Set<Agent> blackSet = new HashSet<Agent>();
-	Set<Agent> fakeMedium = new HashSet<Agent>();
+	Set<Agent> whiteSet = new HashSet<Agent>(); // 村人側
+	Set<Agent> blackSet = new HashSet<Agent>(); // 人狼側
+	Set<Agent> fakeMediumSet = new HashSet<Agent>(); // 偽霊能
 
 	@Override
 	public void dayStart() {
@@ -56,8 +57,14 @@ public class MediumSideThought extends AbstractMedium {
 
 	@Override
 	public Agent vote() {
-		// とりあえず，生きている人からランダム投票する
 		GameInfo gameInfo = this.getLatestDayGameInfo();
+		
+		// 怪しい人がいる場合は，そこからランダムで
+		List<Agent> blackAgents = new ArrayList<Agent>(blackSet);
+		if(!blackAgents.isEmpty())
+			return randomSelect(blackAgents);
+		
+		// 生きている人からランダム投票する
 		List<Agent> aliveAgents = gameInfo.getAliveAgentList();
 		return randomSelect(aliveAgents);
 	}
@@ -72,8 +79,10 @@ public class MediumSideThought extends AbstractMedium {
 			Agent agent = talk.getAgent();
 			Utterance utterance = new Utterance(talk.getContent());
 			if (utterance.getTopic() == Topic.INQUESTED) {
-				if (!agent.equals(getMe()))
+				if (!agent.equals(getMe())){
+					fakeMediumSet.add(agent);
 					blackSet.add(agent);
+				}
 			}
 		}
 	}
