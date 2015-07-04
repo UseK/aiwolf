@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
 
-import org.aiwolf.client.lib.Topic;
 import org.aiwolf.client.lib.Utterance;
 import org.aiwolf.common.data.Agent;
 import org.aiwolf.common.data.Role;
@@ -14,9 +13,6 @@ import org.aiwolf.common.data.Species;
 import org.aiwolf.common.data.Talk;
 import org.aiwolf.common.data.Vote;
 import org.aiwolf.common.net.GameInfo;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.Predicate;
-import org.apache.commons.collections4.functors.PredicateTransformer;
 
 public class VillageSideThought {
 	public static final Integer DIVINED_HUMAN = -10;
