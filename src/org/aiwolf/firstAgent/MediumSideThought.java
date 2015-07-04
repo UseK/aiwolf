@@ -1,20 +1,22 @@
 package org.aiwolf.firstAgent;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.aiwolf.client.base.player.AbstractMedium;
 import org.aiwolf.client.lib.TemplateTalkFactory;
 import org.aiwolf.common.data.Agent;
 import org.aiwolf.common.data.Judge;
+import org.aiwolf.common.data.Role;
 import org.aiwolf.common.data.Species;
 import org.aiwolf.common.net.GameInfo;
 
 public class MediumSideThought extends AbstractMedium {
 	boolean isAlreadyComingOuted = false;
 	boolean toldLatestJudge = false;
-	List<Agent> whiteList = new ArrayList<Agent>();
-	List<Agent> blackList = new ArrayList<Agent>();
+	Set<Agent> whiteList = new HashSet<Agent>();
+	Set<Agent> blackList = new HashSet<Agent>();
 
 	@Override
 	public void dayStart() {
@@ -32,8 +34,18 @@ public class MediumSideThought extends AbstractMedium {
 	public String talk() {
 
 		if (!toldLatestJudge) {
-			toldLatestJudge = true;
-			return genJudgeResult();
+			String result = genJudgeResult();
+			
+			// 狼とわかっている人がいる時だけしゃべる
+			if(!blackList.isEmpty()){
+				// COしていない時は，まずCOする
+				if( !isAlreadyComingOuted){
+					isAlreadyComingOuted = true;
+					return TemplateTalkFactory.comingout(getMe(), Role.MEDIUM);
+				}
+				toldLatestJudge = true;
+				return result;
+			}
 		}
 
 		return TemplateTalkFactory.over();
@@ -78,5 +90,4 @@ public class MediumSideThought extends AbstractMedium {
 		int index = (int)Math.floor(Math.random() * (double)agents.size());
 		return agents.get(index);
 	}
-
 }
