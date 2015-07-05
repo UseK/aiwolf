@@ -14,6 +14,7 @@ import org.aiwolf.common.data.Species;
 import org.aiwolf.common.data.Talk;
 import org.aiwolf.common.net.GameInfo;
 
+@SuppressWarnings("unused")
 public class FirstSeer extends AbstractSeer {
 
 	boolean isAlreayComingOuted = false;

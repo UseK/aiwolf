@@ -1,20 +1,12 @@
 package org.aiwolf.firstAgent;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.Random;
-
-import javax.print.attribute.standard.PrinterLocation;
+import java.util.List;
 
 import org.aiwolf.client.base.player.AbstractVillager;
-import org.aiwolf.client.lib.Topic;
 import org.aiwolf.client.lib.Utterance;
 import org.aiwolf.common.data.Agent;
-import org.aiwolf.common.data.Judge;
 import org.aiwolf.common.data.Role;
-import org.aiwolf.common.data.Species;
 import org.aiwolf.common.data.Talk;
 import org.aiwolf.common.data.Vote;
 import org.aiwolf.common.net.GameInfo;

@@ -1,23 +1,22 @@
 package org.aiwolf.firstAgent;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
 import org.aiwolf.client.base.smpl.SampleRoleAssignPlayer;
+import org.aiwolf.common.data.Player;
 import org.aiwolf.common.data.Role;
 import org.aiwolf.common.data.Team;
 import org.aiwolf.common.net.GameSetting;
 import org.aiwolf.server.AIWolfGame;
-import org.aiwolf.server.GameData;
 import org.aiwolf.server.net.DirectConnectServer;
 
 import com.sun.org.apache.bcel.internal.generic.NEW;
 
 public class TestStarter {
-	static protected int GAME_NUM = 10000;
+	static protected int GAME_NUM = 100;
 	static protected int PLAYER_NUM = 15;
 
 	public static void main(String[] args) throws IOException {
@@ -26,7 +25,7 @@ public class TestStarter {
 		for (int gi = 0; gi < GAME_NUM; gi++) {
 
 			/* configure playerlist in "playerMap"*/
-			Map playerMap = new HashMap();
+			Map<Player, Role> playerMap = new HashMap<>();
 
 			playerMap.put(new FirstAgent(), Role.SEER);
 			playerMap.put(new FirstAgent(), Role.MEDIUM);

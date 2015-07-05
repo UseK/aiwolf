@@ -1,23 +1,22 @@
-package org.aiwolf.firstAgent;
+package agent.aiwolf.gly;
 
 import org.aiwolf.client.base.player.AbstractRoleAssignPlayer;
+import org.aiwolf.firstAgent.FirstSeer;
+import org.aiwolf.firstAgent.FirstVillager;
 
 import agent.aiwolf.gly.thought.MyMedium;
 
-public class FirstAgent extends AbstractRoleAssignPlayer {
-
-	public FirstAgent() {
-		// TODO Auto-generated constructor stub
+public class GlyAgent extends AbstractRoleAssignPlayer {
+	public static final String NAME = "glycine";
+	
+	public GlyAgent() {
 		setSeerPlayer(new FirstSeer());
 		setVillagerPlayer(new FirstVillager());
 		setMediumPlayer(new MyMedium());
-		setWerewolfPlayer(new FirstWereWolf());
-		setBodyguardPlayer(new FirstBodyguard());
 	}
 
 	@Override
 	public String getName() {
-		return null;
+		return NAME;
 	}
-
 }
