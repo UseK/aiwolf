@@ -9,14 +9,15 @@ import java.util.Random;
 import org.aiwolf.client.base.smpl.SampleRoleAssignPlayer;
 import org.aiwolf.common.data.Role;
 import org.aiwolf.common.data.Team;
-
 import org.aiwolf.common.net.GameSetting;
 import org.aiwolf.server.AIWolfGame;
 import org.aiwolf.server.GameData;
 import org.aiwolf.server.net.DirectConnectServer;
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
+
 public class TestStarter {
-	static protected int GAME_NUM = 1000;
+	static protected int GAME_NUM = 10000;
 	static protected int PLAYER_NUM = 15;
 
 	public static void main(String[] args) throws IOException {
@@ -29,12 +30,17 @@ public class TestStarter {
 
 			playerMap.put(new FirstAgent(), Role.SEER);
 			playerMap.put(new FirstAgent(), Role.MEDIUM);
+			playerMap.put(new FirstAgent(), Role.BODYGUARD);
 
 			for (int i = 0; i < 8; i++) {
 				playerMap.put(new FirstAgent(), Role.VILLAGER);
 			}
 
-			for (int i = 0; i < PLAYER_NUM - 10; i++) {
+			//for (int i = 0; i < 3; i++) {
+			//	playerMap.put(new FirstAgent(), Role.WEREWOLF);
+			//}
+
+			for (int i = 0; i < PLAYER_NUM - 11; i++) {
 				playerMap.put(new SampleRoleAssignPlayer(), null);
 			}
 

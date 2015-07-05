@@ -1,14 +1,11 @@
 package org.aiwolf.firstAgent;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
 import java.util.Random;
 
-import javax.print.attribute.standard.PrinterLocation;
-
-import org.aiwolf.client.base.player.AbstractVillager;
+import org.aiwolf.client.base.player.AbstractBodyguard;
+import org.aiwolf.common.data.Agent;
+import org.aiwolf.common.net.GameInfo;
 import org.aiwolf.client.lib.Topic;
 import org.aiwolf.client.lib.Utterance;
 import org.aiwolf.common.data.Agent;
@@ -19,35 +16,28 @@ import org.aiwolf.common.data.Talk;
 import org.aiwolf.common.data.Vote;
 import org.aiwolf.common.net.GameInfo;
 
-public class FirstVillager extends AbstractVillager {
-
+public class FirstBodyguard extends AbstractBodyguard {
 	int readTalkNum = 0;
-	List<Agent> divinedWhiteList = new ArrayList<Agent>();
 	GameInfo gameInfo;
-	List<List<Vote>> votesEachDay = new ArrayList<>();
 	VillageSideThought thought;
-
-
 
 	@Override
 	public void initialize(GameInfo gameInfo,
 			org.aiwolf.common.net.GameSetting gameSetting) {
 		this.gameInfo = gameInfo;
-		thought = new VillageSideThought(gameInfo, Role.VILLAGER);
+		thought = new VillageSideThought(gameInfo, Role.BODYGUARD);
 	}
 
 	@Override
 	public void dayStart() {
 		readTalkNum = 0;
 		thought.removeDeadAgent(gameInfo);
-		votesEachDay.add(gameInfo.getVoteList());
 		thought.responseVote(gameInfo);
 	}
 
 	@Override
-	public void update(org.aiwolf.common.net.GameInfo gameInfo) {
+	public void update(GameInfo gameInfo) {
 		super.update(gameInfo);
-		this.gameInfo = gameInfo;
 		List<Talk> talkList = gameInfo.getTalkList();
 		for (int i = readTalkNum; i < talkList.size(); i++) {
 			Talk talk = talkList.get(i);
@@ -85,7 +75,12 @@ public class FirstVillager extends AbstractVillager {
 	@Override
 	public void finish() {
 		// TODO Auto-generated method stub
+	}
 
+	@Override
+	public Agent guard() {
+		List<Agent> agents = thought.getMostUnsuspiciousAgents();
+		return agents.get(new Random().nextInt(agents.size()));
 	}
 
 	@Override
@@ -98,4 +93,5 @@ public class FirstVillager extends AbstractVillager {
 	public Agent vote() {
 		return thought.getAgentToVote();
 	}
+
 }
