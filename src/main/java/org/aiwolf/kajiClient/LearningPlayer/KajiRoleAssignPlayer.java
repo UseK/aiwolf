@@ -17,6 +17,7 @@ public class KajiRoleAssignPlayer extends AbstractRoleAssignPlayer{
 	boolean isLearn = false;
 
 	public KajiRoleAssignPlayer(){
+		
 		this.name = "Glycine";
 		this.villageRole = new KajiVillagerPlayer();
 		this.bodyguardRole = new KajiBodyGuardPlayer();
