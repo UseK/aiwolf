@@ -1,36 +1,47 @@
 package org.aiwolf.kajiClient.LearningPlayer;
 
-import org.aiwolf.client.base.player.AbstractRole;
-import org.aiwolf.client.base.player.AbstractRoleAssignPlayer;
+import java.util.UUID;
 
+import org.aiwolf.client.base.player.AbstractRoleAssignPlayer;
 
 public class KajiRoleAssignPlayer extends AbstractRoleAssignPlayer{
 	private final String name;
-	private AbstractRole villageRole;
-	private AbstractRole bodyguardRole;
-	private AbstractRole mediumRole;
-	private AbstractRole possessedRole;
-	private AbstractRole seerRole;
-	private AbstractRole werewolfRole;
+	private KajiVillagerPlayer villagerPlayer;
+	private KajiBodyGuardPlayer bodyguardPlayer;
+	private KajiMediumPlayer mediumPlayer;
+	private KajiPossessedPlayer possessedPlayer;
+	private KajiSeerPlayer seerPlayer;
+	private KajiWereWolfPlayer werewolfPlayer;
 	
 	int ldNumber = 0;
 	boolean isLearn = false;
 
 	public KajiRoleAssignPlayer(){
-		
 		this.name = "Glycine";
-		this.villageRole = new KajiVillagerPlayer();
-		this.bodyguardRole = new KajiBodyGuardPlayer();
-		this.mediumRole = new KajiMediumPlayer();
-		this.possessedRole = new KajiPossessedPlayer();
-		this.seerRole = new KajiSeerPlayer();
-		this.werewolfRole = new KajiWereWolfPlayer();
-		setVillagerPlayer(this.villageRole);
-		setBodyguardPlayer(this.bodyguardRole);
-		setMediumPlayer(this.mediumRole);
-		setPossessedPlayer(this.possessedRole);
-		setSeerPlayer(this.seerRole);
-		setWerewolfPlayer(this.werewolfRole);
+		UUID playerID = UUID.randomUUID();
+		villagerPlayer = new KajiVillagerPlayer();
+		villagerPlayer.setPlayerID(playerID);
+		setVillagerPlayer(this.villagerPlayer);
+		
+		bodyguardPlayer = new KajiBodyGuardPlayer();
+		bodyguardPlayer.setPlayerID(playerID);
+		setBodyguardPlayer(this.bodyguardPlayer);
+		
+		mediumPlayer = new KajiMediumPlayer();
+		mediumPlayer.setPlayerID(playerID);
+		setMediumPlayer(this.mediumPlayer);
+		
+		possessedPlayer = new KajiPossessedPlayer();
+		possessedPlayer.setPlayerID(playerID);
+		setPossessedPlayer(this.possessedPlayer);
+		
+		seerPlayer = new KajiSeerPlayer();
+		seerPlayer.setPlayerID(playerID);
+		setSeerPlayer(this.seerPlayer);
+		
+		werewolfPlayer = new KajiWereWolfPlayer();
+		werewolfPlayer.setPlayerID(playerID);
+		setWerewolfPlayer(this.werewolfPlayer);
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 import org.aiwolf.client.base.player.AbstractRole;
 import org.aiwolf.client.lib.TemplateTalkFactory;
@@ -39,6 +40,7 @@ import org.aiwolf.kajiClient.reinforcementLearning.SelectStrategy;
  *
  */
 public abstract class AbstractKajiBasePlayer extends AbstractRole {
+	protected UUID playerID;
 	private boolean IS_LEARNING = false;
 
 	private static double EPSILON = 0.1;
@@ -73,7 +75,6 @@ public abstract class AbstractKajiBasePlayer extends AbstractRole {
 
 	//学習データ
 	protected LearningData ld = LearningData.getInstance(0);
-
 
 	@Override
 	public void initialize(GameInfo gameInfo, GameSetting gameSetting) {
@@ -702,5 +703,8 @@ public abstract class AbstractKajiBasePlayer extends AbstractRole {
 	public void setIS_LEARNING(boolean iS_LEARNING) {
 		IS_LEARNING = iS_LEARNING;
 	}
-
+	
+	public void setPlayerID( UUID playerID){
+		this.playerID = playerID;
+	}
 }
