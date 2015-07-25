@@ -1,19 +1,16 @@
 package org.aiwolf.kajiClient.LearningPlayer;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.aiwolf.common.data.Agent;
-import org.aiwolf.common.data.Role;
 import org.aiwolf.kajiClient.lib.Pattern;
-import org.aiwolf.kajiClient.LearningPlayer.AbstractKajiBasePlayer;
 import org.aiwolf.kajiClient.reinforcementLearning.AgentPattern;
 import org.aiwolf.kajiClient.reinforcementLearning.Qvalues;
 import org.aiwolf.kajiClient.reinforcementLearning.ReinforcementLearning;
 import org.aiwolf.kajiClient.reinforcementLearning.Scene;
 
-public class KajiBodyGuradPlayer extends AbstractKajiBasePlayer {
+public class KajiBodyGuardPlayer extends AbstractKajiBasePlayer {
 
 	@Override
 	public String getJudgeText() {

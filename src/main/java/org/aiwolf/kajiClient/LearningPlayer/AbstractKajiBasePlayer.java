@@ -39,7 +39,6 @@ import org.aiwolf.kajiClient.reinforcementLearning.SelectStrategy;
  *
  */
 public abstract class AbstractKajiBasePlayer extends AbstractRole {
-
 	private boolean IS_LEARNING = false;
 
 	private static double EPSILON = 0.1;
