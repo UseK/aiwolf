@@ -36,6 +36,7 @@ public enum AgentPattern {
 			return MEDIUM;
 		}
 		
+		
 		return null;
 	}
 	
