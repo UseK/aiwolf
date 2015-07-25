@@ -30,6 +30,7 @@ import org.aiwolf.kajiClient.reinforcementLearning.Qvalues;
 import org.aiwolf.kajiClient.reinforcementLearning.ReinforcementLearning;
 import org.aiwolf.kajiClient.reinforcementLearning.Scene;
 import org.aiwolf.kajiClient.reinforcementLearning.SelectStrategy;
+import org.fluentd.logger.FluentLogger;
 
 /**
  * 全役職共通部分のアルゴリズム
@@ -40,7 +41,10 @@ import org.aiwolf.kajiClient.reinforcementLearning.SelectStrategy;
  *
  */
 public abstract class AbstractKajiBasePlayer extends AbstractRole {
-	protected UUID playerID;
+	public UUID playerID;
+	public FluentLogger fLogger;
+	public String name;
+	
 	private boolean IS_LEARNING = false;
 
 	private static double EPSILON = 0.1;
@@ -702,9 +706,5 @@ public abstract class AbstractKajiBasePlayer extends AbstractRole {
 
 	public void setIS_LEARNING(boolean iS_LEARNING) {
 		IS_LEARNING = iS_LEARNING;
-	}
-	
-	public void setPlayerID( UUID playerID){
-		this.playerID = playerID;
 	}
 }

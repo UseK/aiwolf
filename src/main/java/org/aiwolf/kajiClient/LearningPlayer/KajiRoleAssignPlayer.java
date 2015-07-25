@@ -1,11 +1,16 @@
 package org.aiwolf.kajiClient.LearningPlayer;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import org.aiwolf.client.base.player.AbstractRoleAssignPlayer;
+import org.fluentd.logger.FluentLogger;
 
 public class KajiRoleAssignPlayer extends AbstractRoleAssignPlayer{
 	private final String name;
+	private FluentLogger fLogger;
+	
 	private KajiVillagerPlayer villagerPlayer;
 	private KajiBodyGuardPlayer bodyguardPlayer;
 	private KajiMediumPlayer mediumPlayer;
@@ -17,30 +22,41 @@ public class KajiRoleAssignPlayer extends AbstractRoleAssignPlayer{
 	boolean isLearn = false;
 
 	public KajiRoleAssignPlayer(){
-		this.name = "Glycine";
+		name = "Glycine";
 		UUID playerID = UUID.randomUUID();
+		fLogger = FluentLogger.getLogger("debug", "localhost", 24224);
+		Map<String, Object> testLog = new HashMap<String, Object>();
+		testLog.put("type", "value");
+		fLogger.log("test", testLog);
+		
 		villagerPlayer = new KajiVillagerPlayer();
-		villagerPlayer.setPlayerID(playerID);
+		villagerPlayer.playerID = playerID;
+		villagerPlayer.fLogger = fLogger;
 		setVillagerPlayer(this.villagerPlayer);
 		
 		bodyguardPlayer = new KajiBodyGuardPlayer();
-		bodyguardPlayer.setPlayerID(playerID);
+		bodyguardPlayer.playerID = playerID;
+		bodyguardPlayer.fLogger = fLogger;
 		setBodyguardPlayer(this.bodyguardPlayer);
 		
 		mediumPlayer = new KajiMediumPlayer();
-		mediumPlayer.setPlayerID(playerID);
+		mediumPlayer.playerID = playerID;
+		mediumPlayer.fLogger = fLogger;
 		setMediumPlayer(this.mediumPlayer);
 		
 		possessedPlayer = new KajiPossessedPlayer();
-		possessedPlayer.setPlayerID(playerID);
+		possessedPlayer.playerID = playerID;
+		possessedPlayer.fLogger = fLogger;
 		setPossessedPlayer(this.possessedPlayer);
 		
 		seerPlayer = new KajiSeerPlayer();
-		seerPlayer.setPlayerID(playerID);
+		seerPlayer.playerID = playerID;
+		seerPlayer.fLogger = fLogger;
 		setSeerPlayer(this.seerPlayer);
 		
 		werewolfPlayer = new KajiWereWolfPlayer();
-		werewolfPlayer.setPlayerID(playerID);
+		werewolfPlayer.playerID = playerID;
+		werewolfPlayer.fLogger = fLogger;
 		setWerewolfPlayer(this.werewolfPlayer);
 	}
 
