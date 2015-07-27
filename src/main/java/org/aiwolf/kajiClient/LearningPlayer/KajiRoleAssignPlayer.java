@@ -25,38 +25,41 @@ public class KajiRoleAssignPlayer extends AbstractRoleAssignPlayer{
 		name = "Glycine";
 		UUID playerID = UUID.randomUUID();
 		fLogger = FluentLogger.getLogger("debug", "localhost", 24224);
-		Map<String, Object> testLog = new HashMap<String, Object>();
-		testLog.put("type", "value");
-		fLogger.log("test", testLog);
 		
 		villagerPlayer = new KajiVillagerPlayer();
 		villagerPlayer.playerID = playerID;
 		villagerPlayer.fLogger = fLogger;
+		villagerPlayer.name = name;
 		setVillagerPlayer(this.villagerPlayer);
 		
 		bodyguardPlayer = new KajiBodyGuardPlayer();
 		bodyguardPlayer.playerID = playerID;
 		bodyguardPlayer.fLogger = fLogger;
+		bodyguardPlayer.name = name;
 		setBodyguardPlayer(this.bodyguardPlayer);
 		
 		mediumPlayer = new KajiMediumPlayer();
 		mediumPlayer.playerID = playerID;
 		mediumPlayer.fLogger = fLogger;
+		mediumPlayer.name = name;
 		setMediumPlayer(this.mediumPlayer);
 		
 		possessedPlayer = new KajiPossessedPlayer();
 		possessedPlayer.playerID = playerID;
 		possessedPlayer.fLogger = fLogger;
+		possessedPlayer.name = name;
 		setPossessedPlayer(this.possessedPlayer);
 		
 		seerPlayer = new KajiSeerPlayer();
 		seerPlayer.playerID = playerID;
 		seerPlayer.fLogger = fLogger;
+		seerPlayer.name = name;
 		setSeerPlayer(this.seerPlayer);
 		
 		werewolfPlayer = new KajiWereWolfPlayer();
 		werewolfPlayer.playerID = playerID;
 		werewolfPlayer.fLogger = fLogger;
+		werewolfPlayer.name = name;
 		setWerewolfPlayer(this.werewolfPlayer);
 	}
 
