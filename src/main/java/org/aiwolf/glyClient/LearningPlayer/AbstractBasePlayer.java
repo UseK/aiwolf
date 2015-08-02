@@ -333,7 +333,7 @@ public abstract class AbstractBasePlayer extends AbstractRole {
 		map.put(LOGTAG_PLAYERNAME, this.name);
 		map.put(LOGTAG_PLAYERID, this.playerID);
 		map.put(LOGTAG_DAY, this.getDay());
-		map.put(LOGTAG_VALUES, this.myPatterns.get(0).getLikelifood());
+		map.put(LOGTAG_VALUES, 0.0);
 		this.fLogger.log("messages", map);
 	}
 
