@@ -55,6 +55,8 @@ public abstract class AbstractKajiBasePlayer extends AbstractRole {
 	public static final String LOGTAG_ROLE = "role";
 	public static final String LOGTAG_TIME = "time";
 	public static final String LOGTAG_EVENT = "event";
+	public static final String LOGTAG_DAY = "day";
+	public static final String LOGTAG_VALUES = "values";
 	
 	private static double EPSILON = 0.1;
 	private static double TEMP = 1.0;
@@ -155,24 +157,6 @@ public abstract class AbstractKajiBasePlayer extends AbstractRole {
 		setRolePoint();
 
 	}
-	
-	
-
-	@Override
-	protected void finalize() throws Throwable {
-		super.finalize();
-		Map<String, Object> map = new HashMap<String, Object>();
-		Date date = new Date();
-		map.put(LOGTAG_TIME, date);
-		map.put(LOGTAG_EVENT, "delete");
-		map.put(LOGTAG_PLAYERNAME, name);
-		map.put(LOGTAG_PLAYERID, playerID.toString());
-		map.put(LOGTAG_ROLE, myRole);
-		fLogger.log("test", map);
-		fLogger.flush();
-	}
-
-
 
 	/**
 	 * 各役職の強さを入力
@@ -343,6 +327,14 @@ public abstract class AbstractKajiBasePlayer extends AbstractRole {
 		if (patternChanged) {
 			setVoteTarget();
 		}
+		
+		// パラメータを出力
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put(LOGTAG_PLAYERNAME, this.name);
+		map.put(LOGTAG_PLAYERID, this.playerID);
+		map.put(LOGTAG_DAY, this.getDay());
+		map.put(LOGTAG_VALUES, this.myPatterns.get(0).getLikelifood());
+		this.fLogger.log("messages", map);
 	}
 
 	/**
