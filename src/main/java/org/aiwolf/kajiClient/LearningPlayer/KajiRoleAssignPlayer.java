@@ -24,7 +24,7 @@ public class KajiRoleAssignPlayer extends AbstractRoleAssignPlayer{
 	public KajiRoleAssignPlayer(){
 		name = "Glycine";
 		UUID playerID = UUID.randomUUID();
-		fLogger = FluentLogger.getLogger("debug", "localhost", 24224);
+		fLogger = FluentLogger.getLogger("aiwolf", "localhost", 24224);
 		
 		villagerPlayer = new KajiVillagerPlayer();
 		villagerPlayer.playerID = playerID;

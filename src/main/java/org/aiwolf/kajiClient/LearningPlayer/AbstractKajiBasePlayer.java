@@ -50,11 +50,11 @@ public abstract class AbstractKajiBasePlayer extends AbstractRole {
 	private boolean IS_LEARNING = false;
 
 	// logging用のtag
-	public static final String LOGTAG_DATE = "date";
-	public static final String LOGTAG_ROLE = "role";
 	public static final String LOGTAG_PLAYERNAME = "playerName";
-	public static final String LOGTAG_EVENT = "event";
 	public static final String LOGTAG_PLAYERID = "playerID";
+	public static final String LOGTAG_ROLE = "role";
+	public static final String LOGTAG_TIME = "time";
+	public static final String LOGTAG_EVENT = "event";
 	
 	private static double EPSILON = 0.1;
 	private static double TEMP = 1.0;
@@ -103,9 +103,9 @@ public abstract class AbstractKajiBasePlayer extends AbstractRole {
 		map.put(LOGTAG_PLAYERID, playerID.toString());
 		map.put(LOGTAG_PLAYERNAME, name);
 		map.put(LOGTAG_EVENT, "create");
-		map.put(LOGTAG_DATE, date);
+		map.put(LOGTAG_TIME, date);
 		map.put(LOGTAG_ROLE, myRole.toString());
-		fLogger.log("test", map);
+		fLogger.log("agent", map);
 
 		// 初期パターンの作成
 
@@ -163,7 +163,7 @@ public abstract class AbstractKajiBasePlayer extends AbstractRole {
 		super.finalize();
 		Map<String, Object> map = new HashMap<String, Object>();
 		Date date = new Date();
-		map.put(LOGTAG_DATE, date);
+		map.put(LOGTAG_TIME, date);
 		map.put(LOGTAG_EVENT, "delete");
 		map.put(LOGTAG_PLAYERNAME, name);
 		map.put(LOGTAG_PLAYERID, playerID.toString());
