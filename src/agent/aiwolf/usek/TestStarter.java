@@ -43,7 +43,7 @@ public class TestStarter {
 			//}
 
 			for (int i = 0; i < PLAYER_NUM - 11; i++) {
-				playerMap.put(new YaoAgent(), null);
+				playerMap.put(new UseKRoleAssignPleyer(), null);
 			}
 
 			DirectConnectServer gameServer = new DirectConnectServer(playerMap);

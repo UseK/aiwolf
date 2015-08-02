@@ -7,12 +7,12 @@ import agent.aiwolf.gly.thought.MyMedium;
 public class UseKRoleAssignPleyer extends AbstractRoleAssignPlayer {
 
 	public UseKRoleAssignPleyer() {
-		// TODO Auto-generated constructor stub
 		setSeerPlayer(new UseKSeer());
 		setVillagerPlayer(new UseKVillager());
 		setMediumPlayer(new MyMedium());
-		setWerewolfPlayer(new UseKWereWolf());
 		setBodyguardPlayer(new UseKBodyguard());
+		setPossessedPlayer(new UseKPossessed());
+		setWerewolfPlayer(new UseKWereWolf());
 	}
 
 	@Override

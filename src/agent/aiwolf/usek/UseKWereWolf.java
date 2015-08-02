@@ -9,25 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.aiwolf.client.base.player.AbstractSeer;
-import org.aiwolf.client.lib.TemplateTalkFactory;
 import org.aiwolf.client.lib.Utterance;
-import org.aiwolf.common.data.Agent;
-import org.aiwolf.common.data.Judge;
-import org.aiwolf.common.data.Role;
-import org.aiwolf.common.data.Species;
 import org.aiwolf.common.data.Talk;
-import org.aiwolf.common.net.GameInfo;
+
+import agent.aiwolf.usek.lib.WerewolfSideThought;
 
 public class UseKWereWolf extends AbstractWerewolf {
-	int readTalkNum = 0;
+
+	WerewolfSideThought thought = new WerewolfSideThought();
 	int readWhisperNum = 0;
 	GameInfo gameInfo;
-
-	public List<Agent> comingoutedSeerList = new ArrayList<Agent>();
-	public List<Agent> comingoutedMediumList = new ArrayList<Agent>();
-	public List<Agent> comingoutedBodyguardList = new ArrayList<Agent>();
-	public List<Agent> comingoutedPssesedList = new ArrayList<Agent>();
 
 	public List<Agent> whisperedAttackAgents = new ArrayList<Agent>();
 
@@ -42,64 +33,14 @@ public class UseKWereWolf extends AbstractWerewolf {
 		if(!whisperedAttackAgents.isEmpty()) {
 			return whisperedAttackAgents.get(whisperedAttackAgents.size() - 1);
 		}
-
-		List<Agent> victims = new ArrayList<Agent>(gameInfo.getAliveAgentList());
-		victims.remove(getMe());
-		for (int i = 0; i < victims.size(); i++) {
-			Agent victim = victims.get(i);
-			if (getWolfList().contains(victim)) {
-				victims.remove(victim);
-				continue;
-			}
-			if (comingoutedSeerList.contains(victim)) {
-				return victim;
-			}
-			if (comingoutedMediumList.contains(victim)) {
-				return victim;
-			}
-			if (comingoutedBodyguardList.contains(victim)) {
-				return victim;
-			}
-		}
-		return victims.get(new Random().nextInt(victims.size()));
+		return thought.getVictim4Attack(gameInfo, getWolfList(), getMe());
 	}
 
 	@Override
 	public void update(GameInfo gameInfo) {
+		getWolfList();
 		super.update(gameInfo);
 		this.gameInfo = gameInfo;
-		List<Talk> talkList = gameInfo.getTalkList();
-		for (int i = readTalkNum; i < talkList.size(); i++) {
-			Talk talk = talkList.get(i);
-			Utterance utterance = new Utterance(talk.getContent());
-			switch (utterance.getTopic()) {
-			case AGREE:
-				break;
-			case ATTACK:
-				break;
-			case COMINGOUT:
-				responseComingout(utterance, talk);
-				break;
-			case DISAGREE:
-				break;
-			case DIVINED:
-				break;
-			case ESTIMATE:
-				break;
-			case GUARDED:
-				break;
-			case INQUESTED:
-				break;
-			case SKIP:
-				break;
-			case VOTE:
-				break;
-			default:
-				break;
-			}
-			readTalkNum++;
-		}
-
 		List<Talk> whisperList = new ArrayList<Talk>(gameInfo.getWhisperList());
 		for (int i = readWhisperNum; i < whisperList.size(); i++) {
 			Talk whisper = whisperList.get(i);
@@ -116,25 +57,9 @@ public class UseKWereWolf extends AbstractWerewolf {
 
 	}
 
-	private void responseComingout(Utterance utterance, Talk talk) {
-		switch (utterance.getRole()) {
-		case SEER:
-			comingoutedSeerList.add(utterance.getTarget());
-			break;
-		case MEDIUM:
-			comingoutedMediumList.add(utterance.getTarget());
-			break;
-		case BODYGUARD:
-			comingoutedBodyguardList.add(utterance.getTarget());
-			break;
-		default:
-			break;
-		}
-	}
-
 	@Override
 	public void dayStart() {
-		readTalkNum = 0;
+		thought.readTalkNum = 0;
 		readWhisperNum = 0;
 		whisperedAttackAgents = new ArrayList<Agent>();
 	}
