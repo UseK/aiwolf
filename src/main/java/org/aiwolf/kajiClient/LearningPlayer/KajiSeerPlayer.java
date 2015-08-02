@@ -1,25 +1,14 @@
 package org.aiwolf.kajiClient.LearningPlayer;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
-import java.util.Map.Entry;
 
 import org.aiwolf.client.lib.TemplateTalkFactory;
 import org.aiwolf.common.data.Agent;
-import org.aiwolf.common.data.Judge;
-import org.aiwolf.common.data.Role;
-import org.aiwolf.common.data.Species;
-import org.aiwolf.common.data.Vote;
 import org.aiwolf.common.net.GameInfo;
 import org.aiwolf.common.net.GameSetting;
 import org.aiwolf.kajiClient.lib.Pattern;
-import org.aiwolf.kajiClient.LearningPlayer.AbstractGiftedPlayer;
 import org.aiwolf.kajiClient.reinforcementLearning.AgentPattern;
-import org.aiwolf.kajiClient.reinforcementLearning.COtiming;
 import org.aiwolf.kajiClient.reinforcementLearning.COtimingNeo;
 import org.aiwolf.kajiClient.reinforcementLearning.Qvalues;
 import org.aiwolf.kajiClient.reinforcementLearning.ReinforcementLearning;

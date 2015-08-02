@@ -177,6 +177,7 @@ public abstract class AbstractKajiBasePlayer extends AbstractRole {
 	/**
 	 * 各役職の強さを入力
 	 */
+	@SuppressWarnings("deprecation")
 	private void setRolePoint() {
 		rolePoint.put(Role.BODYGUARD, 0.3);
 		rolePoint.put(Role.MEDIUM, 0.7);
@@ -356,6 +357,7 @@ public abstract class AbstractKajiBasePlayer extends AbstractRole {
 				utterance.getRole(), advanceGameInfo);
 		patternMaker.extendPatternList(myPatterns, talk.getAgent(),
 				utterance.getRole(), advanceGameInfo);
+		
 	}
 
 	/**
