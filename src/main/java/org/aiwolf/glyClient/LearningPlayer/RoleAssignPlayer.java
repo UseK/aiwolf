@@ -7,56 +7,56 @@ import java.util.UUID;
 import org.aiwolf.client.base.player.AbstractRoleAssignPlayer;
 import org.fluentd.logger.FluentLogger;
 
-public class KajiRoleAssignPlayer extends AbstractRoleAssignPlayer{
+public class RoleAssignPlayer extends AbstractRoleAssignPlayer{
 	private final String name;
 	private FluentLogger fLogger;
 	
-	private KajiVillagerPlayer villagerPlayer;
-	private KajiBodyGuardPlayer bodyguardPlayer;
-	private KajiMediumPlayer mediumPlayer;
-	private KajiPossessedPlayer possessedPlayer;
-	private KajiSeerPlayer seerPlayer;
-	private KajiWereWolfPlayer werewolfPlayer;
+	private VillagerPlayer villagerPlayer;
+	private BodyGuardPlayer bodyguardPlayer;
+	private MediumPlayer mediumPlayer;
+	private PossessedPlayer possessedPlayer;
+	private SeerPlayer seerPlayer;
+	private WereWolfPlayer werewolfPlayer;
 	
 	int ldNumber = 0;
 	boolean isLearn = false;
 
-	public KajiRoleAssignPlayer(){
+	public RoleAssignPlayer(){
 		name = "Glycine";
 		UUID playerID = UUID.randomUUID();
 		fLogger = FluentLogger.getLogger("aiwolf", "localhost", 24224);
 		
-		villagerPlayer = new KajiVillagerPlayer();
+		villagerPlayer = new VillagerPlayer();
 		villagerPlayer.playerID = playerID;
 		villagerPlayer.fLogger = fLogger;
 		villagerPlayer.name = name;
 		setVillagerPlayer(this.villagerPlayer);
 		
-		bodyguardPlayer = new KajiBodyGuardPlayer();
+		bodyguardPlayer = new BodyGuardPlayer();
 		bodyguardPlayer.playerID = playerID;
 		bodyguardPlayer.fLogger = fLogger;
 		bodyguardPlayer.name = name;
 		setBodyguardPlayer(this.bodyguardPlayer);
 		
-		mediumPlayer = new KajiMediumPlayer();
+		mediumPlayer = new MediumPlayer();
 		mediumPlayer.playerID = playerID;
 		mediumPlayer.fLogger = fLogger;
 		mediumPlayer.name = name;
 		setMediumPlayer(this.mediumPlayer);
 		
-		possessedPlayer = new KajiPossessedPlayer();
+		possessedPlayer = new PossessedPlayer();
 		possessedPlayer.playerID = playerID;
 		possessedPlayer.fLogger = fLogger;
 		possessedPlayer.name = name;
 		setPossessedPlayer(this.possessedPlayer);
 		
-		seerPlayer = new KajiSeerPlayer();
+		seerPlayer = new SeerPlayer();
 		seerPlayer.playerID = playerID;
 		seerPlayer.fLogger = fLogger;
 		seerPlayer.name = name;
 		setSeerPlayer(this.seerPlayer);
 		
-		werewolfPlayer = new KajiWereWolfPlayer();
+		werewolfPlayer = new WereWolfPlayer();
 		werewolfPlayer.playerID = playerID;
 		werewolfPlayer.fLogger = fLogger;
 		werewolfPlayer.name = name;
@@ -75,32 +75,32 @@ public class KajiRoleAssignPlayer extends AbstractRoleAssignPlayer{
 	public void setLDNumber(int num){
 		ldNumber = num;
 
-		KajiVillagerPlayer v = (KajiVillagerPlayer)getVillagerPlayer();
+		VillagerPlayer v = (VillagerPlayer)getVillagerPlayer();
 		v.setLD(ldNumber);
-		KajiBodyGuardPlayer b = (KajiBodyGuardPlayer)getBodyguardPlayer();
+		BodyGuardPlayer b = (BodyGuardPlayer)getBodyguardPlayer();
 		b.setLD(ldNumber);
-		KajiMediumPlayer m = (KajiMediumPlayer)getMediumPlayer();
+		MediumPlayer m = (MediumPlayer)getMediumPlayer();
 		m.setLD(ldNumber);
-		KajiPossessedPlayer p = (KajiPossessedPlayer)getPossessedPlayer();
+		PossessedPlayer p = (PossessedPlayer)getPossessedPlayer();
 		p.setLD(ldNumber);
-		KajiSeerPlayer s = (KajiSeerPlayer)getSeerPlayer();
+		SeerPlayer s = (SeerPlayer)getSeerPlayer();
 		s.setLD(ldNumber);
-		KajiWereWolfPlayer w = (KajiWereWolfPlayer)getWerewolfPlayer();
+		WereWolfPlayer w = (WereWolfPlayer)getWerewolfPlayer();
 		w.setLD(ldNumber);
 	}
 	
 	public void setIsLearn(boolean islearn){
-		KajiVillagerPlayer v = (KajiVillagerPlayer)getVillagerPlayer();
+		VillagerPlayer v = (VillagerPlayer)getVillagerPlayer();
 		v.setIS_LEARNING(islearn);
-		KajiBodyGuardPlayer b = (KajiBodyGuardPlayer)getBodyguardPlayer();
+		BodyGuardPlayer b = (BodyGuardPlayer)getBodyguardPlayer();
 		b.setIS_LEARNING(islearn);
-		KajiMediumPlayer m = (KajiMediumPlayer)getMediumPlayer();
+		MediumPlayer m = (MediumPlayer)getMediumPlayer();
 		m.setIS_LEARNING(islearn);
-		KajiPossessedPlayer p = (KajiPossessedPlayer)getPossessedPlayer();
+		PossessedPlayer p = (PossessedPlayer)getPossessedPlayer();
 		p.setIS_LEARNING(islearn);
-		KajiSeerPlayer s = (KajiSeerPlayer)getSeerPlayer();
+		SeerPlayer s = (SeerPlayer)getSeerPlayer();
 		s.setIS_LEARNING(islearn);
-		KajiWereWolfPlayer w = (KajiWereWolfPlayer)getWerewolfPlayer();
+		WereWolfPlayer w = (WereWolfPlayer)getWerewolfPlayer();
 		w.setIS_LEARNING(islearn);
 		this.isLearn = islearn;
 	}

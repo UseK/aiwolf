@@ -18,7 +18,7 @@ import org.aiwolf.common.net.GameSetting;
 import org.aiwolf.glyClient.lib.Pattern;
 import org.aiwolf.glyClient.reinforcementLearning.COtimingNeo;
 
-public abstract class AbstractGiftedPlayer extends AbstractKajiBasePlayer{
+public abstract class AbstractGiftedPlayer extends AbstractBasePlayer{
 	//まだ報告していないjudge
 	List<Judge> notToldjudges = new ArrayList<Judge>();
 

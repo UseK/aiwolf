@@ -19,7 +19,7 @@ import org.aiwolf.common.data.Talk;
 import org.aiwolf.common.data.Vote;
 import org.aiwolf.common.net.GameInfo;
 import org.aiwolf.common.net.GameSetting;
-import org.aiwolf.glyClient.LearningPlayer.AbstractKajiWolfSideAgent;
+import org.aiwolf.glyClient.LearningPlayer.AbstractWolfSideAgent;
 import org.aiwolf.glyClient.lib.Pattern;
 import org.aiwolf.glyClient.lib.PatternMaker;
 import org.aiwolf.glyClient.lib.PossessedFakeRoleChanger;
@@ -28,7 +28,7 @@ import org.aiwolf.glyClient.reinforcementLearning.COtimingNeo;
 import org.aiwolf.glyClient.reinforcementLearning.ReinforcementLearning;
 import org.aiwolf.glyClient.reinforcementLearning.WolfRolePattern;
 
-public class KajiPossessedPlayer extends AbstractKajiWolfSideAgent {
+public class PossessedPlayer extends AbstractWolfSideAgent {
 
 	//黒判定を出す確率
 	private static final double BLACK_DIVINEJUDGE_PROBABILITY = 0.25;

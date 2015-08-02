@@ -27,7 +27,7 @@ import org.aiwolf.glyClient.reinforcementLearning.Scene;
 import org.aiwolf.glyClient.reinforcementLearning.SelectStrategy;
 import org.aiwolf.glyClient.reinforcementLearning.WolfRolePattern;
 
-public class KajiWereWolfPlayer extends AbstractKajiWolfSideAgent {
+public class WereWolfPlayer extends AbstractWolfSideAgent {
 
 	//狂人のAgent．不確定の時はnull
 	Agent possessedAgent = null;

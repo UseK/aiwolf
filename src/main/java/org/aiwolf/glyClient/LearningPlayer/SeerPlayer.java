@@ -14,7 +14,7 @@ import org.aiwolf.glyClient.reinforcementLearning.Qvalues;
 import org.aiwolf.glyClient.reinforcementLearning.ReinforcementLearning;
 import org.aiwolf.glyClient.reinforcementLearning.Scene;
 
-public class KajiSeerPlayer extends AbstractGiftedPlayer {
+public class SeerPlayer extends AbstractGiftedPlayer {
 
 	@Override
 	public void initialize(GameInfo gameInfo, GameSetting gameSetting) {

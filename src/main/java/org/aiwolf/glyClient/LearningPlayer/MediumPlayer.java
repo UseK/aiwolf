@@ -15,7 +15,7 @@ import org.aiwolf.glyClient.reinforcementLearning.COtiming;
 import org.aiwolf.glyClient.reinforcementLearning.COtimingNeo;
 import org.aiwolf.glyClient.reinforcementLearning.ReinforcementLearning;
 
-public class KajiMediumPlayer extends AbstractGiftedPlayer {
+public class MediumPlayer extends AbstractGiftedPlayer {
 
 
 	@Override

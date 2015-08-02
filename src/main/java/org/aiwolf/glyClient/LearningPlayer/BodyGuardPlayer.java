@@ -10,7 +10,7 @@ import org.aiwolf.glyClient.reinforcementLearning.Qvalues;
 import org.aiwolf.glyClient.reinforcementLearning.ReinforcementLearning;
 import org.aiwolf.glyClient.reinforcementLearning.Scene;
 
-public class KajiBodyGuardPlayer extends AbstractKajiBasePlayer {
+public class BodyGuardPlayer extends AbstractBasePlayer {
 
 	@Override
 	public String getJudgeText() {

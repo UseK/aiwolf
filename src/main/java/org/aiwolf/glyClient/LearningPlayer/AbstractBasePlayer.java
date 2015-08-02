@@ -40,12 +40,12 @@ import org.fluentd.logger.FluentLogger;
  * @author kengo
  *
  */
-public abstract class AbstractKajiBasePlayer extends AbstractRole {
+public abstract class AbstractBasePlayer extends AbstractRole {
 	public UUID playerID;
 	public FluentLogger fLogger;
 	public String name;
 	public Role myRole;
-	public AbstractKajiBasePlayer myRolePlayer;
+	public AbstractBasePlayer myRolePlayer;
 
 	private boolean IS_LEARNING = false;
 
@@ -435,9 +435,12 @@ public abstract class AbstractKajiBasePlayer extends AbstractRole {
 		Agent attackedAgent = getLatestDayGameInfo().getAttackedAgent();
 		patternMaker.updateAttackedData(generalPatterns, attackedAgent);
 		patternMaker.updateAttackedData(myPatterns, attackedAgent);
+		
 		if (attackedAgent != null) {
+			
 			DeadCondition attackedAgentCondition = new DeadCondition(
 					attackedAgent, getDay(), CauseOfDeath.attacked);
+			
 			advanceGameInfo.addDeadConditions(attackedAgentCondition);
 		}
 

@@ -22,7 +22,7 @@ import org.aiwolf.glyClient.reinforcementLearning.Qvalues;
 import org.aiwolf.glyClient.reinforcementLearning.ReinforcementLearning;
 import org.aiwolf.glyClient.reinforcementLearning.Scene;
 
-public abstract class AbstractKajiWolfSideAgent extends AbstractGiftedPlayer {
+public abstract class AbstractWolfSideAgent extends AbstractGiftedPlayer {
 
 
 	//騙る役職

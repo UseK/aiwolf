@@ -6,10 +6,10 @@ import java.util.Map;
 
 import org.aiwolf.client.lib.Utterance;
 import org.aiwolf.common.data.Agent;
-import org.aiwolf.glyClient.LearningPlayer.AbstractKajiBasePlayer;
+import org.aiwolf.glyClient.LearningPlayer.AbstractBasePlayer;
 import org.aiwolf.glyClient.lib.Pattern;
 
-public class KajiVillagerPlayer extends AbstractKajiBasePlayer {
+public class VillagerPlayer extends AbstractBasePlayer {
 
 
 
