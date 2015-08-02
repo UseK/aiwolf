@@ -38,9 +38,9 @@ public class UseKWereWolf extends AbstractWerewolf {
 
 	@Override
 	public void update(GameInfo gameInfo) {
-		getWolfList();
 		super.update(gameInfo);
 		this.gameInfo = gameInfo;
+		thought.responceUpdatedTalks(gameInfo);
 		List<Talk> whisperList = new ArrayList<Talk>(gameInfo.getWhisperList());
 		for (int i = readWhisperNum; i < whisperList.size(); i++) {
 			Talk whisper = whisperList.get(i);
@@ -94,5 +94,4 @@ public class UseKWereWolf extends AbstractWerewolf {
 	public String whisper() {
 		return null;
 	}
-
 }
