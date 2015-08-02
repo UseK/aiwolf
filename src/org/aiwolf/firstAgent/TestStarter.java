@@ -10,6 +10,7 @@ import org.aiwolf.common.data.Player;
 import org.aiwolf.common.data.Role;
 import org.aiwolf.common.data.Team;
 import org.aiwolf.common.net.GameSetting;
+import org.aiwolf.kajiClient.player.KajiRoleAssignPlayer;
 import org.aiwolf.server.AIWolfGame;
 import org.aiwolf.server.net.DirectConnectServer;
 
@@ -32,7 +33,7 @@ public class TestStarter {
 			playerMap.put(new FirstAgent(), Role.BODYGUARD);
 
 			for (int i = 0; i < 8; i++) {
-				playerMap.put(new FirstAgent(), Role.VILLAGER);
+				playerMap.put(new KajiRoleAssignPlayer(), Role.VILLAGER);
 			}
 
 			//for (int i = 0; i < 3; i++) {
