@@ -11,11 +11,12 @@ import org.aiwolf.common.data.Role;
 import org.aiwolf.common.data.Team;
 import org.aiwolf.common.net.GameSetting;
 import org.aiwolf.glyClient.LearningPlayer.RoleAssignPlayer;
+import org.aiwolf.glyClient.reinforcementLearning.LearningData;
 import org.aiwolf.server.AIWolfGame;
 import org.aiwolf.server.net.DirectConnectServer;
 
 public class TestStarter {
-	static protected int GAME_NUM = 100;
+	static protected int GAME_NUM = 1;
 	static protected int PLAYER_NUM = 15;
 
 	public static void main(String[] args) throws IOException {
@@ -23,6 +24,7 @@ public class TestStarter {
 		int werewolfWinNum = 0;
 		for (int gi = 0; gi < GAME_NUM; gi++) {
 
+			LearningData.getInstance(0).LDStart();
 			/* configure playerlist in "playerMap" */
 			Map<Player, Role> playerMap = new HashMap<>();
 
@@ -57,5 +59,6 @@ public class TestStarter {
 		}
 		System.out.println("village: " + villageWinNum + ", werewolf: "
 				+ werewolfWinNum);
+		LearningData.getInstance(0).LDFinish();
 	}
 }
