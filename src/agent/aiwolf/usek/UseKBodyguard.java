@@ -1,4 +1,4 @@
-package org.aiwolf.firstAgent;
+package agent.aiwolf.usek;
 
 import java.util.List;
 import java.util.Random;
@@ -16,7 +16,9 @@ import org.aiwolf.common.data.Talk;
 import org.aiwolf.common.data.Vote;
 import org.aiwolf.common.net.GameInfo;
 
-public class FirstBodyguard extends AbstractBodyguard {
+import agent.aiwolf.usek.lib.VillageSideThought;
+
+public class UseKBodyguard extends AbstractBodyguard {
 	int readTalkNum = 0;
 	GameInfo gameInfo;
 	VillageSideThought thought;

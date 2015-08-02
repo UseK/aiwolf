@@ -1,4 +1,4 @@
-package org.aiwolf.firstAgent;
+package agent.aiwolf.usek.lib;
 
 import java.util.ArrayList;
 import java.util.HashMap;

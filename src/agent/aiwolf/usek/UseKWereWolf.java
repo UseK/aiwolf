@@ -1,4 +1,4 @@
-package org.aiwolf.firstAgent;
+package agent.aiwolf.usek;
 
 import org.aiwolf.client.base.player.AbstractWerewolf;
 import org.aiwolf.common.data.Agent;
@@ -19,7 +19,7 @@ import org.aiwolf.common.data.Species;
 import org.aiwolf.common.data.Talk;
 import org.aiwolf.common.net.GameInfo;
 
-public class FirstWereWolf extends AbstractWerewolf {
+public class UseKWereWolf extends AbstractWerewolf {
 	int readTalkNum = 0;
 	int readWhisperNum = 0;
 	GameInfo gameInfo;

@@ -5,12 +5,13 @@ import static org.junit.Assert.*;
 import org.aiwolf.client.lib.Utterance;
 import org.aiwolf.common.data.Agent;
 import org.aiwolf.common.data.Talk;
-import org.aiwolf.firstAgent.VillageSideThought;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import agent.aiwolf.usek.lib.VillageSideThought;
 
 @SuppressWarnings("unused")
 public class VillageSideThoughtTest {

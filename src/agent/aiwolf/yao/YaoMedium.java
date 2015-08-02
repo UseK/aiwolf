@@ -1,4 +1,4 @@
-package org.aiwolf.firstAgent;
+package agent.aiwolf.yao;
 
 import java.util.ArrayList;
 
@@ -8,7 +8,7 @@ import org.aiwolf.common.data.Agent;
 import org.aiwolf.common.data.Judge;
 import org.aiwolf.common.data.Role;
 
-public class FirstCOMedium extends AbstractMedium {
+public class YaoMedium extends AbstractMedium {
 	private boolean isComingOut=false;
 	private ArrayList<Judge> myJudgeResult;
 	private ArrayList<Judge> toldJudgeResult=new ArrayList<Judge>();

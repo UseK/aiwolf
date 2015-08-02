@@ -1,4 +1,4 @@
-package org.aiwolf.firstAgent;
+package agent.aiwolf.usek;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,9 @@ import org.aiwolf.common.data.Talk;
 import org.aiwolf.common.data.Vote;
 import org.aiwolf.common.net.GameInfo;
 
-public class FirstVillager extends AbstractVillager {
+import agent.aiwolf.usek.lib.VillageSideThought;
+
+public class UseKVillager extends AbstractVillager {
 
 	int readTalkNum = 0;
 	List<Agent> divinedWhiteList = new ArrayList<Agent>();

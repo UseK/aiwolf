@@ -1,4 +1,4 @@
-package org.aiwolf.firstAgent;
+package agent.aiwolf.usek;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import org.aiwolf.common.data.Talk;
 import org.aiwolf.common.net.GameInfo;
 
 @SuppressWarnings("unused")
-public class FirstSeer extends AbstractSeer {
+public class UseKSeer extends AbstractSeer {
 
 	boolean isAlreayComingOuted = false;
 	int readTalkNum = 0;

@@ -1,4 +1,4 @@
-package org.aiwolf.firstAgent;
+package agent.aiwolf.usek;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,6 +14,8 @@ import org.aiwolf.kajiClient.player.KajiRoleAssignPlayer;
 import org.aiwolf.server.AIWolfGame;
 import org.aiwolf.server.net.DirectConnectServer;
 
+import agent.aiwolf.yao.YaoAgent;
+
 import com.sun.org.apache.bcel.internal.generic.NEW;
 
 public class TestStarter {
@@ -28,9 +30,9 @@ public class TestStarter {
 			/* configure playerlist in "playerMap"*/
 			Map<Player, Role> playerMap = new HashMap<>();
 
-			playerMap.put(new FirstAgent(), Role.SEER);
-			playerMap.put(new FirstAgent(), Role.MEDIUM);
-			playerMap.put(new FirstAgent(), Role.BODYGUARD);
+			playerMap.put(new UseKRoleAssignPleyer(), Role.SEER);
+			playerMap.put(new UseKRoleAssignPleyer(), Role.MEDIUM);
+			playerMap.put(new UseKRoleAssignPleyer(), Role.BODYGUARD);
 
 			for (int i = 0; i < 8; i++) {
 				playerMap.put(new KajiRoleAssignPlayer(), Role.VILLAGER);
@@ -41,7 +43,7 @@ public class TestStarter {
 			//}
 
 			for (int i = 0; i < PLAYER_NUM - 11; i++) {
-				playerMap.put(new SampleRoleAssignPlayer(), null);
+				playerMap.put(new YaoAgent(), null);
 			}
 
 			DirectConnectServer gameServer = new DirectConnectServer(playerMap);
