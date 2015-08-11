@@ -2,9 +2,7 @@ package org.aiwolf.glyClient.lib;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import org.aiwolf.common.data.Role;
@@ -15,14 +13,18 @@ import org.aiwolf.common.data.Role;
  *
  */
 public class WolfFakeRoleChanger implements Serializable{
+	private static final long serialVersionUID = 1L;
+
 	private static final List<Role> fakeRoles = new ArrayList<Role>(){
+		private static final long serialVersionUID = 1L;
+
 		{
 			add(Role.VILLAGER);
 			add(Role.SEER);
 			add(Role.MEDIUM);
 		}
 	};
-	
+
 	private Role initial = Role.VILLAGER; //最初に設定しておく役職
 	private Role existVillagerWolf = Role.VILLAGER; //相方の人狼が村人を騙るといった時に騙る役職
 	private Role existSeerWolf = Role.VILLAGER;
@@ -30,46 +32,6 @@ public class WolfFakeRoleChanger implements Serializable{
 
 	public WolfFakeRoleChanger() {
 	}
-	
-	
-/*	*//**
-	 * changersを3進数で表す． initialが1桁目．
-	 * @return
-	 *//*
-	public int toHash(){
-		int hash = 0;
-		int size = changers.size();
-		for(int i = 0; i < size; i++){
-			int roleNum = roleHash.get(changers.get(size - i - 1));
-			int hashNum = (int) Math.pow(fakeRoles.size(), size - i -1);
-			hash += roleNum * hashNum;
-		}
-		return hash;
-	}
-		
-	public static WolfFakeRoleChanger getChanger(int hash){
-		if(hash > 0){
-			return null;
-		}
-		
-		WolfFakeRoleChanger newChanger = new WolfFakeRoleChanger();
-		int size = newChanger.changers.size();
-		for(int i = 0; i < size; i++){
-			int hashNum = (int) Math.pow(fakeRoles.size(), size - i -1);
-			int roleNum = hash / hashNum;
-			if(roleNum >= fakeRoles.size()){
-				return null;
-			}else{
-				Role role = fakeRoles.get(roleNum);
-				newChanger.changers.set(size - i -1, role);
-				hash = hash % hashNum;
-			}
-		}
-		return newChanger;
-	}
-*/	
-	
-	
 	
 	/**
 	 * randomにchangerを取得する
@@ -81,14 +43,8 @@ public class WolfFakeRoleChanger implements Serializable{
 		newChanger.existVillagerWolf = fakeRoles.get(new Random().nextInt(fakeRoles.size()));
 		newChanger.existSeerWolf = fakeRoles.get(new Random().nextInt(fakeRoles.size()));
 		newChanger.existMediumWolf = fakeRoles.get(new Random().nextInt(fakeRoles.size()));
-/*		newChanger.seerCO = fakeRoles.get(new Random().nextInt(fakeRoles.size()));
-		newChanger.mediumCO = fakeRoles.get(new Random().nextInt(fakeRoles.size()));
-*/		
 		return newChanger;
 	}
-	
-	
-	
 	
 	public Role getInitial() {
 		return initial;
@@ -123,22 +79,6 @@ public class WolfFakeRoleChanger implements Serializable{
 		this.existMediumWolf = existMediumWolf;
 	}
 
-/*	public Role getSeerCO() {
-		return seerCO;
-	}
-
-	public void setSeerCO(Role seerCO) {
-		this.seerCO = seerCO;
-	}
-
-	public Role getMediumCO() {
-		return mediumCO;
-	}
-
-	public void setMediumCO(Role mediumCO) {
-		this.mediumCO = mediumCO;
-	}
-*/
 	public static List<Role> getFakeroles() {
 		return fakeRoles;
 	}
@@ -180,5 +120,4 @@ public class WolfFakeRoleChanger implements Serializable{
 			return false;
 		return true;
 	}
-
 }
