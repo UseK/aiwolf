@@ -1,8 +1,6 @@
 package org.aiwolf.glyClient.reinforcementLearning;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -16,10 +14,7 @@ import java.util.Random;
  *
  */
 public class COtimingNeo implements Serializable{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6887157948863211607L;
+	private static final long serialVersionUID = 1L;
 
 
 
