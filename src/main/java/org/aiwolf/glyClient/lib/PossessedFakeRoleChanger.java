@@ -10,6 +10,7 @@ import java.util.Random;
 import org.aiwolf.common.data.Role;
 
 public class PossessedFakeRoleChanger implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	public PossessedFakeRoleChanger() {
 		// TODO 自動生成されたコンストラクター・スタブ
@@ -55,6 +56,8 @@ public class PossessedFakeRoleChanger implements Serializable {
 	}
 
 	private static final List<Role> fakeRoles = new ArrayList<Role>(){
+		private static final long serialVersionUID = 1L;
+
 		{
 			add(Role.VILLAGER);
 			add(Role.SEER);
@@ -62,14 +65,14 @@ public class PossessedFakeRoleChanger implements Serializable {
 		}
 	};
 	private static final Map<Role, Integer> roleHash = new HashMap<Role, Integer>(){
+		private static final long serialVersionUID = 1L;
+
 		{
 			put(Role.VILLAGER, 0);
-			put(Role.SEER, 1);
+			put(Role.SEER, 1); 
 			put(Role.MEDIUM, 2);
 		}
 	};
-	
-//	private List<Role> changers = new ArrayList<Role>();
 	
 	private Role 
 		initial = Role.VILLAGER;//最初に設定しておく役職

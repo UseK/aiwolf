@@ -1,11 +1,15 @@
 package org.aiwolf.glyClient.lib;
 
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import org.aiwolf.common.*;
-import org.aiwolf.common.data.*;
-import org.aiwolf.common.net.*;
+import org.aiwolf.common.data.Agent;
+import org.aiwolf.common.data.Judge;
+import org.aiwolf.common.data.Role;
+import org.aiwolf.common.data.Vote;
 /**
  * サーバから送られてくるGameInfoを簡単に集約
  * 占い，霊能結果リスト
@@ -17,7 +21,10 @@ import org.aiwolf.common.net.*;
 public class AdvanceGameInfo {
 
 	//投票意志のリスト．日ごとに管理
-	List<List<Vote>> voteLists = new ArrayList<List<Vote>>(){{
+	List<List<Vote>> voteLists = new ArrayList<List<Vote>>(){
+		private static final long serialVersionUID = 1L;
+
+	{
 		add(new ArrayList<Vote>());
 	}};
 

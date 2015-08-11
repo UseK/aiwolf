@@ -1,7 +1,5 @@
 package org.aiwolf.glyClient.lib;
 
-import java.util.Random;
-
 import org.aiwolf.common.data.Role;
 
 public abstract class AbstractFakeRoleChanger {
