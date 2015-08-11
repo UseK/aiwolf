@@ -23,16 +23,11 @@ public class WolfFakeRoleChanger implements Serializable{
 		}
 	};
 	
-//	private List<Role> changers = new ArrayList<Role>();
-	
-	private Role 
-		initial = Role.VILLAGER,//最初に設定しておく役職
-		existVillagerWolf = Role.VILLAGER,//相方の人狼が村人を騙るといった時に騙る役職
-		existSeerWolf = Role.VILLAGER,
-		existMediumWolf = Role.VILLAGER;
-/*		seerCO = Role.VILLAGER,//占い師が出てきたときに騙る役職
-		mediumCO = Role.VILLAGER,
-*/
+	private Role initial = Role.VILLAGER; //最初に設定しておく役職
+	private Role existVillagerWolf = Role.VILLAGER; //相方の人狼が村人を騙るといった時に騙る役職
+	private Role existSeerWolf = Role.VILLAGER;
+	private Role existMediumWolf = Role.VILLAGER;
+
 	public WolfFakeRoleChanger() {
 	}
 	
