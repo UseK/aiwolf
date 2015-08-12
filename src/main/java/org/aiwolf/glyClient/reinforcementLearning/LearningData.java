@@ -1,80 +1,91 @@
 package org.aiwolf.glyClient.reinforcementLearning;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+
 import org.aiwolf.common.data.Role;
 import org.aiwolf.glyClient.lib.PossessedFakeRoleChanger;
 import org.aiwolf.glyClient.lib.WolfFakeRoleChanger;
 
-public class LearningData implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 783381753058154993L;
 
+public class LearningData implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private int learningDataNumber; // 複数のインスタンスを別々に保管するための番号
 	/** SceneのHash値とQvaluesのマップ１ */
 	private int playNum = 0;
 
+	// 学習結果として保存すべき値？
 	private Map<Integer, Qvalues> sceneMap = new TreeMap<Integer, Qvalues>();
-
-	private Map<COtimingNeo, Double> seerCO = new HashMap<COtimingNeo, Double>(),
-			mediumCO = new HashMap<COtimingNeo, Double>(),
-			possessedCO = new HashMap<COtimingNeo, Double>(),
-			wolfCO = new HashMap<COtimingNeo, Double>();
+	private Map<COtimingNeo, Double> seerCO = new HashMap<COtimingNeo, Double>();
+	private Map<COtimingNeo, Double> mediumCO = new HashMap<COtimingNeo, Double>();
+	private Map<COtimingNeo, Double> possessedCO = new HashMap<COtimingNeo, Double>();
+	private Map<COtimingNeo, Double> wolfCO = new HashMap<COtimingNeo, Double>();
 	private Map<WolfFakeRoleChanger, Double> wolfFakeRoleChanger = new HashMap<WolfFakeRoleChanger, Double>();
 	private Map<PossessedFakeRoleChanger, Double> possessedFakeRoleChanger = new HashMap<PossessedFakeRoleChanger, Double>();
-
-	/*
-	 * possessedFakeSeerCO = new HashMap<Integer, Double>(),
-	 * possessedFakeMediumCO = new HashMap<Integer, Double>(), wolfFakeSeerCO =
-	 * new HashMap<Integer, Double>(), wolfFakeMediumCO = new HashMap<Integer,
-	 * Double>();
-	 * 
-	 * private Map<Role, Double> possessedFakeRole = new HashMap<Role,
-	 * Double>(); private Map<WolfRolePattern, Double> wolfRolePattern = new
-	 * HashMap<WolfRolePattern, Double>();
-	 */
-
+	// 保存すべき値はここまで
+	
 	private static Map<Integer, LearningData> instance = new HashMap<Integer, LearningData>();
+	
+	private byte[] mapToByteArray(Map map ){
+		ByteArrayOutputStream byteOs = new ByteArrayOutputStream();
+		ObjectOutputStream outObject;
+		try {
+			outObject = new ObjectOutputStream(byteOs);
+			outObject.writeObject(map);
+			outObject.close();
+			byteOs.close();
+		} catch (IOException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
 
-	// private static LearningData instance = new LearningData();
-
+		return byteOs.toByteArray();
+	}
+	
+	private JsonObject format(){
+		// 保存すべき値のbyte列を取得する
+		String encSceneMap = Base64.getEncoder().encodeToString(mapToByteArray(sceneMap));
+		String encSeerCO = Base64.getEncoder().encodeToString(mapToByteArray(seerCO));
+		String encMediumCO = Base64.getEncoder().encodeToString(mapToByteArray(mediumCO));
+		String encPossessedCO = Base64.getEncoder().encodeToString(mapToByteArray(possessedCO));
+		String encWolfCO = Base64.getEncoder().encodeToString(mapToByteArray(wolfCO));
+		String encWolfFakeRoleChanger = Base64.getEncoder().encodeToString(mapToByteArray(wolfFakeRoleChanger));
+		String encPossessedFakeRoleChanger = Base64.getEncoder().encodeToString(mapToByteArray(possessedFakeRoleChanger));
+		
+		JsonObject result = Json.createObjectBuilder()
+				.add("sceneMap", encSceneMap)
+				.add("seerCO",  encSeerCO)
+				.add("mediumCO",  encMediumCO)
+				.add("possessedCO",  encPossessedCO)
+				.add("wolfCO",  encWolfCO)
+				.add("wolfFakeRoleChanger",  encWolfFakeRoleChanger)
+				.add("possessedFakeRoleChanger",  encPossessedFakeRoleChanger)
+				.build();
+		
+		return result;
+	}
+	
 	public void LDStart() {
 		if (playNum != 0) {
 			return;
 		}
-		try {
-			// (7)FileInputStreamオブジェクトの生成
-			FileInputStream inFile = new FileInputStream("LDdata_"
-					+ learningDataNumber + ".txt");
-			// (8)ObjectInputStreamオブジェクトの生成
-			ObjectInputStream inObject = new ObjectInputStream(inFile);
-			// (9)オブジェクトの読み込み
-			// System.out.println("LDStart:読み込み開始  " +
-			// System.currentTimeMillis());
-			LearningData ld = (LearningData) inObject.readObject();
-			instance.put(ld.learningDataNumber, ld);
-			// System.out.println("LDStart:読み込み終了  " +
-			// System.currentTimeMillis());
-
-			inFile.close();
-			inObject.close();
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
+		LDStart(learningDataNumber);
 	}
 
 	public void LDStart(int readDataNum) {
@@ -83,26 +94,32 @@ public class LearningData implements Serializable {
 		}
 		try {
 			int preLearningNumber = learningDataNumber;
-			// (7)FileInputStreamオブジェクトの生成
-			FileInputStream inFile = new FileInputStream("LDdata_"
-					+ readDataNum + ".txt");
-			// (8)ObjectInputStreamオブジェクトの生成
-			ObjectInputStream inObject = new ObjectInputStream(inFile);
-			// (9)オブジェクトの読み込み
+			
+			// File内容を一括して読み込み
+			Path inputFilePath = FileSystems.getDefault().getPath(
+					"LDdata_" + readDataNum + ".txt");
+			byte[] inputFileData = Files.readAllBytes(inputFilePath);
+			
+			// バイト列をBase64Decode
+			byte[] inputData = Base64.getDecoder().decode(inputFileData);
+			ByteArrayInputStream bInputStream = new ByteArrayInputStream(
+					inputData);
+
+			// ObjectInputStreamオブジェクトの生成
+			ObjectInputStream inObject = new ObjectInputStream(bInputStream);
+
+			// オブジェクトの読み込み
 			System.out.println("LDStart:読み込み開始  " + System.currentTimeMillis());
 			LearningData ld = (LearningData) inObject.readObject();
 			ld.learningDataNumber = preLearningNumber;
 			instance.put(ld.learningDataNumber, ld);
 			System.out.println("LDStart:読み込み終了  " + System.currentTimeMillis());
-
-			inFile.close();
 			inObject.close();
+			bInputStream.close();
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	private LearningData(int ldNumber) {
@@ -189,6 +206,8 @@ public class LearningData implements Serializable {
 			// objectのbyte列をBase64エンコードする
 			String writeStr = Base64.getEncoder().encodeToString(
 					byteOs.toByteArray());
+			
+			writeStr = format().toString();
 			// FileOutputStreamオブジェクトの生成
 			FileOutputStream outFile = new FileOutputStream("LDdata_" + num
 					+ ".txt");
@@ -231,32 +250,6 @@ public class LearningData implements Serializable {
 		this.sceneMap = sceneMap;
 	}
 
-	/*
-	 * public Map<Integer, Double> getPossessedFakeSeerCO() { return
-	 * possessedFakeSeerCO; }
-	 * 
-	 * public void setPossessedFakeSeerCO(Map<Integer, Double>
-	 * possessedFakeSeerCO) { this.possessedFakeSeerCO = possessedFakeSeerCO; }
-	 * 
-	 * public Map<Integer, Double> getPossessedFakeMediumCO() { return
-	 * possessedFakeMediumCO; }
-	 * 
-	 * public void setPossessedFakeMediumCO(Map<Integer, Double>
-	 * possessedFakeMediumCO) { this.possessedFakeMediumCO =
-	 * possessedFakeMediumCO; }
-	 * 
-	 * public Map<Integer, Double> getWolfFakeSeerCO() { return wolfFakeSeerCO;
-	 * }
-	 * 
-	 * public void setWolfFakeSeerCO(Map<Integer, Double> wolfFakeSeerCO) {
-	 * this.wolfFakeSeerCO = wolfFakeSeerCO; }
-	 * 
-	 * public Map<Integer, Double> getWolfFakeMediumCO() { return
-	 * wolfFakeMediumCO; }
-	 * 
-	 * public void setWolfFakeMediumCO(Map<Integer, Double> wolfFakeMediumCO) {
-	 * this.wolfFakeMediumCO = wolfFakeMediumCO; }
-	 */
 	public int getLearningDataNumber() {
 		return learningDataNumber;
 	}
