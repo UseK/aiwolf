@@ -12,6 +12,7 @@ public class SelectStrategy {
 		// TODO 自動生成されたコンストラクター・スタブ
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static <T>T randomSelect(Map<T, Double> map){
 		Set<T> set = map.keySet();
 		T[] array = (T[]) set.toArray();
@@ -108,7 +109,7 @@ public class SelectStrategy {
 	 */
 	public static <T>T getMinDoubleValueKey(Map<T, Double> map){
 		T minValueT = null;
-		double minValue = 10000.0;
+		double minValue = Double.MAX_VALUE;
 
 		double randValue = new Random().nextDouble();
 		for(Entry<T, Double> set: map.entrySet()){

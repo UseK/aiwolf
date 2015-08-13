@@ -18,14 +18,14 @@ import org.aiwolf.common.net.GameSetting;
 import org.aiwolf.glyClient.lib.Pattern;
 import org.aiwolf.glyClient.reinforcementLearning.COtimingNeo;
 
-public abstract class AbstractGiftedPlayer extends AbstractBasePlayer{
-	//まだ報告していないjudge
+public abstract class AbstractGiftedPlayer extends AbstractBasePlayer {
+	// まだ報告していないjudge
 	List<Judge> notToldjudges = new ArrayList<Judge>();
 
-	//既に報告したjudge
+	// 既に報告したjudge
 	List<Judge> toldjudges = new ArrayList<Judge>();
 
-	//カミングアウトしたか
+	// カミングアウトしたか
 	boolean isComingout = false;
 
 	COtimingNeo coTiming;
@@ -37,25 +37,25 @@ public abstract class AbstractGiftedPlayer extends AbstractBasePlayer{
 		coTiming = selectRandomTarget(map);
 	}
 
-	public boolean isJudged(Agent agent){
+	public boolean isJudged(Agent agent) {
 
 		Set<Agent> judgedAgents = new HashSet<Agent>();
-		for(Judge judge: toldjudges){
+		for (Judge judge : toldjudges) {
 			judgedAgents.add(judge.getTarget());
 		}
-		for(Judge judge: notToldjudges){
+		for (Judge judge : notToldjudges) {
 			judgedAgents.add(judge.getTarget());
 		}
 
-		if(judgedAgents.contains(agent)){
+		if (judgedAgents.contains(agent)) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 
 	}
-	
-	public Map<COtimingNeo, Double> getCOMap(){
+
+	public Map<COtimingNeo, Double> getCOMap() {
 		switch (getMyRole()) {
 		case SEER:
 			return ld.getSeerCO();
@@ -70,62 +70,71 @@ public abstract class AbstractGiftedPlayer extends AbstractBasePlayer{
 		}
 	}
 
-	public List<Pattern> getHypotheticalPatterns(List<Pattern> originPatterns, Judge judge){
-		List<Pattern> hypotheticalPatterns = patternMaker.clonePatterns(originPatterns);
+	public List<Pattern> getHypotheticalPatterns(List<Pattern> originPatterns,
+			Judge judge) {
+		List<Pattern> hypotheticalPatterns = patternMaker
+				.clonePatterns(originPatterns);
 		patternMaker.updateJudgeData(hypotheticalPatterns, judge);
 		return hypotheticalPatterns;
 	}
 
-	public String getTemplateComingoutText(){
-		/*
-		 * カミングアウトする日数になる
-		 * 他に同じ能力者COが出る
-		 * 人狼を見つける
-		 * 投票先に選ばれそう（全体の2/3が投票かつ全投票中でマックスが自分）
+	public String getTemplateComingoutText() {
+		/**
+		 * COするタイミング:<br>
+		 * - カミングアウトする日数になる<br>
+		 * - 他に同じ能力者COが出る<br>
+		 * - 人狼を見つける<br>
+		 * - 投票先に選ばれそう（全体の2/3が投票かつ全投票中でマックスが自分）
 		 */
-		if(isComingout){
+		if (isComingout) {
 			return null;
-		}else{
-			//日数によるカミングアウト
-			if(getDay() == coTiming.getDay() && coTiming.doComingout()){
+		} else {
+			// 日数によるカミングアウト
+			if (getDay() == coTiming.getDay() && coTiming.doComingout()) {
 				isComingout = true;
 				return TemplateTalkFactory.comingout(getMe(), getMyRole());
 			}
 
-			//偽CO出現
-			if(coTiming.isAgainst()){
-				Map<Agent, Role> comingoutMap = advanceGameInfo.getComingoutMap();
-				for(Entry<Agent, Role> set: comingoutMap.entrySet()){
-					if(set.getValue() == getMyRole() && !set.getKey().equals(getMe())){
+			// 偽CO出現
+			if (coTiming.isAgainst()) {
+				Map<Agent, Role> comingoutMap = advanceGameInfo
+						.getComingoutMap();
+				for (Entry<Agent, Role> set : comingoutMap.entrySet()) {
+					if (set.getValue() == getMyRole()
+							&& !set.getKey().equals(getMe())) {
 						isComingout = true;
-						return TemplateTalkFactory.comingout(getMe(), getMyRole());
+						return TemplateTalkFactory.comingout(getMe(),
+								getMyRole());
 					}
 				}
 			}
 
-			//人狼見つける
-			if(coTiming.isHasFoundWolf()){
-				for(Judge judge: notToldjudges){
-					if(judge.getResult() == Species.WEREWOLF){
+			// 人狼見つける
+			if (coTiming.isHasFoundWolf()) {
+				for (Judge judge : notToldjudges) {
+					if (judge.getResult() == Species.WEREWOLF) {
 						isComingout = true;
-						return TemplateTalkFactory.comingout(getMe(), getMyRole());
+						return TemplateTalkFactory.comingout(getMe(),
+								getMyRole());
 					}
 				}
 			}
 
-			//投票先に選ばれそう
-			if(coTiming.isVoted()){
+			// 投票先に選ばれそう
+			if (coTiming.isVoted()) {
 				List<Vote> votes = advanceGameInfo.getVoteList(getDay());
-				if((double)votes.size() * 1.5 > getLatestDayGameInfo().getAliveAgentList().size()){
+				if ((double) votes.size() * 1.5 > getLatestDayGameInfo()
+						.getAliveAgentList().size()) {
 					int voteToMe = 0;
-					for(Vote vote: votes){
-						if(vote.getTarget().equals(getMe())){
+					for (Vote vote : votes) {
+						if (vote.getTarget().equals(getMe())) {
 							voteToMe++;
 						}
 					}
-					if((double)voteToMe * 4 > votes.size()){
+					if ((double) voteToMe * 4 > votes.size()) {
 						isComingout = true;
-						return TemplateTalkFactory.comingout(getMe(), getMyRole());
+						return TemplateTalkFactory.comingout(getMe(),
+								getMyRole());
 					}
 				}
 			}
