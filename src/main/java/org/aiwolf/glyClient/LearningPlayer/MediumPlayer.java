@@ -1,17 +1,10 @@
 package org.aiwolf.glyClient.LearningPlayer;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Random;
 
 import org.aiwolf.client.lib.TemplateTalkFactory;
-import org.aiwolf.common.data.*;
 import org.aiwolf.common.net.GameInfo;
 import org.aiwolf.common.net.GameSetting;
-import org.aiwolf.glyClient.LearningPlayer.AbstractGiftedPlayer;
-import org.aiwolf.glyClient.reinforcementLearning.COtiming;
 import org.aiwolf.glyClient.reinforcementLearning.COtimingNeo;
 import org.aiwolf.glyClient.reinforcementLearning.ReinforcementLearning;
 

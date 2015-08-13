@@ -13,11 +13,10 @@ import org.aiwolf.common.data.Judge;
 import org.aiwolf.common.data.Role;
 import org.aiwolf.common.data.Species;
 import org.aiwolf.common.data.Talk;
-import org.aiwolf.common.data.Vote;
 import org.aiwolf.common.net.GameInfo;
 import org.aiwolf.common.net.GameSetting;
-import org.aiwolf.glyClient.LearningPlayer.*;
 import org.aiwolf.glyClient.lib.Pattern;
+import org.aiwolf.glyClient.lib.PatternMaker;
 import org.aiwolf.glyClient.lib.WolfFakeRoleChanger;
 import org.aiwolf.glyClient.reinforcementLearning.AgentPattern;
 import org.aiwolf.glyClient.reinforcementLearning.COtimingNeo;
@@ -25,7 +24,6 @@ import org.aiwolf.glyClient.reinforcementLearning.Qvalues;
 import org.aiwolf.glyClient.reinforcementLearning.ReinforcementLearning;
 import org.aiwolf.glyClient.reinforcementLearning.Scene;
 import org.aiwolf.glyClient.reinforcementLearning.SelectStrategy;
-import org.aiwolf.glyClient.reinforcementLearning.WolfRolePattern;
 
 public class WereWolfPlayer extends AbstractWolfSideAgent {
 
@@ -55,14 +53,17 @@ public class WereWolfPlayer extends AbstractWolfSideAgent {
 	
 	WolfFakeRoleChanger changer;
 	
-	private boolean
-		wolfJudged = false,//人狼だと占われた時に騙る役職
-		existVillagerWolf = false,//相方の人狼が村人を騙るといった時に騙る役職
-		existSeerWolf = false,
-		existMediumWolf = false,
-		seerCO = false,//占い師が出てきたときに騙る役職
-		mediumCO = false,
-		isVoteTarget = false;//投票対象になった時に騙る役職
+	@SuppressWarnings("unused")
+	private boolean wolfJudged = false; //人狼だと占われた時に騙る役職
+	private boolean existVillagerWolf = false; //相方の人狼が村人を騙るといった時に騙る役職
+	private boolean existSeerWolf = false;
+	private boolean existMediumWolf = false;
+	@SuppressWarnings("unused")
+	private boolean seerCO = false; //占い師が出てきたときに騙る役職
+	@SuppressWarnings("unused")
+	private boolean mediumCO = false;
+	@SuppressWarnings("unused")
+	private boolean isVoteTarget = false;//投票対象になった時に騙る役職
 
 
 	@Override
@@ -72,7 +73,8 @@ public class WereWolfPlayer extends AbstractWolfSideAgent {
 		//myPatternsに仲間の人狼をセットする
 		for(Entry<Agent, Role> set: gameInfo.getRoleMap().entrySet()){
 			if(!set.getKey().equals(getMe())){
-				patternMaker.settleAgentRole(myPatterns, set.getKey(), Role.WEREWOLF);
+				PatternMaker.settleAgentRole(myPatterns, set.getKey(),
+						Role.WEREWOLF);
 			}
 		}
 		wolfsFakeRoleMap.put(getMe(), fakeRole);
@@ -141,6 +143,7 @@ public class WereWolfPlayer extends AbstractWolfSideAgent {
 				if(!hasWhisperTodaysFakeJudge && todaysFakeJudge != null){
 					switch (fakeRole) {
 					case SEER:
+					default:
 						hasWhisperTodaysFakeJudge = true;
 						return TemplateWhisperFactory.divined(todaysFakeJudge.getTarget(), todaysFakeJudge.getResult());
 					case MEDIUM:
@@ -161,7 +164,7 @@ public class WereWolfPlayer extends AbstractWolfSideAgent {
 		if(getDay() == 0){
 			patternChange(utterance.getRole());
 		}
-		patternMaker.settleAgentRole(wolfsPatterns, talk.getAgent(), utterance.getRole());
+		PatternMaker.settleAgentRole(wolfsPatterns, talk.getAgent(), utterance.getRole());
 	}
 
 	private void patternChange(Role role) {
@@ -195,7 +198,7 @@ public class WereWolfPlayer extends AbstractWolfSideAgent {
 			List<Agent> alives = fakePatterns.get(0).getAliveAgents();
 			fakePatterns = new ArrayList<Pattern>();
 			fakePatterns.add(new Pattern(null, null, new HashMap<Agent, Role>(), alives));
-			patternMaker.settleAgentRole(fakePatterns, getMe(), fakeRole);
+			PatternMaker.settleAgentRole(fakePatterns, getMe(), fakeRole);
 			wolfsPatterns = new ArrayList<Pattern>(fakePatterns);
 			for(Entry<Agent, Role> set: advanceGameInfo.getComingoutMap().entrySet()){
 				if(set.getKey() != getMe()){
@@ -277,6 +280,7 @@ public class WereWolfPlayer extends AbstractWolfSideAgent {
 	public void comingoutTalkDealing(Talk talk, Utterance utterance){
 		super.comingoutTalkDealing(talk, utterance);
 		if(isComingout) return;
+		@SuppressWarnings("unused")
 		Role co = utterance.getRole();
 		if(getDay() == 0 && getWolfList().contains(talk.getAgent())){
 			
@@ -345,6 +349,7 @@ public class WereWolfPlayer extends AbstractWolfSideAgent {
 	 * 分かっていない場合はnull
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	private Role possessedFakeRole(){
 		if(!knowsPossessed()){
 			return null;
@@ -388,6 +393,7 @@ public class WereWolfPlayer extends AbstractWolfSideAgent {
 		todaysFakeJudge = fakeJudges.get(fakeJudges.size()-1);
 	}
 
+	@SuppressWarnings("unused")
 	private Judge getMaxEntropyDivineJudge(List<Pattern> patterns){
 		Map<Judge, Integer> remainPatternNumMap = new HashMap<Judge, Integer>();
 
@@ -425,6 +431,7 @@ public class WereWolfPlayer extends AbstractWolfSideAgent {
 		todaysFakeJudge = fakeJudges.get(fakeJudges.size()-1);
 	}
 
+	@SuppressWarnings("unused")
 	private Judge getMaxEntropyInquestJudge(List<Pattern> patterns){
 		Map<Judge, Integer> remainPatternNumMap = new HashMap<Judge, Integer>();
 
@@ -539,6 +546,7 @@ public class WereWolfPlayer extends AbstractWolfSideAgent {
 		
 		Map<WolfFakeRoleChanger, Double> changerMap = ld.getWolfFakeRoleChanger();
 		double qW = changerMap.get(changer);
+		@SuppressWarnings("unused")
 		double learnedQW = ReinforcementLearning.reInforcementLearn(qW, reward, 0);
 		changerMap.put(changer, learnedQ);
 	}

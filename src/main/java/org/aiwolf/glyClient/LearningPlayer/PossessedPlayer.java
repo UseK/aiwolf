@@ -1,37 +1,20 @@
 package org.aiwolf.glyClient.LearningPlayer;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
-import java.util.Map.Entry;
-import java.util.Set;
 
-import org.aiwolf.client.lib.TemplateTalkFactory;
-import org.aiwolf.client.lib.Utterance;
 import org.aiwolf.common.data.Agent;
-import org.aiwolf.common.data.Judge;
-import org.aiwolf.common.data.Role;
-import org.aiwolf.common.data.Species;
-import org.aiwolf.common.data.Talk;
-import org.aiwolf.common.data.Vote;
 import org.aiwolf.common.net.GameInfo;
 import org.aiwolf.common.net.GameSetting;
-import org.aiwolf.glyClient.LearningPlayer.AbstractWolfSideAgent;
-import org.aiwolf.glyClient.lib.Pattern;
-import org.aiwolf.glyClient.lib.PatternMaker;
 import org.aiwolf.glyClient.lib.PossessedFakeRoleChanger;
-import org.aiwolf.glyClient.lib.WolfFakeRoleChanger;
 import org.aiwolf.glyClient.reinforcementLearning.COtimingNeo;
 import org.aiwolf.glyClient.reinforcementLearning.ReinforcementLearning;
-import org.aiwolf.glyClient.reinforcementLearning.WolfRolePattern;
 
 public class PossessedPlayer extends AbstractWolfSideAgent {
 
 	//黒判定を出す確率
+	@SuppressWarnings("unused")
 	private static final double BLACK_DIVINEJUDGE_PROBABILITY = 0.25;
+	@SuppressWarnings("unused")
 	private static final double BLACK_INQUESTJUDGE_PROBABILITY = 0.25;
 
 	PossessedFakeRoleChanger changer;
@@ -107,6 +90,7 @@ public class PossessedPlayer extends AbstractWolfSideAgent {
 		
 		Map<PossessedFakeRoleChanger, Double> changerMap = ld.getPossessedFakeRoleChanger();
 		double qW = changerMap.get(changer);
+		@SuppressWarnings("unused")
 		double learnedQW = ReinforcementLearning.reInforcementLearn(qW, reward, 0);
 		changerMap.put(changer, learnedQ);
 

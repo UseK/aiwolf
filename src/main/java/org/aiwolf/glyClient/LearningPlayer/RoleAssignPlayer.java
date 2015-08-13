@@ -1,7 +1,5 @@
 package org.aiwolf.glyClient.LearningPlayer;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 import org.aiwolf.client.base.player.AbstractRoleAssignPlayer;
