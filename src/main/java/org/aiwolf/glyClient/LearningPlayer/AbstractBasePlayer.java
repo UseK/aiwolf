@@ -34,8 +34,10 @@ import org.aiwolf.glyClient.reinforcementLearning.SelectStrategy;
 import org.fluentd.logger.FluentLogger;
 
 /**
- * 全役職共通部分のアルゴリズム initialize：初期パターン作成 update：発話ログからAGI更新，Pattern更新
- * dayStart：AGIの死亡プレイヤーを更新
+ * 全役職共通部分のアルゴリズム<br>
+ * initialize：初期パターン作成<br>
+ * update：発話ログからAGI更新，Pattern更新<br>
+ * dayStart：AGIの死亡プレイヤーを更新<br>
  * 
  * @author kengo
  *
@@ -57,7 +59,7 @@ public abstract class AbstractBasePlayer extends AbstractRole {
 	public static final String LOGTAG_EVENT = "event";
 	public static final String LOGTAG_DAY = "day";
 	public static final String LOGTAG_VALUES = "values";
-	
+
 	private static double EPSILON = 0.1;
 	private static double TEMP = 1.0;
 
@@ -327,7 +329,7 @@ public abstract class AbstractBasePlayer extends AbstractRole {
 		if (patternChanged) {
 			setVoteTarget();
 		}
-		
+
 		// パラメータを出力
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put(LOGTAG_PLAYERNAME, this.name);
@@ -349,7 +351,7 @@ public abstract class AbstractBasePlayer extends AbstractRole {
 				utterance.getRole(), advanceGameInfo);
 		patternMaker.extendPatternList(myPatterns, talk.getAgent(),
 				utterance.getRole(), advanceGameInfo);
-		
+
 	}
 
 	/**
@@ -435,12 +437,12 @@ public abstract class AbstractBasePlayer extends AbstractRole {
 		Agent attackedAgent = getLatestDayGameInfo().getAttackedAgent();
 		patternMaker.updateAttackedData(generalPatterns, attackedAgent);
 		patternMaker.updateAttackedData(myPatterns, attackedAgent);
-		
+
 		if (attackedAgent != null) {
-			
+
 			DeadCondition attackedAgentCondition = new DeadCondition(
 					attackedAgent, getDay(), CauseOfDeath.attacked);
-			
+
 			advanceGameInfo.addDeadConditions(attackedAgentCondition);
 		}
 
@@ -736,8 +738,9 @@ public abstract class AbstractBasePlayer extends AbstractRole {
 
 	private Map<AgentPattern, Double> getVoteQValMap(Qvalues qVal) {
 		Map<AgentPattern, Double> map = null;
-		;
+		
 		switch (getMyRole()) {
+		default:
 		case VILLAGER:
 			map = qVal.getVillagerVote();
 			break;
@@ -776,6 +779,5 @@ public abstract class AbstractBasePlayer extends AbstractRole {
 
 		return null;
 	}
-	
-	
+
 }
