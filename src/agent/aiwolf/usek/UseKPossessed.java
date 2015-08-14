@@ -13,20 +13,22 @@ import agent.aiwolf.usek.lib.WerewolfSideThought;
 
 public class UseKPossessed extends AbstractPossessed {
 
-	WerewolfSideThought werewolfSideThought = new WerewolfSideThought();
+	WerewolfSideThought thought;
 	GameInfo gameInfo;
 
 	@Override
 	public void initialize(GameInfo gameInfo, GameSetting gameSetting) {
 		super.initialize(gameInfo, gameSetting);
 		this.gameInfo = gameInfo;
+		this.thought = new WerewolfSideThought(getMe(), this.gameInfo);
+		thought.comingoutFakeSeer();
 	}
 
 	@Override
 	public void update(GameInfo gameInfo) {
 		super.update(gameInfo);
 		this.gameInfo = gameInfo;
-		werewolfSideThought.responceUpdatedTalks(gameInfo);
+		thought.respondUpdatedTalks(gameInfo);
 	}
 
 	@Override
@@ -37,8 +39,7 @@ public class UseKPossessed extends AbstractPossessed {
 
 	@Override
 	public String talk() {
-		// TODO Auto-generated method stub
-		return null;
+		return thought.pollTalks();
 	}
 
 	@Override
@@ -50,6 +51,6 @@ public class UseKPossessed extends AbstractPossessed {
 
 	@Override
 	public void dayStart() {
-		werewolfSideThought.readTalkNum = 0;
+		thought.readTalkNum = 0;
 	}
 }

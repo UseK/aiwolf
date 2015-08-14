@@ -16,7 +16,7 @@ import agent.aiwolf.usek.lib.WerewolfSideThought;
 
 public class UseKWereWolf extends AbstractWerewolf {
 
-	WerewolfSideThought thought = new WerewolfSideThought();
+	WerewolfSideThought thought;
 	int readWhisperNum = 0;
 	GameInfo gameInfo;
 
@@ -26,6 +26,7 @@ public class UseKWereWolf extends AbstractWerewolf {
 	public void initialize(GameInfo gameInfo, GameSetting gameSetting) {
 		super.initialize(gameInfo, gameSetting);
 		this.gameInfo = gameInfo;
+		this.thought = new WerewolfSideThought(getMe(), gameInfo);
 	}
 
 	@Override
@@ -33,14 +34,14 @@ public class UseKWereWolf extends AbstractWerewolf {
 		if(!whisperedAttackAgents.isEmpty()) {
 			return whisperedAttackAgents.get(whisperedAttackAgents.size() - 1);
 		}
-		return thought.getVictim4Attack(gameInfo, getWolfList(), getMe());
+		return thought.getVictimToAttack(gameInfo, getWolfList(), getMe());
 	}
 
 	@Override
 	public void update(GameInfo gameInfo) {
 		super.update(gameInfo);
 		this.gameInfo = gameInfo;
-		thought.responceUpdatedTalks(gameInfo);
+		thought.respondUpdatedTalks(gameInfo);
 		List<Talk> whisperList = new ArrayList<Talk>(gameInfo.getWhisperList());
 		for (int i = readWhisperNum; i < whisperList.size(); i++) {
 			Talk whisper = whisperList.get(i);
