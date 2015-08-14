@@ -419,12 +419,6 @@ public class WereWolfPlayer extends AbstractWolfSideAgent {
 		}
 	}
 
-
-
-
-
-
-
 	@Override
 	protected void setFakeInquestJudge(Agent executedAgent) {
 		setTemplateFakeInquestJudge();
@@ -442,11 +436,6 @@ public class WereWolfPlayer extends AbstractWolfSideAgent {
 		}
 		return SelectStrategy.getMaxIntValueKey(remainPatternNumMap);
 	}
-
-
-
-
-
 
 	@Override
 	public void setVoteTarget() {
@@ -501,8 +490,6 @@ public class WereWolfPlayer extends AbstractWolfSideAgent {
 		//襲撃の学習
 		updateMiddleAttackQval(day, patternPresent, patternNext, scenePresent, sceneNext);
 	}
-
-
 
 	private void updateMiddleAttackQval(int day, Pattern patternPresent,
 			Pattern patternNext, Scene scenePresent, Scene sceneNext){

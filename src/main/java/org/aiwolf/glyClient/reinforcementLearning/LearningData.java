@@ -178,7 +178,7 @@ public class LearningData implements Serializable {
 			return;
 		}
 		try {
-			System.out.println("LDStart:読み込み開始  " + System.currentTimeMillis());
+			System.out.println("LDStart: ID: " + readDataNum + ", 読み込み開始: " + System.currentTimeMillis());
 			int preLearningNumber = learningDataNumber;
 
 			// File内容を一括して読み込み
@@ -195,7 +195,7 @@ public class LearningData implements Serializable {
 			
 			this.learningDataNumber = preLearningNumber;
 			instance.put(this.learningDataNumber, this);
-			System.out.println("LDStart:読み込み終了  " + System.currentTimeMillis());
+			System.out.println("LDStart: ID: " + readDataNum + ", 読み込み終了: " + System.currentTimeMillis());
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -267,13 +267,13 @@ public class LearningData implements Serializable {
 
 	}
 
-	public void LDFinish(int version) {
+	public void LDFinish(int learningDataNumber) {
 		try {
-			int num = learningDataNumber + version * 1000;
+			// int num = learningDataNumber + version * 1000;
 
 			String writeStr = store().toString();
 			// FileOutputStreamオブジェクトの生成
-			FileOutputStream outFile = new FileOutputStream("LDdata_" + num
+			FileOutputStream outFile = new FileOutputStream("LDdata_" + learningDataNumber
 					+ ".txt");
 			outFile.write(writeStr.getBytes());
 
