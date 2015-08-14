@@ -175,7 +175,6 @@ public class UseKSeer extends AbstractSeer {
 	private List<Agent> getAliveOthers() {
 		List<Agent> agentList = new ArrayList<Agent>();
 		agentList.addAll(getLatestDayGameInfo().getAliveAgentList());
-		System.out.println(agentList);
 		agentList.remove(getMe());
 		return agentList;
 	}

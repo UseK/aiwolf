@@ -1,9 +1,11 @@
 package agent.aiwolf.usek.lib;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Queue;
 import java.util.Random;
 
 import org.aiwolf.client.lib.Utterance;
@@ -27,20 +29,17 @@ public class VillageSideThought {
 	Agent me;
 	Role myRole;
 
+	public Queue<String> talksQueue;
+
 	public List<Talk> divinedHistory;
 
 	enum SuspiciousPoint { DIVINED_WHITE, DIVINED_BLACK };
 	public HashMap<Agent, List<SuspiciousPoint>> agentInfo;
 
-
-	public VillageSideThought() {
-		comingoutedSeerList = new ArrayList<Agent>();
-		suspiciousPoints = new HashMap<Agent, Integer>();
-	}
-
 	public VillageSideThought(GameInfo gameInfo, Role myRole) {
 		comingoutedSeerList = new ArrayList<Agent>();
 		suspiciousPoints = new HashMap<Agent, Integer>();
+		talksQueue = new ArrayDeque<String>();
 		me = gameInfo.getAgent();
 		this.myRole = myRole;
 		suspiciousPoints = new HashMap<Agent, Integer>();
@@ -52,7 +51,9 @@ public class VillageSideThought {
 			agentInfo.put(agent, new ArrayList<SuspiciousPoint>());
 		}
 		suspiciousPoints.remove(me);
+	}
 
+	public void comingoutMyRole() {
 	}
 
 	/*
