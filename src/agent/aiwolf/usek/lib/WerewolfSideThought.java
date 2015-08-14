@@ -36,6 +36,9 @@ public class WerewolfSideThought {
 
 	public void comingoutFakeSeer () {
 		talksQueue.add(TemplateTalkFactory.comingout(me, Role.SEER));
+	}
+
+	public void devineRandomFakeWerewolf() {
 		Agent a = randomSelect(gameInfo.getAliveAgentList());
 		String d = TemplateTalkFactory.divined(a, Species.WEREWOLF);
 		talksQueue.add(d);

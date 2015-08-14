@@ -51,6 +51,10 @@ public class UseKPossessed extends AbstractPossessed {
 
 	@Override
 	public void dayStart() {
+		if (gameInfo.getDay() == 1) {
+			thought.comingoutFakeSeer();
+			thought.devineRandomFakeWerewolf();
+		}
 		thought.readTalkNum = 0;
 	}
 }
