@@ -4,7 +4,9 @@ import static org.junit.Assert.*;
 
 import org.aiwolf.client.lib.Utterance;
 import org.aiwolf.common.data.Agent;
+import org.aiwolf.common.data.Role;
 import org.aiwolf.common.data.Talk;
+import org.aiwolf.common.net.GameInfo;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -28,7 +30,7 @@ public class VillageSideThoughtTest {
 
 	@Before
 	public void setUp() throws Exception {
-		thought = new VillageSideThought();
+		thought = new VillageSideThought(new GameInfo(), Role.VILLAGER);
 		for(int i = 0; i < 15; i++) {
 			thought.suspiciousPoints.put(Agent.getAgent(i), 0);
 		}

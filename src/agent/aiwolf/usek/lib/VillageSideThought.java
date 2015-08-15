@@ -8,8 +8,10 @@ import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Random;
 
+import org.aiwolf.client.lib.TemplateTalkFactory;
 import org.aiwolf.client.lib.Utterance;
 import org.aiwolf.common.data.Agent;
+import org.aiwolf.common.data.Judge;
 import org.aiwolf.common.data.Role;
 import org.aiwolf.common.data.Species;
 import org.aiwolf.common.data.Talk;
@@ -30,6 +32,7 @@ public class VillageSideThought {
 	Role myRole;
 
 	public Queue<String> talksQueue;
+	public ArrayList<String> toldTalksLog;
 
 	public List<Talk> divinedHistory;
 
@@ -40,6 +43,7 @@ public class VillageSideThought {
 		comingoutedSeerList = new ArrayList<Agent>();
 		suspiciousPoints = new HashMap<Agent, Integer>();
 		talksQueue = new ArrayDeque<String>();
+		toldTalksLog = new ArrayList<String>();
 		me = gameInfo.getAgent();
 		this.myRole = myRole;
 		suspiciousPoints = new HashMap<Agent, Integer>();
@@ -54,6 +58,27 @@ public class VillageSideThought {
 	}
 
 	public void comingoutMyRole() {
+		String comingout = TemplateTalkFactory.comingout(me, myRole);
+		talksQueue.add(comingout);
+	}
+
+	public void inquestedMyjudges(ArrayList<Judge> myJugeList) {
+		for (Judge judge: myJugeList) {
+			String t = TemplateTalkFactory.inquested(judge.getTarget(), judge.getResult());
+			if (hasNeverTold(t)) talksQueue.add(t);
+		}
+	}
+
+	private boolean hasNeverTold(String t) {
+		if (talksQueue.contains(t)) return false;
+		if (toldTalksLog.contains(t)) return false;
+		return true;
+	}
+
+	public String pollTalks() {
+		String t = talksQueue.poll();
+		toldTalksLog.add(t);
+		return t;
 	}
 
 	/*
@@ -155,7 +180,7 @@ public class VillageSideThought {
 
 		List<Agent> mostSuspiciousAgents = new ArrayList<Agent>();
 		for(Entry<Agent, Integer> e : suspiciousPoints.entrySet()) {
-			if (e.getValue() == maxPoint) {
+			if (e.getValue().equals(maxPoint)) {
 				mostSuspiciousAgents.add(e.getKey());
 			}
 		}
@@ -176,7 +201,7 @@ public class VillageSideThought {
 
 		List<Agent> mostUnsuspiciousAgents = new ArrayList<Agent>();
 		for(Entry<Agent, Integer> e : suspiciousPoints.entrySet()) {
-			if (e.getValue() == minPoint) {
+			if (e.getValue().equals(minPoint)) {
 				mostUnsuspiciousAgents.add(e.getKey());
 			}
 		}

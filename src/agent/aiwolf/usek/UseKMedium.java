@@ -17,7 +17,6 @@ public class UseKMedium extends AbstractMedium {
 		super.initialize(gameInfo, gameSetting);
 		this.gameInfo = gameInfo;
 		this.thought = new VillageSideThought(gameInfo, getMyRole());
-
 	}
 
 	@Override
@@ -28,13 +27,22 @@ public class UseKMedium extends AbstractMedium {
 
 	@Override
 	public String talk() {
-		return null;
+		return thought.pollTalks();
 	}
 
 	@Override
 	public Agent vote() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void dayStart() {
+		super.dayStart();
+		if (gameInfo.getDay() == 1) {
+			thought.comingoutMyRole();
+		}
+		thought.inquestedMyjudges(getMyJudgeList());
 	}
 
 }
