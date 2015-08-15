@@ -2,8 +2,6 @@ package agent.aiwolf.usek;
 
 import org.aiwolf.client.base.player.AbstractRoleAssignPlayer;
 
-import agent.aiwolf.gly.thought.MyMedium;
-
 public class UseKRoleAssignPleyer extends AbstractRoleAssignPlayer {
 
 	public UseKRoleAssignPleyer() {

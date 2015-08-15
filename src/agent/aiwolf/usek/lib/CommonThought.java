@@ -11,7 +11,6 @@ import java.util.Queue;
 import java.util.Random;
 
 import org.aiwolf.common.data.Agent;
-import org.aiwolf.common.data.Role;
 import org.aiwolf.common.data.Talk;
 import org.aiwolf.common.net.GameInfo;
 
