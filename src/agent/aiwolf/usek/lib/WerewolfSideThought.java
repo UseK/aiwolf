@@ -7,31 +7,17 @@ import org.aiwolf.common.data.Agent;
 import org.aiwolf.common.data.Role;
 import org.aiwolf.common.data.Species;
 import org.aiwolf.common.data.Talk;
-import org.omg.CORBA.PUBLIC_MEMBER;
 
-import java.util.ArrayDeque;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Queue;
 import java.util.Random;
 
 
-public class WerewolfSideThought {
+public class WerewolfSideThought extends CommonThought {
 	public int readTalkNum = 0;
 
-	public List<Agent> comingoutedSeerList = new ArrayList<Agent>();
-	public List<Agent> comingoutedMediumList = new ArrayList<Agent>();
-	public List<Agent> comingoutedBodyguardList = new ArrayList<Agent>();
-	public List<Agent> comingoutedPossesedList = new ArrayList<Agent>();
-
-	public Queue<String> talksQueue = new ArrayDeque<String>();
-	public List<String> saidTalks = new ArrayList<String>();
-	public Agent me;
-	public GameInfo gameInfo;
-
-	public WerewolfSideThought(Agent me, GameInfo gameInfo) {
-		this.me = me;
-		this.gameInfo = gameInfo;
+	public WerewolfSideThought(GameInfo gameInfo, Role myRole) {
+		super(gameInfo, myRole);
 	}
 
 	public void comingoutFakeSeer () {
@@ -42,10 +28,6 @@ public class WerewolfSideThought {
 		Agent a = randomSelect(gameInfo.getAliveAgentList());
 		String d = TemplateTalkFactory.divined(a, Species.WEREWOLF);
 		talksQueue.add(d);
-	}
-
-	public String pollTalks() {
-		return talksQueue.poll();
 	}
 
 	public Agent getVictimToAttack(GameInfo gameInfo, List<Agent> wolfList, Agent me) {
@@ -104,24 +86,4 @@ public class WerewolfSideThought {
 		}
 	}
 
-	private void responseComingout(Utterance utterance, Talk talk) {
-		switch (utterance.getRole()) {
-		case SEER:
-			comingoutedSeerList.add(utterance.getTarget());
-			break;
-		case MEDIUM:
-			comingoutedMediumList.add(utterance.getTarget());
-			break;
-		case BODYGUARD:
-			comingoutedBodyguardList.add(utterance.getTarget());
-			break;
-		default:
-			break;
-		}
-	}
-
-	private Agent randomSelect(List<Agent> agentList) {
-		int num = new Random().nextInt(agentList.size());
-		return agentList.get(num);
-	}
 }

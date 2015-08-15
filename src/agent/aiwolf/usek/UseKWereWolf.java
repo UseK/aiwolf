@@ -2,6 +2,7 @@ package agent.aiwolf.usek;
 
 import org.aiwolf.client.base.player.AbstractWerewolf;
 import org.aiwolf.common.data.Agent;
+import org.aiwolf.common.data.Role;
 import org.aiwolf.common.net.GameInfo;
 import org.aiwolf.common.net.GameSetting;
 
@@ -26,7 +27,7 @@ public class UseKWereWolf extends AbstractWerewolf {
 	public void initialize(GameInfo gameInfo, GameSetting gameSetting) {
 		super.initialize(gameInfo, gameSetting);
 		this.gameInfo = gameInfo;
-		this.thought = new WerewolfSideThought(getMe(), gameInfo);
+		this.thought = new WerewolfSideThought(gameInfo, Role.WEREWOLF);
 	}
 
 	@Override

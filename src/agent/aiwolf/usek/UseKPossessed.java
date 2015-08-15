@@ -6,6 +6,7 @@ import java.util.Random;
 
 import org.aiwolf.client.base.player.AbstractPossessed;
 import org.aiwolf.common.data.Agent;
+import org.aiwolf.common.data.Role;
 import org.aiwolf.common.net.GameInfo;
 import org.aiwolf.common.net.GameSetting;
 
@@ -20,7 +21,7 @@ public class UseKPossessed extends AbstractPossessed {
 	public void initialize(GameInfo gameInfo, GameSetting gameSetting) {
 		super.initialize(gameInfo, gameSetting);
 		this.gameInfo = gameInfo;
-		this.thought = new WerewolfSideThought(getMe(), this.gameInfo);
+		this.thought = new WerewolfSideThought(gameInfo, Role.POSSESSED);
 		thought.comingoutFakeSeer();
 	}
 
