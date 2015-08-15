@@ -1,13 +1,9 @@
 package agent.aiwolf.usek.lib;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Queue;
-import java.util.Random;
-
 import org.aiwolf.client.lib.TemplateTalkFactory;
 import org.aiwolf.client.lib.Utterance;
 import org.aiwolf.common.data.Agent;
@@ -18,21 +14,8 @@ import org.aiwolf.common.data.Talk;
 import org.aiwolf.common.data.Vote;
 import org.aiwolf.common.net.GameInfo;
 
-public class VillageSideThought {
-	public static final Integer DIVINED_HUMAN = -10;
-	public static final Integer DIVINED_WEREWOLF = 100;
-	public static final Integer NOT_VOTE_DIVINED_WEREWOLF = 100;
-	public static final Integer RIVAL_CO = 100;
-
-	public List<Agent> comingoutedSeerList;
-	public List<Agent> comingoutedMediumList;
+public class VillageSideThought extends CommonThought {
 	public HashMap<Agent, Integer> suspiciousPoints;
-
-	Agent me;
-	Role myRole;
-
-	public Queue<String> talksQueue;
-	public ArrayList<String> toldTalksLog;
 
 	public List<Talk> divinedHistory;
 
@@ -40,12 +23,7 @@ public class VillageSideThought {
 	public HashMap<Agent, List<SuspiciousPoint>> agentInfo;
 
 	public VillageSideThought(GameInfo gameInfo, Role myRole) {
-		comingoutedSeerList = new ArrayList<Agent>();
-		suspiciousPoints = new HashMap<Agent, Integer>();
-		talksQueue = new ArrayDeque<String>();
-		toldTalksLog = new ArrayList<String>();
-		me = gameInfo.getAgent();
-		this.myRole = myRole;
+		super(gameInfo, myRole);
 		suspiciousPoints = new HashMap<Agent, Integer>();
 		agentInfo = new HashMap<Agent, List<SuspiciousPoint>>();
 		divinedHistory = new ArrayList<Talk>();
@@ -67,18 +45,6 @@ public class VillageSideThought {
 			String t = TemplateTalkFactory.inquested(judge.getTarget(), judge.getResult());
 			if (hasNeverTold(t)) talksQueue.add(t);
 		}
-	}
-
-	private boolean hasNeverTold(String t) {
-		if (talksQueue.contains(t)) return false;
-		if (toldTalksLog.contains(t)) return false;
-		return true;
-	}
-
-	public String pollTalks() {
-		String t = talksQueue.poll();
-		toldTalksLog.add(t);
-		return t;
 	}
 
 	/*
@@ -140,8 +106,6 @@ public class VillageSideThought {
 	}
 
 	public void responseDivination(Utterance utterance, Talk talk) {
-		//System.out.println("Text:" + utterance.getText());
-		//System.out.println("TalkText:" + talk.toString());
 		divinedHistory.add(talk);
 		Agent target = utterance.getTarget();
 		if (target.equals(me)) {
@@ -167,13 +131,13 @@ public class VillageSideThought {
 	}
 
 	public Agent getAgentToVote() {
-		Agent mostSuspiciousAgent = null;
+		return randomSelect(getMostSuspiciousAgents());
+	}
+
+	public List<Agent> getMostSuspiciousAgents() {
 		Integer maxPoint = -999999999;
 		for(Entry<Agent, Integer> e : suspiciousPoints.entrySet()) {
-			//System.out.print("agent:" + e.getKey());
-			//System.out.println("point:" + e.getValue());
 			if (e.getValue() > maxPoint) {
-				mostSuspiciousAgent = e.getKey();
 				maxPoint = e.getValue();
 			}
 		}
@@ -184,17 +148,13 @@ public class VillageSideThought {
 				mostSuspiciousAgents.add(e.getKey());
 			}
 		}
-		mostSuspiciousAgent = randomSelect(mostSuspiciousAgents);
-		//System.out.println("I vevote " + mostSuspiciousAgent);
-		return mostSuspiciousAgent;
+		return mostSuspiciousAgents;
 	}
 
 	public List<Agent> getMostUnsuspiciousAgents() {
-		Agent mostUnsuspiciousAgent = null;
 		Integer minPoint = 999999999;
 		for(Entry<Agent, Integer> e : suspiciousPoints.entrySet()) {
 			if (e.getValue() < minPoint) {
-				mostUnsuspiciousAgent = e.getKey();
 				minPoint = e.getValue();
 			}
 		}
@@ -207,10 +167,5 @@ public class VillageSideThought {
 		}
 
 		return mostUnsuspiciousAgents;
-	}
-
-	private Agent randomSelect(List<Agent> agentList) {
-		int num = new Random().nextInt(agentList.size());
-		return agentList.get(num);
 	}
 }
