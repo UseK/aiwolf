@@ -7,9 +7,35 @@
  * user guide available at http://gradle.org/docs/2.3/userguide/tutorial_java_projects.html
  */
 
+buildscript{
+    repositories{
+        jcenter()
+    }
+    dependencies{
+        classpath 'eu.appsatori:gradle-fatjar-plugin:0.3'
+    }
+}
+
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
+apply plugin: 'application'
 apply plugin: 'eclipse'
+apply plugin: 'eu.appsatori.fatjar'
+
+mainClassName = "org.aiwolf.server.bin.RoleRequestStarter"
+
+jar{
+    manifest{
+        attributes 'Main-Class': 'org.aiwolf.server.bin.RoleRequestStarter'
+    }
+}
+
+fatJar{
+    baseName = 'glyAgent'
+    manifest{
+        attributes('Main-Class': 'org.aiwolf.server.bin.RoleRequestStarter')
+    }
+}
 
 // In this section you declare where to find the dependencies of your project
 repositories {
