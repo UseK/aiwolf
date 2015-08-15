@@ -1,7 +1,11 @@
 package org.aiwolf.glyClient.reinforcementLearning;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -16,6 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -27,7 +34,7 @@ import org.aiwolf.glyClient.lib.WolfFakeRoleChanger;
 public class LearningData implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int learningDataNumber; // 複数のインスタンスを別々に保管するための番号
-	/** SceneのHash値とQvaluesのマップ１ */
+	/** SceneのHash値とQvaluesのマップ */
 	private int playNum = 0;
 
 	// 学習結果として保存すべき値？
@@ -57,7 +64,7 @@ public class LearningData implements Serializable {
 
 		return byteOs.toByteArray();
 	}
-	
+
 	private JsonObject store() {
 		// 保存すべき値のbyte列を取得する
 		String encSceneMap = Base64.getEncoder().encodeToString(
@@ -85,75 +92,82 @@ public class LearningData implements Serializable {
 
 		return result;
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	private boolean load(JsonObject jsonObj){
+	private boolean load(JsonObject jsonObj) {
 		String encSceneMap = jsonObj.getJsonString("sceneMap").getString();
 		String encSeerCO = jsonObj.getJsonString("seerCO").getString();
 		String encMediumCO = jsonObj.getJsonString("mediumCO").getString();
-		String encPossessedCO = jsonObj.getJsonString("possessedCO").getString();
+		String encPossessedCO = jsonObj.getJsonString("possessedCO")
+				.getString();
 		String encWolfCO = jsonObj.getJsonString("wolfCO").getString();
-		String encWolfFakeRoleChanger = jsonObj.getJsonString("wolfFakeRoleChanger").getString();
-		String encPossessedFakeRoleChanger = jsonObj.getJsonString("possessedFakeRoleChanger").getString();
-		
+		String encWolfFakeRoleChanger = jsonObj.getJsonString(
+				"wolfFakeRoleChanger").getString();
+		String encPossessedFakeRoleChanger = jsonObj.getJsonString(
+				"possessedFakeRoleChanger").getString();
+
 		byte[] sceneMapBytes = Base64.getDecoder().decode(encSceneMap);
 		byte[] seerCOBytes = Base64.getDecoder().decode(encSeerCO);
 		byte[] mediumCOBytes = Base64.getDecoder().decode(encMediumCO);
 		byte[] possessedCOBytes = Base64.getDecoder().decode(encPossessedCO);
 		byte[] wolfCOBytes = Base64.getDecoder().decode(encWolfCO);
-		byte[] wolfFakeRoleChangerBytes = Base64.getDecoder().decode(encWolfFakeRoleChanger);
-		byte[] possessedFakeRoleChangerBytes = Base64.getDecoder().decode(encPossessedFakeRoleChanger);
-		
-		
+		byte[] wolfFakeRoleChangerBytes = Base64.getDecoder().decode(
+				encWolfFakeRoleChanger);
+		byte[] possessedFakeRoleChangerBytes = Base64.getDecoder().decode(
+				encPossessedFakeRoleChanger);
+
 		ByteArrayInputStream bInputStream = null;
 		ObjectInputStream inObject = null;
 		try {
 			// sceneMapの読み込み
 			bInputStream = new ByteArrayInputStream(sceneMapBytes);
 			inObject = new ObjectInputStream(bInputStream);
-			this.sceneMap = (Map<Integer, Qvalues>)inObject.readObject();
+			this.sceneMap = (Map<Integer, Qvalues>) inObject.readObject();
 			inObject.close();
 			bInputStream.close();
-			
+
 			// seerCOの読み込み
 			bInputStream = new ByteArrayInputStream(seerCOBytes);
 			inObject = new ObjectInputStream(bInputStream);
-			this.seerCO = (Map<COtimingNeo, Double>)inObject.readObject();
+			this.seerCO = (Map<COtimingNeo, Double>) inObject.readObject();
 			inObject.close();
 			bInputStream.close();
-			
+
 			// mediumCOの読み込み
 			bInputStream = new ByteArrayInputStream(mediumCOBytes);
 			inObject = new ObjectInputStream(bInputStream);
-			this.mediumCO = (Map<COtimingNeo, Double>)inObject.readObject();
+			this.mediumCO = (Map<COtimingNeo, Double>) inObject.readObject();
 			inObject.close();
 			bInputStream.close();
 
 			// possessedCOの読み込み
 			bInputStream = new ByteArrayInputStream(possessedCOBytes);
 			inObject = new ObjectInputStream(bInputStream);
-			this.possessedCO = (Map<COtimingNeo, Double>)inObject.readObject();
+			this.possessedCO = (Map<COtimingNeo, Double>) inObject.readObject();
 			inObject.close();
 			bInputStream.close();
-			
+
 			// wolfCOの読み込み
 			bInputStream = new ByteArrayInputStream(wolfCOBytes);
 			inObject = new ObjectInputStream(bInputStream);
-			this.wolfCO = (Map<COtimingNeo, Double>)inObject.readObject();
+			this.wolfCO = (Map<COtimingNeo, Double>) inObject.readObject();
 			inObject.close();
 			bInputStream.close();
 
 			// wolfFakeRoleChangerの読み込み
 			bInputStream = new ByteArrayInputStream(wolfFakeRoleChangerBytes);
 			inObject = new ObjectInputStream(bInputStream);
-			this.wolfFakeRoleChanger = (Map<WolfFakeRoleChanger, Double>)inObject.readObject();
+			this.wolfFakeRoleChanger = (Map<WolfFakeRoleChanger, Double>) inObject
+					.readObject();
 			inObject.close();
 			bInputStream.close();
-			
+
 			// possessedFakeRoleChangerの読み込み
-			bInputStream = new ByteArrayInputStream(possessedFakeRoleChangerBytes);
+			bInputStream = new ByteArrayInputStream(
+					possessedFakeRoleChangerBytes);
 			inObject = new ObjectInputStream(bInputStream);
-			this.possessedFakeRoleChanger = (Map<PossessedFakeRoleChanger, Double>)inObject.readObject();
+			this.possessedFakeRoleChanger = (Map<PossessedFakeRoleChanger, Double>) inObject
+					.readObject();
 			inObject.close();
 			bInputStream.close();
 		} catch (IOException | ClassNotFoundException e) {
@@ -161,10 +175,9 @@ public class LearningData implements Serializable {
 			e.printStackTrace();
 			return false;
 		}
-		
+
 		return true;
 	}
-	
 
 	public void LDStart() {
 		if (playNum != 0) {
@@ -178,24 +191,49 @@ public class LearningData implements Serializable {
 			return;
 		}
 		try {
-			System.out.println("LDStart: ID: " + readDataNum + ", 読み込み開始: " + System.currentTimeMillis());
+			System.out.println("LDStart: ID: " + readDataNum + ", 読み込み開始: "
+					+ System.currentTimeMillis());
 			int preLearningNumber = learningDataNumber;
 
-			// File内容を一括して読み込み
-			Path inputFilePath = FileSystems.getDefault().getPath(
-					"LDdata_" + readDataNum + ".txt");
-			List<String> lines = Files.readAllLines(inputFilePath);
-			StringBuilder strBuilder = new StringBuilder();
-			for( String line: lines )
-				strBuilder.append(line);
-			StringReader strReader = new StringReader(strBuilder.toString());
+			final int READ_BUF_SIZE = 1048676;
+			byte[] readBuf = new byte[READ_BUF_SIZE];
+			String baseFileName = "LDdata_" + readDataNum;
+			File zipFile = new File(baseFileName + ".zip");
+			ZipInputStream zipInputStream = new ZipInputStream(
+					new BufferedInputStream(new FileInputStream(zipFile)));
+			@SuppressWarnings("unused")
+			ZipEntry entry = zipInputStream.getNextEntry();
+			ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+
+			for (;;) {
+				int readSize = zipInputStream.read(readBuf, 0, READ_BUF_SIZE);
+				if (readSize < 0)
+					break;
+				outStream.write(readBuf, 0, readSize);
+			}
+			outStream.flush();
+			outStream.close();
+			zipInputStream.close();
+
+			// ASCII文字列しか無いはずなので，UTF-8でも問題無いはず．
+			String jsonStr = new String(outStream.toByteArray(), "UTF-8");
+
+			/*
+			 * // File内容を一括して読み込み Path inputFilePath =
+			 * FileSystems.getDefault().getPath( "LDdata_" + readDataNum +
+			 * ".txt"); List<String> lines = Files.readAllLines(inputFilePath);
+			 * StringBuilder strBuilder = new StringBuilder(); for (String line
+			 * : lines) strBuilder.append(line);
+			 */
+			StringReader strReader = new StringReader(jsonStr);
 			JsonObject jsonObj = Json.createReader(strReader).readObject();
-			
+
 			this.load(jsonObj);
-			
+
 			this.learningDataNumber = preLearningNumber;
 			instance.put(this.learningDataNumber, this);
-			System.out.println("LDStart: ID: " + readDataNum + ", 読み込み終了: " + System.currentTimeMillis());
+			System.out.println("LDStart: ID: " + readDataNum + ", 読み込み終了: "
+					+ System.currentTimeMillis());
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -272,10 +310,17 @@ public class LearningData implements Serializable {
 			// int num = learningDataNumber + version * 1000;
 
 			String writeStr = store().toString();
+			// 出力ファイルのベース名
+			String baseFileName = "LDdata_" + learningDataNumber;
 			// FileOutputStreamオブジェクトの生成
-			FileOutputStream outFile = new FileOutputStream("LDdata_" + learningDataNumber
-					+ ".txt");
+			ZipOutputStream outFile = new ZipOutputStream(
+					new BufferedOutputStream(new FileOutputStream(baseFileName
+							+ ".zip")));
+			final ZipEntry entry = new ZipEntry(baseFileName + ".dat");
+			outFile.putNextEntry(entry);
 			outFile.write(writeStr.getBytes());
+			outFile.closeEntry();
+			outFile.finish();
 
 			outFile.close();
 		} catch (Exception e) {

@@ -4,19 +4,18 @@ import java.io.Serializable;
 import java.util.Random;
 
 /**
- * 要素は
- * isVoted =　//投票対象になる
- * isWolfJudged = //人狼だと占われた
- * hasFoundWolf = //人狼を見つけた
- * isAgainst = //対抗が出てきた
+ * 要素は<br>
+ * isVoted =　投票対象になる<br>
+ * isWolfJudged = 人狼だと占われた<br>
+ * hasFoundWolf = 人狼を見つけた<br>
+ * isAgainst = 対抗が出てきた<br>
  * day
+ * 
  * @author kajiwarakengo
  *
  */
-public class COtimingNeo implements Serializable{
+public class COtimingNeo implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-
 
 	@Override
 	public int hashCode() {
@@ -51,32 +50,32 @@ public class COtimingNeo implements Serializable{
 			return false;
 		return true;
 	}
-	
-	private boolean isVoted = false,//投票対象になる
-					isWolfJudged = false,//人狼だと占われた
-					hasFoundWolf = false,//人狼を見つけた
-					isAgainst = false;//対抗が出てきた
-	
-	private int day = 0;//日数(max = 5, 0なら日数によるカミングアウトはしない)
 
-	
+	private boolean isVoted = false; // 投票対象になる
+	private boolean isWolfJudged = false; // 人狼だと占われた
+	private boolean hasFoundWolf = false;// 人狼を見つけた
+	private boolean isAgainst = false;// 対抗が出てきた
 
-	public COtimingNeo(){}
-	
-	public COtimingNeo(int day, boolean isVoted, boolean isWolfJudged, boolean hasFoundWolf, boolean isAgainst){
+	private int day = 0;// 日数(max = 5, 0なら日数によるカミングアウトはしない)
+
+	public COtimingNeo() {
+	}
+
+	public COtimingNeo(int day, boolean isVoted, boolean isWolfJudged,
+			boolean hasFoundWolf, boolean isAgainst) {
 		this.day = day;
 		this.isVoted = isVoted;
 		this.isWolfJudged = isWolfJudged;
 		this.hasFoundWolf = hasFoundWolf;
 		this.isAgainst = isAgainst;
 	}
-	
-	
+
 	/**
 	 * ランダムにインスタンスを取得
+	 * 
 	 * @return
 	 */
-	public static COtimingNeo getRandomTiming(){
+	public static COtimingNeo getRandomTiming() {
 		COtimingNeo ans = new COtimingNeo();
 		ans.day = new Random().nextInt(7);
 		ans.isVoted = new Random().nextBoolean();
@@ -85,11 +84,10 @@ public class COtimingNeo implements Serializable{
 		ans.isAgainst = new Random().nextBoolean();
 		return ans;
 	}
-	
-	public boolean doComingout(){
-		return day == 6? false: true;
+
+	public boolean doComingout() {
+		return day == 6 ? false : true;
 	}
-	
 
 	public boolean isVoted() {
 		return isVoted;
@@ -110,6 +108,5 @@ public class COtimingNeo implements Serializable{
 	public int getDay() {
 		return day;
 	}
-	
 
 }

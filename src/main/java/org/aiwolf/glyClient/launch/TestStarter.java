@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import org.aiwolf.client.base.smpl.SampleRoleAssignPlayer;
 import org.aiwolf.common.data.Player;
 import org.aiwolf.common.data.Role;
 import org.aiwolf.common.data.Team;
@@ -18,7 +17,7 @@ import org.aiwolf.server.AIWolfGame;
 import org.aiwolf.server.net.DirectConnectServer;
 
 public class TestStarter {
-	static protected int GAME_NUM = 10000;
+	static protected int GAME_NUM = 1000;
 	static protected int PLAYER_NUM = 15;
 
 	public static void main(String[] args) throws IOException {
