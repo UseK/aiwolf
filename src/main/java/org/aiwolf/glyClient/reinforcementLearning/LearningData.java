@@ -38,12 +38,18 @@ public class LearningData implements Serializable {
 	private int playNum = 0;
 
 	// 学習結果として保存すべき値？
-	private Map<Integer, Qvalues> sceneMap = new TreeMap<Integer, Qvalues>();
+	// 村から取得すべき？
+	private Map<Integer, Qvalues> sceneMap = new TreeMap<Integer, Qvalues>(); 
+	// 占いから取得
 	private Map<COtimingNeo, Double> seerCO = new HashMap<COtimingNeo, Double>();
+	// 霊能から取得
 	private Map<COtimingNeo, Double> mediumCO = new HashMap<COtimingNeo, Double>();
+	// 狂人から取得
 	private Map<COtimingNeo, Double> possessedCO = new HashMap<COtimingNeo, Double>();
+	// 人狼から取得
 	private Map<COtimingNeo, Double> wolfCO = new HashMap<COtimingNeo, Double>();
 	private Map<WolfFakeRoleChanger, Double> wolfFakeRoleChanger = new HashMap<WolfFakeRoleChanger, Double>();
+	// 狂人から取得
 	private Map<PossessedFakeRoleChanger, Double> possessedFakeRoleChanger = new HashMap<PossessedFakeRoleChanger, Double>();
 	// 保存すべき値はここまで
 
