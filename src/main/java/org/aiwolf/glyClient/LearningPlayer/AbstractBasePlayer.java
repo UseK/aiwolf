@@ -49,7 +49,7 @@ public abstract class AbstractBasePlayer extends AbstractRole {
 	public Role myRole;
 	public AbstractBasePlayer myRolePlayer;
 
-	private boolean IS_LEARNING = true;
+	private boolean IS_LEARNING = false;
 
 	// logging用のtag
 	public static final String LOGTAG_PLAYERNAME = "playerName";

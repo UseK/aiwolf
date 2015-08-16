@@ -194,7 +194,9 @@ public class WereWolfPlayer extends AbstractWolfSideAgent {
 			break;
 		}
 		
-		if(preFake != fakeRole){
+		//TODO fakePatternsが0の時の処理
+		if(preFake != fakeRole && fakePatterns.size() != 0){
+			
 			List<Agent> alives = fakePatterns.get(0).getAliveAgents();
 			fakePatterns = new ArrayList<Pattern>();
 			fakePatterns.add(new Pattern(null, null, new HashMap<Agent, Role>(), alives));
