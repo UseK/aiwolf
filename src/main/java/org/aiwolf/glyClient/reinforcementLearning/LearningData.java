@@ -8,10 +8,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.io.StringReader;
+import java.net.URL;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -39,7 +41,7 @@ public class LearningData implements Serializable {
 
 	// 学習結果として保存すべき値？
 	// 村から取得すべき？
-	private Map<Integer, Qvalues> sceneMap = new TreeMap<Integer, Qvalues>(); 
+	private Map<Integer, Qvalues> sceneMap = new TreeMap<Integer, Qvalues>();
 	// 占いから取得
 	private Map<COtimingNeo, Double> seerCO = new HashMap<COtimingNeo, Double>();
 	// 霊能から取得
@@ -53,7 +55,111 @@ public class LearningData implements Serializable {
 	private Map<PossessedFakeRoleChanger, Double> possessedFakeRoleChanger = new HashMap<PossessedFakeRoleChanger, Double>();
 	// 保存すべき値はここまで
 
-	private static Map<Integer, LearningData> instance = new HashMap<Integer, LearningData>();
+	private static Map<Integer, LearningData> instance;
+
+	static {
+		// ここで最終的なインスタンスを格納するhashmapを初期化する
+		instance = new HashMap<Integer, LearningData>();
+
+		// インスタンスの準備
+		// 素材の各インスタンス
+		LearningData seerData = new LearningData(0);
+		LearningData mediumData = new LearningData(0);
+		LearningData bodyguardData = new LearningData(0);
+		LearningData possessedData = new LearningData(0);
+		LearningData werewolfData = new LearningData(0);
+		LearningData villeagerData = new LearningData(0);
+		// 統合先のインスタンス
+		LearningData defaultData = new LearningData(0);
+
+		URL seerFile = LearningData.class
+				.getResource("seer_0.zip");
+		URL mediumFile = LearningData.class
+				.getResource("medium_0.zip");
+		URL bodyguardFile = LearningData.class
+				.getResource("bodyguard_0.zip");
+		URL possessedFile = LearningData.class
+				.getResource("possessed_0.zip");
+		URL werewolfFile = LearningData.class
+				.getResource("werewolf_0.zip");
+		URL villeagerFile = LearningData.class
+				.getResource("villeager_0.zip");
+
+		try {
+			// 占いの読み込み
+			seerFile.getContent();
+			JsonObject seerJson = loadJson(seerFile.openStream());
+			seerData.load(seerJson);
+
+			// 霊能の読み込み
+			mediumFile.getContent();
+			JsonObject mediumJson = loadJson(mediumFile.openStream());
+			mediumData.load(mediumJson);
+
+			// 狩人の読み込み
+			bodyguardFile.getContent();
+			JsonObject bodyguardJson = loadJson(bodyguardFile.openStream());
+			bodyguardData.load(bodyguardJson);
+
+			// 狂人の読み込み
+			possessedFile.getContent();
+			JsonObject possessedJson = loadJson(possessedFile.openStream());
+			possessedData.load(possessedJson);
+
+			// 人狼の読み込み
+			werewolfFile.getContent();
+			JsonObject werewolfJson = loadJson(werewolfFile.openStream());
+			werewolfData.load(werewolfJson);
+
+			// 村人の読み込み
+			villeagerFile.getContent();
+			JsonObject villeagerJson = loadJson(villeagerFile.openStream());
+			villeagerData.load(villeagerJson);
+
+			// データの統合
+			defaultData.sceneMap = villeagerData.getSceneMap();
+			defaultData.seerCO = seerData.getSeerCO();
+			defaultData.mediumCO = mediumData.getMediumCO();
+			defaultData.possessedCO = possessedData.getPossessedCO();
+			defaultData.wolfCO = werewolfData.getWolfCO();
+			defaultData.wolfFakeRoleChanger = werewolfData
+					.getWolfFakeRoleChanger();
+			defaultData.possessedFakeRoleChanger = possessedData
+					.getPossessedFakeRoleChanger();
+
+			instance.put(0, defaultData);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static synchronized JsonObject loadJson(InputStream inputStream)
+			throws IOException {
+		final int READ_BUF_SIZE = 1048576;
+		byte[] readBuf = new byte[READ_BUF_SIZE];
+		ZipInputStream zipInputStream = new ZipInputStream(
+				new BufferedInputStream(inputStream));
+		@SuppressWarnings("unused")
+		ZipEntry entry = zipInputStream.getNextEntry();
+		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+
+		for (;;) {
+			int readSize = zipInputStream.read(readBuf, 0, READ_BUF_SIZE);
+			if (readSize < 0)
+				break;
+			outStream.write(readBuf, 0, readSize);
+		}
+		outStream.flush();
+		outStream.close();
+		zipInputStream.close();
+
+		// ASCII文字列しか無いはずなので，UTF-8でも問題無いはず．
+		String jsonStr = new String(outStream.toByteArray(), "UTF-8");
+
+		StringReader strReader = new StringReader(jsonStr);
+		JsonObject jsonObj = Json.createReader(strReader).readObject();
+		return jsonObj;
+	}
 
 	private byte[] mapToByteArray(@SuppressWarnings("rawtypes") Map map) {
 		ByteArrayOutputStream byteOs = new ByteArrayOutputStream();
@@ -224,13 +330,6 @@ public class LearningData implements Serializable {
 			// ASCII文字列しか無いはずなので，UTF-8でも問題無いはず．
 			String jsonStr = new String(outStream.toByteArray(), "UTF-8");
 
-			/*
-			 * // File内容を一括して読み込み Path inputFilePath =
-			 * FileSystems.getDefault().getPath( "LDdata_" + readDataNum +
-			 * ".txt"); List<String> lines = Files.readAllLines(inputFilePath);
-			 * StringBuilder strBuilder = new StringBuilder(); for (String line
-			 * : lines) strBuilder.append(line);
-			 */
 			StringReader strReader = new StringReader(jsonStr);
 			JsonObject jsonObj = Json.createReader(strReader).readObject();
 
