@@ -14,10 +14,12 @@ import org.aiwolf.kajiClient.player.KajiRoleAssignPlayer;
 import org.aiwolf.server.AIWolfGame;
 import org.aiwolf.server.net.DirectConnectServer;
 
+import agent.aiwolf.yao.YaoRoleAssignPlayer;
+
 import com.sun.org.apache.bcel.internal.generic.NEW;
 
 public class TestStarter {
-	static protected int GAME_NUM = 100;
+	static protected int GAME_NUM = 1;
 	static protected int PLAYER_NUM = 15;
 
 	public static void main(String[] args) throws IOException {
@@ -40,7 +42,9 @@ public class TestStarter {
 			//	playerMap.put(new FirstAgent(), Role.WEREWOLF);
 			//}
 
-			for (int i = 0; i < PLAYER_NUM - 11; i++) {
+			playerMap.put(new YaoRoleAssignPlayer(), Role.POSSESSED);
+
+			for (int i = 0; i < PLAYER_NUM - 12; i++) {
 				playerMap.put(new SampleRoleAssignPlayer(), null);
 			}
 

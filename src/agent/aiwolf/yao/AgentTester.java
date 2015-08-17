@@ -36,12 +36,9 @@ public class AgentTester {
 		//これ以降は変更しないでください．
 		
 		Class<Player> pcls = (Class<Player>) player.getClass();
-		for(int j = 0; j < 1; j++){
+		for(int j = 0; j < 10; j++){
 			for(Role requestRole:Role.values()){
 				if(requestRole == Role.FREEMASON){
-					continue;
-				}
-				if( requestRole != Role.POSSESSED){
 					continue;
 				}
 				

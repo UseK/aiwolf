@@ -59,9 +59,10 @@ public class GrassFoxPossessed extends AbstractYaoBasePlayer {
 		if(super.yaoGameInfo.getEnemies().contains(getMe())) return null;
 		List<Agent> list=super.yaoGameInfo.getAliveGraysOfSeer(getMe());
 		list.remove(getMe());
-		System.out.println("Let's devine ");
-		for( Agent l: list) System.out.print(l+" ");
-		System.out.println();
+		if( list.size() == 0) return null;
+//		System.out.println("Let's devine ");
+//		for( Agent l: list) System.out.print(l+" ");
+//		System.out.println();
 		int maxWolfNum= super.yaoGameInfo.getMaxWolves(getMe());
 		Judge j = new Judge(super.day, getMe(), super.getRandom(list), Species.HUMAN);
 		return j;
