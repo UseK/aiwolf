@@ -13,7 +13,11 @@ public class GrassFoxBodyguard extends AbstractYaoBasePlayer {
 		//一度GJを出した護衛先には鉄板護衛
 		if( guardAgent != null && super.yaoGameInfo.getAlivePlayers().contains(guardAgent) ){
 			return guardAgent;
-		}		
+		}
+		if( super.believeSeer!=null ){
+			//占い盲信なら占い護衛
+			return super.believeSeer;
+		}
 		if( seerAttacked == false ){
 			//占いを噛まれてなければ占い護衛。(既に占い候補が一度噛まれている場合、他の占いも噛まれたほうが内訳がすっきりするので、そこは護衛しない。
 			List<Agent> seers= super.yaoGameInfo.getSeers();
@@ -21,6 +25,10 @@ public class GrassFoxBodyguard extends AbstractYaoBasePlayer {
 				super.sortSeers(seers);
 				return seers.get(0);
 			}
+		}
+		if( super.believeMedium!=null){
+			//霊能盲信なら霊能護衛
+			return super.believeMedium;
 		}
 		if( mediumAttacked == false ){
 			//霊能を噛まれていなければ霊能護衛。
