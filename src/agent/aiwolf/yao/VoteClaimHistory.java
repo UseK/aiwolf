@@ -38,4 +38,7 @@ public class VoteClaimHistory {
 			latestVoteList.set(fromIdx,to);
 		}
 	}
+	public Agent getLatestVote(Agent a){
+		return latestVoteList.get(a.getAgentIdx());
+	}
 }

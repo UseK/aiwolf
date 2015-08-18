@@ -31,7 +31,7 @@ public class TestStarter {
 			Map<Player, Role> playerMap = new HashMap<>();
 
 			playerMap.put(new FirstAgent(), Role.SEER);
-			playerMap.put(new FirstAgent(), Role.MEDIUM);
+			playerMap.put(new YaoRoleAssignPlayer(), Role.MEDIUM);
 			playerMap.put(new FirstAgent(), Role.BODYGUARD);
 
 			for (int i = 0; i < 8; i++) {

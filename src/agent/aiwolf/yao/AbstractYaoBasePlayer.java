@@ -350,6 +350,7 @@ public abstract class AbstractYaoBasePlayer extends AbstractRole {
 		yaoGameInfo.executedUpdate(getLatestDayGameInfo().getExecutedAgent());
 		if( day>believeSeerDate&& yaoGameInfo.getSeers().size()==0 ) believeSeerDate=Math.max(3,day+1);
 		if( day>believeMediumDate&&yaoGameInfo.getMediums().size()==0) believeMediumDate=Math.max(3,day+1);
+		toldVoteAgent=null;
 	}
 
 	@Override

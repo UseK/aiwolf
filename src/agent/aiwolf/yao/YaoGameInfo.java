@@ -276,6 +276,25 @@ public class YaoGameInfo {
 		voteHistory.voteUpdate(date,from,to);
 	}
 	
+	public Agent getMaxVotedAgent(){
+		// 吊られそうなエージェントを返す
+		int cnt[]= new int[playerSize+1];
+		for( int i=0; i<= playerSize; i++ ) cnt[i]=0;
+		int maxCnt=-1;
+		Agent ret = null;
+		for(Agent a: alivePlayers){
+			Agent voted =voteHistory.getLatestVote(a);
+			if( voted != null ){
+				cnt[voted.getAgentIdx()]++;
+				if( cnt[voted.getAgentIdx()] > maxCnt ){
+					maxCnt=cnt[voted.getAgentIdx()];
+					ret=voted;
+				}
+			}
+		}
+		return ret;
+	}
+	
 	public void attackedUpdate(Agent target){
 		if( target==null||attackedPlayers.contains(target) ) return;
 		attackedPlayers.add(target);

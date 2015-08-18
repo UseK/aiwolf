@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.aiwolf.client.lib.TemplateTalkFactory;
 import org.aiwolf.common.data.Judge;
+import org.aiwolf.common.data.Species;
+import org.aiwolf.common.net.GameInfo;
 
 public class GrassFoxMedium extends AbstractYaoBasePlayer {
 	boolean isComingOut=false;
@@ -26,9 +28,23 @@ public class GrassFoxMedium extends AbstractYaoBasePlayer {
 	@Override
 	public String getComingoutText() {
 		// TODO Auto-generated method stub
-		if( isComingOut==false && super.day >=2 ){
-			isComingOut=true;
-			return TemplateTalkFactory.comingout(getMe(), getMyRole());
+		if( isComingOut== false){
+			if( super.day >=4 ){
+				isComingOut=true;
+				return TemplateTalkFactory.comingout(getMe(), getMyRole());
+			}
+			if( myJudgeList.size() > 0 && myJudgeList.get(myJudgeList.size()-1).getResult() == Species.WEREWOLF){
+				isComingOut=true;
+				return TemplateTalkFactory.comingout(getMe(), getMyRole());
+			}
+			if( super.yaoGameInfo.getMaxVotedAgent() == getMe() ){
+				isComingOut=true;
+				return TemplateTalkFactory.comingout(getMe(), getMyRole());
+			}
+			if( super.yaoGameInfo.getMediums().size() >0 ){
+				isComingOut=true;
+				return TemplateTalkFactory.comingout(getMe(), getMyRole());
+			}
 		}
 		return null;
 	}
@@ -40,5 +56,12 @@ public class GrassFoxMedium extends AbstractYaoBasePlayer {
 		}
 	}
 
+
+	public void update(GameInfo gameinfo){
+		super.update(gameinfo);
+		believeMedium=getMe();
+		toldBelieveMedium=getMe();	
+
+	}
 	
 }
