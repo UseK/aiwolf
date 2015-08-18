@@ -1,8 +1,10 @@
 package agent.aiwolf.yao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.aiwolf.common.data.Agent;
+import org.aiwolf.common.data.Species;
 
 public class GrassFoxBodyguard extends AbstractYaoBasePlayer {
 	boolean seerAttacked=false;
@@ -38,7 +40,36 @@ public class GrassFoxBodyguard extends AbstractYaoBasePlayer {
 		// ƒ‰ƒ“ƒ_ƒ€Œì‰qBŠm’è•‚ÍŒì‰q‚µ‚È‚¢
 		List<Agent> guardTargets=super.yaoGameInfo.getAlivePlayers();
 		guardTargets.removeAll(super.yaoGameInfo.getAliveEnemies());
-		return super.getRandom(guardTargets);
+		return getWhitestPlayer(guardTargets);
+	}
+	
+	public Agent getWhitestPlayer(List<Agent> candidates){
+		if( candidates==null ) return null;
+		if( candidates.size() == 0) return null;
+		List<Agent> whitestList=new ArrayList<Agent>();
+		int maxscore=0;
+		List<Agent> seers=super.yaoGameInfo.getSeers();
+		for( Agent c: candidates){
+			int score=0;
+			for( Agent s: seers){
+				if( super.yaoGameInfo.getSeerTable(s, c)==Species.WEREWOLF){
+					//˜T‚¾‚ÆŒ¾‚í‚ê‚Ä‚¢‚él‚ÍŠš‚Ü‚ê‚ê‚Î‚¢‚¢‚ñ‚¾
+					score-=10;
+				}
+				if( super.yaoGameInfo.getSeerTable(s,c)==Species.HUMAN ){
+					score+=1;
+				}
+			}
+			if( score>maxscore){
+				maxscore=score;
+				whitestList=new ArrayList<Agent>();
+				whitestList.add(c);
+			}
+			if( score==maxscore){
+				whitestList.add(c);
+			}
+		}
+		return super.getRandom(whitestList);
 	}
 
 	@Override
