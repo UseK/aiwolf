@@ -37,7 +37,7 @@ public class GrassFoxMedium extends AbstractYaoBasePlayer {
 				isComingOut=true;
 				return TemplateTalkFactory.comingout(getMe(), getMyRole());
 			}
-			if( super.yaoGameInfo.getMaxVotedAgent() == getMe() ){
+			if( super.yaoGameInfo.getMaxVotedAgent()==getMe() && super.yaoGameInfo.getAlivePlayers().size()*2 <= 3*super.yaoGameInfo.getValidVote()){
 				isComingOut=true;
 				return TemplateTalkFactory.comingout(getMe(), getMyRole());
 			}

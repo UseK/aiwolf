@@ -1,7 +1,11 @@
 package agent.aiwolf.yao;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.aiwolf.client.base.player.AbstractRole;
@@ -10,6 +14,7 @@ import org.aiwolf.client.lib.Utterance;
 import org.aiwolf.common.data.Agent;
 import org.aiwolf.common.data.Judge;
 import org.aiwolf.common.data.Role;
+import org.aiwolf.common.data.Species;
 import org.aiwolf.common.data.Talk;
 import org.aiwolf.common.data.Vote;
 import org.aiwolf.common.net.GameInfo;
@@ -260,9 +265,28 @@ public abstract class AbstractYaoBasePlayer extends AbstractRole {
 	}
 	
 	public void sortSeers(List<Agent> seer){
+		Collections.sort(seer,
+				new Comparator<Agent>(){
+					public int compare(Agent a, Agent b){
+						return eval(a)-eval(b);
+					}
+				});
 		return;
 	}
-	
+	public int eval(Agent a){
+		if( !yaoGameInfo.getSeers().contains(a)) return -100;
+		int ret =100;
+		List<Agent> mediums = yaoGameInfo.getMediums();
+		boolean lineExists=false;
+		for( Agent m: mediums){
+			if( yaoGameInfo.linePossible(a,m) )lineExists=true;
+		}
+		if( !lineExists ) ret-=50;
+		Agent me = getMe();
+		if( yaoGameInfo.getSeerTable(a, me) == Species.WEREWOLF ) return -100;
+		if( yaoGameInfo.getSeerTable(a, me) == Species.HUMAN) ret+=10;
+		return ret;
+	}
 	private Agent getWorstCandidate(List<Agent> candidates, List<Agent> seer){
 		double score=0;
 		Agent ret=null;

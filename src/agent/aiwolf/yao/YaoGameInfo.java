@@ -412,7 +412,15 @@ public class YaoGameInfo {
 		ret.retainAll(alivePlayers);
 		return ret;
 	}
-
+	public int getValidVote(){
+		int n=0;
+		for( Agent a: alivePlayers){
+			if( voteHistory.getLatestVote(a)!=null && alivePlayers.contains(voteHistory.getLatestVote(a))){
+				n++;
+			}
+		}
+		return n;
+	}
 	public List<Agent> getAliveEnemies(){
 		List<Agent> ret=new ArrayList<Agent>(enemies);
 		ret.retainAll(alivePlayers);
