@@ -427,6 +427,8 @@ public abstract class AbstractBasePlayer extends AbstractRole {
 		 * copyPatterns = copyPattern() } for(Pattern p: myPatterns){
 		 * copyPatterns.add(p.clone()); } myPatternLists.add(copyPatterns);
 		 */
+		
+		// TODO 大会では，メモリ容量圧迫の恐れのため一時的にオフにする
 		addCopyToMyPatternLists();
 
 		/*

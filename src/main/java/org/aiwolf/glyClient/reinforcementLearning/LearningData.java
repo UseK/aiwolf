@@ -72,61 +72,142 @@ public class LearningData implements Serializable {
 		// 統合先のインスタンス
 		LearningData defaultData = new LearningData(0);
 
-		URL seerFile = LearningData.class
-				.getResource("seer_0.zip");
-		URL mediumFile = LearningData.class
-				.getResource("medium_0.zip");
-		URL bodyguardFile = LearningData.class
-				.getResource("bodyguard_0.zip");
-		URL possessedFile = LearningData.class
-				.getResource("possessed_0.zip");
-		URL werewolfFile = LearningData.class
-				.getResource("werewolf_0.zip");
-		URL villeagerFile = LearningData.class
-				.getResource("villeager_0.zip");
+		URL seerFile = LearningData.class.getResource("seer_0.zip");
+		URL mediumFile = LearningData.class.getResource("medium_0.zip");
+		URL bodyguardFile = LearningData.class.getResource("bodyguard_0.zip");
+		URL possessedFile = LearningData.class.getResource("possessed_0.zip");
+		URL werewolfFile = LearningData.class.getResource("werewolf_0.zip");
+		URL villeagerFile = LearningData.class.getResource("villeager_0.zip");
 
 		try {
+			
 			// 占いの読み込み
 			seerFile.getContent();
 			JsonObject seerJson = loadJson(seerFile.openStream());
 			seerData.load(seerJson);
+			System.err.println("Seer: sceneMapSize: "
+					+ seerData.getSceneMap().size());
+			System.err.println("Seer: seerCoSize: "
+					+ seerData.getSeerCO().size());
+			System.err.println("Seer: mediumCoize: "
+					+ seerData.getMediumCO().size());
+			System.err.println("Seer: possessedCoSize: "
+					+ seerData.getPossessedCO().size());
+			System.err.println("Seer: wolfCoSize: "
+					+ seerData.getWolfCO().size());
+			System.err.println("Seer: wolfFakeRoleChangerSize: "
+					+ seerData.getWolfFakeRoleChanger().size());
+			System.err.println("Seer: possessedFakeRoleChangerSize: "
+					+ seerData.getPossessedFakeRoleChanger().size());
+			defaultData.seerCO = seerData.getSeerCO();
+			
 
 			// 霊能の読み込み
 			mediumFile.getContent();
 			JsonObject mediumJson = loadJson(mediumFile.openStream());
 			mediumData.load(mediumJson);
+			
+			System.err.println("Medium: sceneMapSize: "
+					+ mediumData.getSceneMap().size());
+			System.err.println("Medium: seerCoSize: "
+					+ mediumData.getSeerCO().size());
+			System.err.println("Medium: mediumCoize: "
+					+ mediumData.getMediumCO().size());
+			System.err.println("Medium: possessedCoSize: "
+					+ mediumData.getPossessedCO().size());
+			System.err.println("Medium: wolfCoSize: "
+					+ mediumData.getWolfCO().size());
+			System.err.println("Medium: wolfFakeRoleChangerSize: "
+					+ mediumData.getWolfFakeRoleChanger().size());
+			System.err.println("Medium: possessedFakeRoleChangerSize: "
+					+ mediumData.getPossessedFakeRoleChanger().size());
+			defaultData.mediumCO = mediumData.getMediumCO();
 
+			/*
 			// 狩人の読み込み
 			bodyguardFile.getContent();
 			JsonObject bodyguardJson = loadJson(bodyguardFile.openStream());
 			bodyguardData.load(bodyguardJson);
-
+			System.err.println("Bodyguard: sceneMapSize: "
+					+ bodyguardData.getSceneMap().size());
+			System.err.println("Bodyguard: seerCoSize: "
+					+ bodyguardData.getSeerCO().size());
+			System.err.println("Bodyguard: mediumCoize: "
+					+ bodyguardData.getMediumCO().size());
+			System.err.println("Bodyguard: possessedCoSize: "
+					+ bodyguardData.getPossessedCO().size());
+			System.err.println("Bodyguard: wolfCoSize: "
+					+ bodyguardData.getWolfCO().size());
+			System.err.println("Bodyguard: wolfFakeRoleChangerSize: "
+					+ bodyguardData.getWolfFakeRoleChanger().size());
+			System.err.println("Bodyguard: possessedFakeRoleChangerSize: "
+					+ bodyguardData.getPossessedFakeRoleChanger().size());
+*/
 			// 狂人の読み込み
 			possessedFile.getContent();
 			JsonObject possessedJson = loadJson(possessedFile.openStream());
 			possessedData.load(possessedJson);
+			System.err.println("Possessed: sceneMapSize: "
+					+ possessedData.getSceneMap().size());
+			System.err.println("Possessed: seerCoSize: "
+					+ possessedData.getSeerCO().size());
+			System.err.println("Possessed: mediumCoize: "
+					+ possessedData.getMediumCO().size());
+			System.err.println("Possessed: possessedCoSize: "
+					+ possessedData.getPossessedCO().size());
+			System.err.println("Possessed: wolfCoSize: "
+					+ possessedData.getWolfCO().size());
+			System.err.println("Possessed: wolfFakeRoleChangerSize: "
+					+ possessedData.getWolfFakeRoleChanger().size());
+			System.err.println("Possessed: possessedFakeRoleChangerSize: "
+					+ possessedData.getPossessedFakeRoleChanger().size());
+			defaultData.possessedCO = possessedData.getPossessedCO();
+			defaultData.possessedFakeRoleChanger = possessedData
+					.getPossessedFakeRoleChanger();
 
 			// 人狼の読み込み
 			werewolfFile.getContent();
 			JsonObject werewolfJson = loadJson(werewolfFile.openStream());
 			werewolfData.load(werewolfJson);
+			System.err.println("Werewolf: sceneMapSize: "
+					+ werewolfData.getSceneMap().size());
+			System.err.println("Werewolf: seerCoSize: "
+					+ werewolfData.getSeerCO().size());
+			System.err.println("Werewolf: mediumCoize: "
+					+ werewolfData.getMediumCO().size());
+			System.err.println("Werewolf: werewolfCoSize: "
+					+ werewolfData.getPossessedCO().size());
+			System.err.println("Werewolf: wolfCoSize: "
+					+ werewolfData.getWolfCO().size());
+			System.err.println("Werewolf: wolfFakeRoleChangerSize: "
+					+ werewolfData.getWolfFakeRoleChanger().size());
+			System.err.println("Werewolf: werewolfFakeRoleChangerSize: "
+					+ werewolfData.getPossessedFakeRoleChanger().size());
+			defaultData.wolfCO = werewolfData.getWolfCO();
+			defaultData.wolfFakeRoleChanger = werewolfData
+					.getWolfFakeRoleChanger();
 
 			// 村人の読み込み
 			villeagerFile.getContent();
 			JsonObject villeagerJson = loadJson(villeagerFile.openStream());
 			villeagerData.load(villeagerJson);
+			System.err.println("Villager: sceneMapSize: "
+					+ villeagerData.getSceneMap().size());
+			System.err.println("Villager: seerCoSize: "
+					+ villeagerData.getSeerCO().size());
+			System.err.println("Villager: mediumCoize: "
+					+ villeagerData.getMediumCO().size());
+			System.err.println("Villager: werewolfCoSize: "
+					+ villeagerData.getPossessedCO().size());
+			System.err.println("Villager: wolfCoSize: "
+					+ villeagerData.getWolfCO().size());
+			System.err.println("Villager: wolfFakeRoleChangerSize: "
+					+ villeagerData.getWolfFakeRoleChanger().size());
+			System.err.println("Villager: werewolfFakeRoleChangerSize: "
+					+ villeagerData.getPossessedFakeRoleChanger().size());
+			defaultData.sceneMap = villeagerData.getSceneMap();
 
 			// データの統合
-			defaultData.sceneMap = villeagerData.getSceneMap();
-			defaultData.seerCO = seerData.getSeerCO();
-			defaultData.mediumCO = mediumData.getMediumCO();
-			defaultData.possessedCO = possessedData.getPossessedCO();
-			defaultData.wolfCO = werewolfData.getWolfCO();
-			defaultData.wolfFakeRoleChanger = werewolfData
-					.getWolfFakeRoleChanger();
-			defaultData.possessedFakeRoleChanger = possessedData
-					.getPossessedFakeRoleChanger();
-
 			instance.put(0, defaultData);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -135,29 +216,34 @@ public class LearningData implements Serializable {
 
 	private static synchronized JsonObject loadJson(InputStream inputStream)
 			throws IOException {
-		final int READ_BUF_SIZE = 1048576;
+		final int READ_BUF_SIZE = 45000000;
 		byte[] readBuf = new byte[READ_BUF_SIZE];
 		ZipInputStream zipInputStream = new ZipInputStream(
 				new BufferedInputStream(inputStream));
 		@SuppressWarnings("unused")
 		ZipEntry entry = zipInputStream.getNextEntry();
-		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+		// ByteArrayOutputStream outStream = new ByteArrayOutputStream(100000000);
+		int readed = 0;
 
 		for (;;) {
-			int readSize = zipInputStream.read(readBuf, 0, READ_BUF_SIZE);
+			int readSize = zipInputStream.read(readBuf, readed, READ_BUF_SIZE-readed);
 			if (readSize < 0)
 				break;
-			outStream.write(readBuf, 0, readSize);
+			readed += readSize;
+			// System.out.println("readed: " + readed);
+			// outStream.write(readBuf, 0, readSize);
 		}
-		outStream.flush();
-		outStream.close();
+		System.out.println("readSize: " + readed);
+		// outStream.flush();
+		// outStream.close();
 		zipInputStream.close();
 
 		// ASCII文字列しか無いはずなので，UTF-8でも問題無いはず．
-		String jsonStr = new String(outStream.toByteArray(), "UTF-8");
-
-		StringReader strReader = new StringReader(jsonStr);
-		JsonObject jsonObj = Json.createReader(strReader).readObject();
+		
+		InputStream inStream = new ByteArrayInputStream(readBuf, 0, readed);
+		JsonObject jsonObj = Json.createReader(inStream).readObject();
+		inStream.close();
+		
 		return jsonObj;
 	}
 
