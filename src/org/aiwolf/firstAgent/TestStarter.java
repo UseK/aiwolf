@@ -30,8 +30,8 @@ public class TestStarter {
 			/* configure playerlist in "playerMap"*/
 			Map<Player, Role> playerMap = new HashMap<>();
 
+			playerMap.put(new FirstAgent(), Role.MEDIUM);
 			playerMap.put(new FirstAgent(), Role.SEER);
-			playerMap.put(new YaoRoleAssignPlayer(), Role.MEDIUM);
 			playerMap.put(new FirstAgent(), Role.BODYGUARD);
 
 			for (int i = 0; i < 8; i++) {
@@ -42,10 +42,10 @@ public class TestStarter {
 			//	playerMap.put(new FirstAgent(), Role.WEREWOLF);
 			//}
 
-			playerMap.put(new YaoRoleAssignPlayer(), Role.POSSESSED);
+			playerMap.put(new SampleRoleAssignPlayer(), Role.POSSESSED);
 
 			for (int i = 0; i < PLAYER_NUM - 12; i++) {
-				playerMap.put(new SampleRoleAssignPlayer(), null);
+				playerMap.put(new YaoRoleAssignPlayer(), null);
 			}
 
 			DirectConnectServer gameServer = new DirectConnectServer(playerMap);

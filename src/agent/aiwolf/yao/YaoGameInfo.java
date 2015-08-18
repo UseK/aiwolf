@@ -6,6 +6,7 @@ import java.util.List;
 import org.aiwolf.common.data.Agent;
 import org.aiwolf.common.data.Role;
 import org.aiwolf.common.data.Species;
+import org.aiwolf.common.data.Vote;
 import org.aiwolf.common.net.GameInfo;
 import org.aiwolf.common.net.GameSetting;
 
@@ -29,7 +30,7 @@ public class YaoGameInfo {
 	private Species mediumTable[][];//霊能結果を格納するテーブル
 	private List<Agent> guardCandidates = new ArrayList<Agent>();   // 狩人候補リスト
 	private List<Agent> enemies = new ArrayList<Agent>();		    // 100% 人狼陣営と判明した人のリスト
-
+	private int cntFakeVote[]; //投票宣言と投票先が違った回数
 	private VoteClaimHistory voteHistory;							// 各人の投票主張の履歴
 	
 	YaoGameInfo(GameInfo gameInfo, GameSetting gameSetting){
@@ -41,9 +42,10 @@ public class YaoGameInfo {
 		seerTable=new Species[playerSize+1][playerSize+1];
 		mediumTable=new Species[playerSize+1][playerSize+1];
 		voteHistory=new VoteClaimHistory(playerSize);		
+		cntFakeVote=new int[playerSize+1];
 		enemies=new ArrayList<Agent>();
 		for(int i=0;i<=playerSize;i++)for(int j=0;j<=playerSize;j++){
-			claimTable[i][j]=null;seerTable[i][j]=null;mediumTable[i][j]=null;
+			claimTable[i][j]=null;seerTable[i][j]=null;mediumTable[i][j]=null;cntFakeVote[i]=0;
 		}
 	}
 	public List<Agent> getAlivePlayers(){
@@ -69,6 +71,9 @@ public class YaoGameInfo {
 		}
 	}
 
+	public Species getSeerTable( Agent seer , Agent target){
+		return seerTable[seer.getAgentIdx()][target.getAgentIdx()];
+	}
 	
 	public int getMaxWolves(Agent seer){
 		//seer視点の狼最大数を数える
@@ -276,6 +281,20 @@ public class YaoGameInfo {
 		voteHistory.voteUpdate(date,from,to);
 	}
 	
+	public void actualVoteUpdate(List<Vote> voteList, int day){
+		//System.out.println("voteUpdate at" + day);
+		for( Vote v: voteList){
+			if( v.getDay() != day ) continue;
+			//System.out.println("voteupdate: "+v.getAgent()+"->"+v.getTarget()+","+voteHistory.getLatestVote(v.getAgent()));
+			if( voteHistory.getLatestVote(v.getAgent())!= v.getTarget()){
+				cntFakeVote[v.getAgent().getAgentIdx()]++;
+			}
+		}
+	}
+	
+	public int getFakeVoteNum(Agent a){
+		return cntFakeVote[a.getAgentIdx()];
+	}
 	public Agent getMaxVotedAgent(){
 		// 吊られそうなエージェントを返す
 		int cnt[]= new int[playerSize+1];

@@ -348,6 +348,7 @@ public abstract class AbstractYaoBasePlayer extends AbstractRole {
 		readTalkNumber=0;
 		yaoGameInfo.attackedUpdate(getLatestDayGameInfo().getAttackedAgent());
 		yaoGameInfo.executedUpdate(getLatestDayGameInfo().getExecutedAgent());
+		yaoGameInfo.actualVoteUpdate(getLatestDayGameInfo().getVoteList(),day-2);
 		if( day>believeSeerDate&& yaoGameInfo.getSeers().size()==0 ) believeSeerDate=Math.max(3,day+1);
 		if( day>believeMediumDate&&yaoGameInfo.getMediums().size()==0) believeMediumDate=Math.max(3,day+1);
 		toldVoteAgent=null;
